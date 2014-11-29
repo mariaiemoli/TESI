@@ -1,0 +1,87 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parametri per il problema di saturazione                                %
+% a=0.5, onda di rarefazione											  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 1
+
+[dataTime]
+
+        endTime = 20
+        
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 300.
+                lengthOrdinate = 300.
+                lengthQuota = 300.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+
+[../]
+
+
+[fractureData0]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-300*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 300*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 300. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+            bc = f
+            ul = 1.
+            ur = 0.
+            x0 = 1.
+			t = 0.5
+			flux = x*1./(x+0.5*(1-x))
+			cfl = 1.8
+			flux1 = 0.5./((x+0.5*(1-x)).^2)    
+			U = 1.
+			invPorosity = 1.
+
+        [../]
+
+
+[../]
