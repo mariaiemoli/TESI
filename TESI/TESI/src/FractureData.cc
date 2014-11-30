@@ -59,7 +59,7 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 		}
 
     	M_parser.setVariable ( "x", u0 [ j ] );
-        flux.push_back( M_parser.evaluate () );
+        flux.push_back( U*P*M_parser.evaluate () );
 
     }
     return;

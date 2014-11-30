@@ -64,6 +64,8 @@ int main ( int argc, char* argv [ ] )
 
 	std::cout << " risolvo il problema " << std::endl;
 
+	saturation->init();
+
 	saturation-> solve();
 
 	return 0;

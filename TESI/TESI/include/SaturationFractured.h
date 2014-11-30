@@ -31,7 +31,9 @@ public:
 						 FracturesSetPtr_Type& fractures,
 					     const std::string time = "dataTime/" );
 
-	//void init( const FractureHandlerPtr_Type& fracture);
+	void init();
+
+	void assembly( const scalar_type& landa, const scalarVectorContainer_Type& u0, const scalarVectorContainer_Type& flux );
 
 	void solve();
 
@@ -52,6 +54,16 @@ private:
 	FracturesSetPtr_Type M_fractures;
 
 	scalar_type M_t;
+
+    // Global matrix, saturation
+    sparseMatrixPtr_Type M_globalMatrix;
+    // Termine noto di destra del sistema
+    scalarVectorPtr_Type M_globalRightHandSide;
+    // Soluzione del sistema
+    scalarVectorPtr_Type M_saturation;
+
+    // Soluzione del sistema nelle fratture
+    scalarVectorPtrContainer_Type M_fractureSaturation;
 
     mutable LifeV::Parser M_parser;
 

@@ -10,7 +10,7 @@ numberFractures = 1
 
 [dataTime]
 
-        endTime = 20
+        endTime = 5
         
 [../]
 
