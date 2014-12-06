@@ -27,22 +27,37 @@ FractureData::FractureData ( const GetPot& dataFile,
 				             M_meshSpacing( dataFile ( ( M_sectionDomain + "spacing" ).data (), "x" ) ),
 				             // saturation
 				   	   	   	 M_bc ( dataFile ( ( M_sectionSaturation + "bc").data (), "p" ) ),
-				   	   	   	 M_ul ( dataFile ( ( M_sectionSaturation + "ul").data (), 1. ) ),
-				   	   	   	 M_ur ( dataFile ( ( M_sectionSaturation + "ur").data (), 0. ) ),
-				   	   	   	 M_x0 ( dataFile ( ( M_sectionSaturation + "x0").data (), 0. ) ),
-				             M_flux ( dataFile ( ( M_sectionSaturation + "flux" ).data (), "x*x./2" ) ),
-				             M_flux1 ( dataFile ( ( M_sectionSaturation + "flux1" ).data (), "x" ) ),
+				   	   	   	 M_u0 ( dataFile ( ( M_sectionSaturation + "u0").data (), "1." ) ),
+				   	   	   	 M_numberFlux( dataFile ( ( M_sectionSaturation + "numberFlux").data (), 1 ) ),
+				   	   	   	 M_x( dataFile ( ( M_sectionSaturation + "x0").data (), 0. ) ),
 				             M_cfl ( dataFile ( ( M_sectionSaturation + "cfl" ).data (), 1.8 ) ),
 				             M_U ( dataFile ( (M_sectionSaturation + "U" ).data (), "1." ) ),
 				             M_invP ( dataFile ( (M_sectionSaturation + "invPorosity" ).data (), "1." ) )
 {
 	M_h = ( M_b-M_a )/(M_spatialDiscretization-2);
+
+	M_flux.resize( M_numberFlux );
+
+	std::ostringstream sectionFlux;
+
+	std::cout << " M_numberFlux  " << M_numberFlux << std::endl;
+	for ( size_type i = 0; i < M_numberFlux; i++ )
+	{
+		sectionFlux << M_sectionSaturation << "fluxData" << i << "/";
+
+		M_flux [ i ].reset( new FluxHandler_Type( dataFile, sectionFlux.str() ));
+
+		std::cout << " letto flusso " << i+1 << std::endl;
+	}
+
 }// costruttore
 
 
-void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, const size_type i )
+void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, const size_type i, const size_type f )
 {
     flux.clear();
+
+    std::string Flux;
 
     for ( size_type j = 0; j < u0.size(); j++ )
     {
@@ -51,14 +66,20 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 
 		if( i == 1)
 		{
-			M_parser.setString ( M_flux );
+			Flux = M_flux [ f ]->getFlux();
 		}
 		else
 		{
-			M_parser.setString ( M_flux1 );
+			Flux = M_flux [ f ]->getFlux1();
 		}
-
+		M_parser.setString ( Flux );
     	M_parser.setVariable ( "x", u0 [ j ] );
+    	if ( i == 5)
+    	{
+    		std::cout << " u0 [ j ]  " << u0 [ j ] << std::endl;
+    		std::cout << " M_parser.evaluate ()  " << M_parser.evaluate () << std::endl;
+    	}
+
         flux.push_back( U*P*M_parser.evaluate () );
 
     }
@@ -69,8 +90,10 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 // farla con un template
 scalar_type FractureData::feval_scal( const scalar_type& us)
 {
+	std::string Flux;
+	Flux = M_flux [ 0 ]->getFlux();
 
-	M_parser.setString ( M_flux );
+	M_parser.setString ( Flux );
 
     M_parser.setVariable ( "x", us );
 
@@ -124,6 +147,18 @@ scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, con
 }// fzero
 
 
+std::string FractureData::getFlux( const size_type& i )
+{
+	return M_flux [ i ]->getFlux();
+}// getFlux
+
+
+std::string FractureData::getFlux1( const size_type& i )
+{
+	return M_flux [ i ]->getFlux1();
+}// getFlux1
+
+
 scalar_type FractureData::meshSpacing( const scalar_type& x )
 {
     M_parser.setString ( M_meshSpacing );
@@ -149,3 +184,12 @@ scalar_type FractureData::porosity( const scalar_type& u )
 
 	return M_parser.evaluate ();
 }// porosity
+
+
+scalar_type FractureData::getCi ( const scalar_type& x )
+{
+	M_parser.setString( M_u0 );
+	M_parser.setVariable ( "x", x );
+
+	return M_parser.evaluate ();
+}// getCi

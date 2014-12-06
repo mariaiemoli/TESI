@@ -1,6 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Parametri per il problema di saturazione                                %
-% permeabilità quadratica											  %
+% permeabilità quadratica											      %
+%    fractureData0  a=0.5												  %
+%    fractureData1  a=1.												  %
+%    fractureData2  a=2.												  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 meshFile = meshes/mesh
@@ -71,13 +74,111 @@ spaceDimension = 1.
         [./saturation]
 
             bc = f
-            ul = 1.
-            ur = 0.
-            x0 = 1.
-			t = 0.5
-			flux = (x*x)*1./(x*x+0.5*(1-x)*(1-x))
+            u0 = 1.-1.*(x>1.)
+ 			f = (x*x)*1./(x*x+0.5*(1-x)*(1-x))
+			f1 = x*(1-x)/((x*x+0.5*(1-x)*(1-x)).^2)
 			cfl = 1.8
-			flux1 = x*(1-x)/((x*x+0.5*(1-x)*(1-x)).^2)    
+			U = 1.
+			invPorosity = 1.
+
+        [../]
+
+
+[../]
+
+
+
+[fractureData1]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-300*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 300*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 300. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+            bc = f
+			u0 = 1.-1.*(x>1.)
+			f = (x*x)*1./(x*x+(1-x)*(1-x))
+			f1 = 2*x*(1-x)/((x*x+(1-x)*(1-x)).^2)
+			cfl = 1.8
+			U = 1.
+			invPorosity = 1.
+
+        [../]
+
+
+[../]
+
+
+[fractureData2]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-300*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 300*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 300. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+            bc = f
+            u0 = 1.-1.*(x>1.)
+			f = (x*x)*1./(x*x+2*(1-x)*(1-x))
+			f1 = 4*x*(1-x)/((x*x+2*(1-x)*(1-x)).^2)
+			cfl = 1.8
 			U = 1.
 			invPorosity = 1.
 

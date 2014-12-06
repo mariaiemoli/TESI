@@ -19,6 +19,7 @@
 #include "StringUtility.h"
 #include "Core.h"
 #include "Parser.h"
+#include "FluxHandler.h"
 
 class FractureData
 {
@@ -29,11 +30,15 @@ public:
                    const std::string& sectionDomain = "domain/",
 				   const std::string& sectionSaturation = "saturation/" );
 
-	void feval( scalarVector_Type& fl, const scalarVector_Type& u0, const size_type i );
+	void feval( scalarVector_Type& fl, const scalarVector_Type& u0, const size_type i, const size_type f );
 
 	scalar_type feval_scal( const scalar_type& us);
 
 	scalar_type fzero( const std::string& f, const scalar_type& a, const scalar_type& b );
+
+	std::string getFlux( const size_type& i );
+
+	std::string getFlux1( const size_type& i );
 
     scalar_type meshSpacing ( const scalar_type& x );
 
@@ -41,6 +46,7 @@ public:
 
     scalar_type porosity( const scalar_type& u );
 
+    scalar_type getCi ( const scalar_type& x );
 
     inline scalar_type getThickness () const
     {
@@ -97,29 +103,14 @@ public:
 		return M_bc;
 	}
 
-	inline scalar_type getUl () const
+	inline size_type getNumberFlux () const
 	{
-		return M_ul;
+		return M_numberFlux;
 	}
 
-	inline scalar_type getUr () const
+	inline scalar_type getXd () const
 	{
-		return M_ur;
-	}
-
-	inline scalar_type getX0 () const
-	{
-		return M_x0;
-	}
-
-	inline std::string getFlux()
-	{
-		return M_flux;
-	}
-
-	inline std::string getFlux1()
-	{
-		return M_flux1;
+		return M_x;
 	}
 
 	inline scalar_type getCfl()
@@ -154,13 +145,14 @@ private:
     // saturation
 	std::string M_bc;
 
-	scalar_type M_ul;
-	scalar_type M_ur;
+	std::string M_u0;
 
-	scalar_type M_x0;
+	size_type M_numberFlux;
 
-	std::string M_flux;
-	std::string M_flux1;
+	// punto in cui c'è l'eventuale discontinuità nella funzione flusso
+	scalar_type M_x;
+
+	FluxPtrContainer_Type M_flux;
 
 	scalar_type M_cfl;
 

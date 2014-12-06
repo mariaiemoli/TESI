@@ -11,8 +11,8 @@ SaturationFractured::SaturationFractured( const GetPot& dataFile,
 		 	 	 	 	 	 	 	 	  FracturesSetPtr_Type& fractures,
 		 	 	 	 	 	 	 	 	  const std::string time ):
 		 	 	 	 	 	 	 	 	  M_section ( time ),
-		 	 	 	 	 	 	 	 	  M_t ( dataFile ( ( M_section + "endTime" ).data (), 1. ) ),
 		 	 	 	 	 	 	 	 	  M_fractures( fractures ),
+		 	 	 	 	 	 	 	 	  M_t ( dataFile ( ( M_section + "endTime" ).data (), 1. ) ),
 		 	 	 	 	 	 	 	 	  M_fractureSaturation ( M_fractures->getNumberFractures() )
 {
 }
@@ -28,7 +28,7 @@ void SaturationFractured::init()
 
     for ( size_type f = 0; f < numberFracture; f++ )
     {
-    	fractureNumberDOF [ f ] = M_fractures ->getFracture ( f )->getData().getSpatialDiscretization();
+    	fractureNumberDOF [ f ] = M_fractures ->getFracture ( f )->getData().getSpatialDiscretization() - 1;
 
     	fractureTotalNumberDOF += fractureNumberDOF [ f ];
     }
@@ -71,16 +71,15 @@ void SaturationFractured::assembly( const scalar_type& landa, const scalarVector
 
     for ( size_type f = 0; f < numberFracture; f++ )
     {
-    	fractureNumberDOF [ f ] = M_fractures ->getFracture ( f )->getData().getSpatialDiscretization();
+    	fractureNumberDOF [ f ] = M_fractures ->getFracture ( f )->getData().getSpatialDiscretization() -1;
 
     	fractureTotalNumberDOF += fractureNumberDOF [ f ];
     }
 
-
 	for ( size_type f = 0; f < numberFracture; f++ )
 	{
 		// Impongo i flussi
-		for ( size_type i = 1; i < fractureNumberDOF [ f ] - 1; i++ )
+		for ( size_type i = 1; i < fractureNumberDOF [ f ]; i++ )
 		{
 			( *M_globalRightHandSide ) [ i + fractureShift ]  = u0 [ f ][ i ] - landa*(flux [ f ] [ i ] - flux [ f ] [ i - 1 ]);
 		}
@@ -88,9 +87,12 @@ void SaturationFractured::assembly( const scalar_type& landa, const scalarVector
 		// Impongo le condizioni al contorno
         if ( M_fractures->getFracture ( f )->getData().getBc() =="f")
         {
-        	( *M_globalRightHandSide ) [ fractureShift ]  = M_fractures->getFracture ( f )->getData().getUl();
+        	scalar_type a = M_fractures->getFracture ( f )->getData().getA();
+        	scalar_type b = M_fractures->getFracture ( f )->getData().getB();
 
-        	( *M_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ f ] - 1 ] = M_fractures->getFracture ( f )->getData().getUr();
+        	( *M_globalRightHandSide ) [ fractureShift ]  = M_fractures->getFracture ( f )->getData().getCi( a );
+
+        	( *M_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ f ] - 1 ] = M_fractures->getFracture ( f )->getData().getCi( b );
 
         }
         else if ( M_fractures->getFracture ( f )->getData().getBc() =="p")
@@ -121,8 +123,6 @@ void SaturationFractured::solve()
 
 	scalarVectorContainer_Type u0 ( numberFracture );
 
-	std::cout << " numberFracture:  " << numberFracture << std::endl;
-
 	sizeVector_Type fractureNumberDOF ( numberFracture );
 
 	size_type fractureShift = 0;
@@ -132,7 +132,7 @@ void SaturationFractured::solve()
 
     for ( size_type f = 0; f < numberFracture; f++ )
     {
-    	fractureNumberDOF [ f ] = M_fractures ->getFracture ( f )->getData().getSpatialDiscretization();
+    	fractureNumberDOF [ f ] = M_fractures ->getFracture ( f )->getData().getSpatialDiscretization() - 1;
 
     	fractureTotalNumberDOF += fractureNumberDOF [ f ];
 
@@ -158,87 +158,45 @@ void SaturationFractured::solve()
 	dt = M_t/nt;
 	scalar_type landa = dt/h;
 
-	scalarVector_Type fl;
-	scalarVector_Type fl1;
+
 	scalarVectorContainer_Type flux( numberFracture );
 
 
+	std::cout << std::endl << "Solving problem in Omega..." << std::flush;
+
 	for( size_type k = 0; k < nt; k++ )
 	{
+		fractureShift = 0;
 
 		for ( size_type f = 0; f < numberFracture; f++ )
 		{
 
-			// calcolo il flusso
-			M_fractures->getFracture ( f )->getData().feval( fl, u0 [ f ], 1 );
-
-			size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization();
-
-
-			flux [ f ].clear();
-			flux [ f ].resize( n );
-
-			for ( size_type i = 0; i < n-2; i++)
+			if( M_fractures->getFracture ( f )->getData().getNumberFlux() == 1 )
 			{
-		        scalar_type s = (fl[ i+1 ] - fl[ i ] )*(u0 [ f ][ i+1 ] - u0 [ f ][ i ] );
-
-		        if ( s >= 0)
-		        {
-		        	flux [ f ][ i ] = fl[ i ];
-		        }
-		        else
-		        {
-		        	flux [ f ][ i ] = fl[ i+1 ];
-		        }
-
-		        // entropy fix: corregge il flusso se c'e' una rarefazione transonica
-
-		        M_fractures->getFracture ( f )->getData().feval( fl1, u0 [ f ], 2 );
-
-		        if ( fl1[ i ] < 0 && fl1[ i+1] > 0)
-		        {
-		        	scalar_type us;
-
-		        	// trova il valore di u per il quale f'(u)=0
-		        	if ( u0 [ f ][ i ] >= u0 [ f ][ i+1 ] )
-		        	{
-		        		us = M_fractures->getFracture ( f )->getData().fzero
-		        											( M_fractures->getFracture ( f )->getData().getFlux1(), u0 [ f ][ i+1 ], u0 [ f ][ i ] );
-		        	}
-		        	else
-		        	{
-		        		us = M_fractures->getFracture ( f )->getData().fzero
-		        											( M_fractures->getFracture ( f )->getData().getFlux1(), u0 [ f ][ i ], u0 [ f ][ i+1 ] );
-
-		        	}
-
-		        	flux [ f ][ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us );
-		        }
-
+				solve_continuity ( f, u0 [ f ], flux [ f ] );
 			}
-
-
+			else
+			{
+				solve_discontinuity ( f, u0 [ f ], flux [ f ] );
+			}
 		}
 
 		assembly ( landa, u0, flux );
 
-		// risolvo
-	    // Solve the Darcy problem
-	    std::cout << std::endl << "Solving problem in Omega..." << std::flush;
-	    scalar_type roundConditionNumber;
+		// Solve the Darcy problem
 
-	    SuperLU_solve(*M_globalMatrix, *M_saturation,
-	                  *M_globalRightHandSide, roundConditionNumber);
+		scalar_type roundConditionNumber;
 
+		SuperLU_solve(*M_globalMatrix, *M_saturation,
+					  *M_globalRightHandSide, roundConditionNumber);
 
 		// aggiorno u0
-        //gmm::copy( gmm::sub_vector( *M_saturation, gmm::sub_interval( 0, fractureTotalNumberDOF )), u0 );
+		for (size_type f = 0; f < numberFracture; f++ )
+		{
+			gmm::copy( gmm::sub_vector( *M_saturation, gmm::sub_interval( fractureShift, fractureShift + fractureNumberDOF [ f ] )), u0 [ f ] );
 
-
-	    for (size_type f = 0; f < numberFracture; f++ )
-	    {
-	    	gmm::copy( gmm::sub_vector( *M_saturation, gmm::sub_interval( fractureShift, fractureShift + fractureNumberDOF [ f ] )), u0 [ f ] );
-	    }
+			fractureShift += fractureNumberDOF [ f ];
+		}
 
 	}
 
@@ -261,19 +219,188 @@ void SaturationFractured::solve()
 
 	}
 
-
-	//	std::ostringstream ss;
-	//	ss << i;
-	//	std::string name("u" );
-	//	name = name + ss.str();
-	//	std::ofstream exp("u.txt");
-
-	//	exp << u;
-
-
-
+	std::cout << std::endl << " completed! " << std::endl;
 
 	return;
+
 }// solve
 
 
+void SaturationFractured::solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux )
+{
+
+	scalarVector_Type fl;
+	scalarVector_Type fl1;
+
+
+	// calcolo il flusso
+	M_fractures->getFracture ( f )->getData().feval( fl, u0, 1, 0 );
+	M_fractures->getFracture ( f )->getData().feval( fl1, u0, 2, 0 );
+
+	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization() - 1;
+
+
+	Flux.clear();
+	Flux.resize( n );
+
+	for ( size_type i = 0; i < n-1; i++)
+	{
+		scalar_type s = (fl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
+
+		if ( s >= 0)
+		{
+			Flux[ i ] = fl[ i ];
+		}
+		else
+		{
+			Flux[ i ] = fl[ i+1 ];
+		}
+
+		// entropy fix: corregge il flusso se c'è una rarefazione transonica
+		if ( fl1[ i ] < 0 && fl1[ i+1] > 0)
+		{
+			scalar_type us;
+
+			// trova il valore di u per il quale f'(u)=0
+			if ( u0 [ i ] >= u0 [ i+1 ] )
+			{
+				us = M_fractures->getFracture ( f )->getData().fzero
+													( M_fractures->getFracture ( f )->getData().getFlux1( 0 ), u0 [ i+1 ], u0 [ i ] );
+			}
+			else
+			{
+				us = M_fractures->getFracture ( f )->getData().fzero
+													( M_fractures->getFracture ( f )->getData().getFlux1( 0 ), u0 [ i ], u0 [ i+1 ] );
+
+			}
+
+			Flux[ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us );
+		}
+
+	}
+
+	return;
+}// solve_continuity
+
+
+void SaturationFractured::solve_discontinuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux )
+{
+	scalar_type x_d = M_fractures->getFracture ( f )->getData().getXd();
+
+	scalarVector_Type fl;
+	scalarVector_Type fl1;
+
+	scalarVector_Type gl;
+	scalarVector_Type gl1;
+
+
+	// calcolo i flussi
+	M_fractures->getFracture ( f )->getData().feval( fl, u0, 1, 0 );
+	M_fractures->getFracture ( f )->getData().feval( fl1, u0, 2, 0 );
+
+	M_fractures->getFracture ( f )->getData().feval( gl, u0, 1, 1 );
+	M_fractures->getFracture ( f )->getData().feval( gl1, u0, 2, 1 );
+
+	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization();
+
+
+	Flux.clear();
+	Flux.resize( n );
+
+	for ( size_type i = 0; i < n-1; i++)
+	{
+		bgeot::basic_mesh::ref_mesh_pt_ct nodes1 = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i + 1 );
+		bgeot::basic_mesh::ref_mesh_pt_ct nodes2 = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i );
+
+		scalar_type x1 = nodes1 [ 0 ] [ 0 ];
+		scalar_type x2 = nodes2 [ 0 ] [ 0 ];
+
+		if ( gmm::abs(x_d - x1) > 1.0E-3 && x1 < x_d )
+		{
+			scalar_type s = (fl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
+
+			if ( s >= 0)
+			{
+				Flux[ i ] = fl[ i ];
+			}
+			else
+			{
+				Flux[ i ] = fl[ i+1 ];
+			}
+
+			// entropy fix: corregge il flusso se c'è una rarefazione transonica
+			if ( fl1[ i ] < 0 && fl1[ i+1] > 0)
+			{
+				scalar_type us;
+
+				// trova il valore di u per il quale f'(u)=0
+				if ( u0 [ i ] >= u0 [ i+1 ] )
+				{
+					us = M_fractures->getFracture ( f )->getData().fzero
+														( M_fractures->getFracture ( f )->getData().getFlux1( 0 ), u0 [ i+1 ], u0 [ i ] );
+				}
+				else
+				{
+					us = M_fractures->getFracture ( f )->getData().fzero
+														( M_fractures->getFracture ( f )->getData().getFlux1( 0 ), u0 [ i ], u0 [ i+1 ] );
+
+				}
+
+				Flux[ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us );
+			}
+
+		}
+		else if ( gmm::abs(x_d - x2) > 1.0E-3 && x2 > x_d )
+		{
+			scalar_type s = (gl[ i+1 ] - gl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
+
+			if ( s >= 0)
+			{
+				Flux[ i ] = gl[ i ];
+			}
+			else
+			{
+				Flux[ i ] = gl[ i+1 ];
+			}
+
+			// entropy fix: corregge il flusso se c'è una rarefazione transonica
+			if ( gl1[ i ] < 0 && gl1[ i+1] > 0)
+			{
+				scalar_type us;
+
+				// trova il valore di u per il quale f'(u)=0
+				if ( u0 [ i ] >= u0 [ i+1 ] )
+				{
+					us = M_fractures->getFracture ( f )->getData().fzero
+														( M_fractures->getFracture ( f )->getData().getFlux1( 1 ), u0 [ i+1 ], u0 [ i ] );
+				}
+				else
+				{
+					us = M_fractures->getFracture ( f )->getData().fzero
+														( M_fractures->getFracture ( f )->getData().getFlux1( 1 ), u0 [ i ], u0 [ i+1 ] );
+
+				}
+
+				Flux[ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us );
+			}
+
+		}
+		else if ( gmm::abs(x_d - x1) < 1.0E-3 )
+		{
+			scalar_type s = (gl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
+
+			if ( s >= 0)
+			{
+				Flux[ i ] = fl[ i ];
+			}
+			else
+			{
+				Flux[ i ] = gl[ i+1 ];
+			}
+
+		}
+
+	}
+
+	return;
+}// solve_discontinuity

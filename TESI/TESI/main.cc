@@ -34,11 +34,21 @@ int main ( int argc, char* argv [ ] )
 	const std::string vtkFolder = "vtk/";
 
 
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Solving the Saturation problem for a set of fractures." << std::endl;
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
 	//Data exporter
 	std::cout << "Create the data exporter..." << std::flush;
 	ExporterPtr_Type exporter( new Exporter_Type(dataFile));
 	std::cout << " completed!" <<std::endl;
-
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
 
 	// Creo la cartella dove salvare i risultati se già non esiste
 //	std::string s = "mkdir "+vtkFolder;
@@ -57,16 +67,20 @@ int main ( int argc, char* argv [ ] )
 
 	std::cout << " completed! " << std::endl;
 	fractures->init( dataFile, section, numberFractures, exporter );
-
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
 
 	// Risolvo il problema in saturazione
 	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures ) );
 
-	std::cout << " risolvo il problema " << std::endl;
-
 	saturation->init();
 
 	saturation-> solve();
+
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
 
 	return 0;
 

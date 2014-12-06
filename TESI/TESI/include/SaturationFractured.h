@@ -37,6 +37,10 @@ public:
 
 	void solve();
 
+	void solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux );
+
+	void solve_discontinuity ( const size_type f,  const scalarVector_Type& u0, scalarVector_Type& Flux );
+
 	FracturesSetPtr_Type& get_Fracture()
 	{
 		return M_fractures;

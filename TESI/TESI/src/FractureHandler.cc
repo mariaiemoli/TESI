@@ -12,8 +12,8 @@ FractureHandler::FractureHandler ( const GetPot& dataFile,
 								   const std::string& section,
 								   const std::string& sectionSaturation):
 								   M_ID( ID ),
-								   M_exporter ( exporter ),
-								   M_data( dataFile, section )
+								   M_data( dataFile, section ),
+								   M_exporter ( exporter )
 {
 	M_levelSet.reset( new LevelSetHandler_Type ( dataFile, section ) );
 
@@ -98,34 +98,18 @@ void FractureHandler::init ()
         M_mesh.add_convex( M_geometricTransformation, point.begin() );
     }
 
-    /*
-    std::cout << " esporto la seconda mesh " << std::endl;
-    osFileName << "cmesh-" << ".vtk";
-	exportMesh(M_exporter->getFolder() + osFileName.str().c_str(), M_mesh );
-
-	std::cout << " fatto " << std::endl;
- 	 */
-
-
     // inizializzo M_ci, condizione iniziale
-	M_ci.resize( M_data.getSpatialDiscretization() );
+	M_ci.resize( M_data.getSpatialDiscretization() - 1 );
 
-//	std::cout << " M_data.getX0():  " << M_data.getX0() << std::endl;
 
-	for ( size_type i = 0; i < M_data.getSpatialDiscretization(); i++ )
+
+	for ( size_type i = 0; i < M_data.getSpatialDiscretization() - 1; i++ )
 	{
 		bgeot::basic_mesh::ref_mesh_pt_ct nodes = M_meshFlat.points_of_convex ( i );
 
 		scalar_type x = nodes [ 0 ] [ 0 ];
 
-		if ( x <= M_data.getX0() )
-		{
-			M_ci [ i ] = M_data.getUl();
-		}
-		else
-		{
-			M_ci [ i ] = M_data.getUr();
-		}
+		M_ci [ i ] = M_data.getCi( x );
 	}
 
 
