@@ -12,6 +12,8 @@
 #include "include/SaturationFractured.h"
 #include "include/FracturesSet.h"
 #include "include/Core.h"
+#include "include/BC.h"
+#include "include/BCHandler.h"
 
 /**************************************************************************/
 /*  main program                                                          */
@@ -33,6 +35,9 @@ int main ( int argc, char* argv [ ] )
 
 	const std::string vtkFolder = "vtk/";
 
+	// Creo la cartella dove salvare i risultati se già non esiste
+	//	std::string s = "mkdir "+vtkFolder;
+	//	system (s.c_str());
 
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
@@ -42,6 +47,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
+
 	//Data exporter
 	std::cout << "Create the data exporter..." << std::flush;
 	ExporterPtr_Type exporter( new Exporter_Type(dataFile));
@@ -49,10 +55,6 @@ int main ( int argc, char* argv [ ] )
 	std::cout << std::endl;
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
-
-	// Creo la cartella dove salvare i risultati se già non esiste
-//	std::string s = "mkdir "+vtkFolder;
-//	system (s.c_str());
 
 
 	// Fracture Set
@@ -69,9 +71,40 @@ int main ( int argc, char* argv [ ] )
 	fractures->init( dataFile, section, numberFractures, exporter );
 	std::cout << std::endl;
 	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
+
+	// Impongo le condizioni al contorno per le fratture
+	std::cout << "Create fracture boundary conditions..." << std::flush;
+	BCPtrContainer_Type bcFracture(numberFractures);
+	std::ostringstream sectionFracture;
+
+	for ( size_type f = 0; f < numberFractures; ++f )
+	{
+		sectionFracture << section << "fractureData" << f << "/";
+
+		bcFracture [ f ].reset(new BC_Type( dataFile,
+											sectionFracture.str(),
+											fractures->getFracture( f )->getMeshFlat(),
+										   	fractures->getFracture ( f )->getData().getMeshType(),
+										   	fractures->getFracture ( f ) -> getDofIntersection() ));
+	}
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
+
+	std::cout << "Create boundary conditions handler..." << std::flush;
+	BCHandlerPtr_Type bcHandler(new BCHandler_Type( bcFracture ));
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
 
 	// Risolvo il problema in saturazione
-	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures ) );
+	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, bcHandler, exporter ) );
 
 	saturation->init();
 

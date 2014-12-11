@@ -47,6 +47,7 @@
 #include <sstream>
 #include <cmath>   
 #include <assert.h>
+#include <algorithm>
 
 
 #include <getfem/getfem_mesh_fem_product.h>

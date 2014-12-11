@@ -9,9 +9,13 @@
 
 SaturationFractured::SaturationFractured( const GetPot& dataFile,
 		 	 	 	 	 	 	 	 	  FracturesSetPtr_Type& fractures,
+		 	 	 	 	 	 	 	 	  const BCHandlerPtr_Type& bcHandler,
+		 	 	 	 	 	 	 	 	  const ExporterPtr_Type& exporter,
 		 	 	 	 	 	 	 	 	  const std::string time ):
 		 	 	 	 	 	 	 	 	  M_section ( time ),
 		 	 	 	 	 	 	 	 	  M_fractures( fractures ),
+		 	 	 	 	 	 	 	 	  M_bcHandler( bcHandler ),
+		 	 	 	 	 	 	 	 	  M_exporter ( exporter ),
 		 	 	 	 	 	 	 	 	  M_t ( dataFile ( ( M_section + "endTime" ).data (), 1. ) ),
 		 	 	 	 	 	 	 	 	  M_fractureSaturation ( M_fractures->getNumberFractures() )
 {
@@ -158,7 +162,6 @@ void SaturationFractured::solve()
 	dt = M_t/nt;
 	scalar_type landa = dt/h;
 
-
 	scalarVectorContainer_Type flux( numberFracture );
 
 
@@ -200,6 +203,8 @@ void SaturationFractured::solve()
 
 	}
 
+    M_exporter->spy(M_globalMatrix, "./matlab/matrice.mm");
+
 	fractureShift = 0;
 
 	// esporto la soluzione
@@ -209,13 +214,18 @@ void SaturationFractured::solve()
 
 		fractureShift += fractureNumberDOF [ f ];
 
+
 		std::ostringstream ss;
-		ss << "saturation_" << f << ".txt";
+		ss << "./matlab/saturation_" << f << ".txt";
+
 		std::string name = ss.str();
 
 		std::ofstream exp( name );
 
 		exp << *( M_fractureSaturation [ f ] );
+
+
+		//M_exporter->spy( M_fractureSaturation [ f ] , ss.str());
 
 	}
 
@@ -301,7 +311,7 @@ void SaturationFractured::solve_discontinuity ( const size_type f, const scalarV
 	M_fractures->getFracture ( f )->getData().feval( gl, u0, 1, 1 );
 	M_fractures->getFracture ( f )->getData().feval( gl1, u0, 2, 1 );
 
-	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization();
+	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization()-1;
 
 
 	Flux.clear();
@@ -309,14 +319,15 @@ void SaturationFractured::solve_discontinuity ( const size_type f, const scalarV
 
 	for ( size_type i = 0; i < n-1; i++)
 	{
-		bgeot::basic_mesh::ref_mesh_pt_ct nodes1 = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i + 1 );
-		bgeot::basic_mesh::ref_mesh_pt_ct nodes2 = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i );
+		bgeot::basic_mesh::ref_mesh_pt_ct nodes = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i );
 
-		scalar_type x1 = nodes1 [ 0 ] [ 0 ];
-		scalar_type x2 = nodes2 [ 0 ] [ 0 ];
+		scalar_type x1 = std::min(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
+		scalar_type x2 = std::max(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
 
-		if ( gmm::abs(x_d - x1) > 1.0E-3 && x1 < x_d )
+		if( x1 < x_d && gmm::abs(x_d - x2) > 1.0E-2 )
 		{
+			// siamo prima della discontinuità, usiamo il flusso 1
+
 			scalar_type s = (fl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
 
 			if ( s >= 0)
@@ -350,8 +361,27 @@ void SaturationFractured::solve_discontinuity ( const size_type f, const scalarV
 			}
 
 		}
-		else if ( gmm::abs(x_d - x2) > 1.0E-3 && x2 > x_d )
+		else if( x1 < x_d && gmm::abs(x_d - x2) < 1.0E-3 )
 		{
+			// calcolo il flusso all'interfaccia
+
+			scalar_type s = (gl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
+
+			if ( s >= 0)
+			{
+				Flux[ i ] = fl[ i ];
+			}
+			else
+			{
+				Flux[ i ] = gl[ i + 1 ];
+			}
+
+		}
+		else //if ( x1 > x_d /*&& gmm::abs(x_d - x1) > 1.0E-3*/ )
+		{
+			// siamo dopo la discontinuità, usiamo il flusso 2
+
+
 			scalar_type s = (gl[ i+1 ] - gl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
 
 			if ( s >= 0)
@@ -378,27 +408,13 @@ void SaturationFractured::solve_discontinuity ( const size_type f, const scalarV
 				{
 					us = M_fractures->getFracture ( f )->getData().fzero
 														( M_fractures->getFracture ( f )->getData().getFlux1( 1 ), u0 [ i ], u0 [ i+1 ] );
-
 				}
 
 				Flux[ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us );
 			}
 
 		}
-		else if ( gmm::abs(x_d - x1) < 1.0E-3 )
-		{
-			scalar_type s = (gl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );
 
-			if ( s >= 0)
-			{
-				Flux[ i ] = fl[ i ];
-			}
-			else
-			{
-				Flux[ i ] = gl[ i+1 ];
-			}
-
-		}
 
 	}
 

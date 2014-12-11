@@ -74,6 +74,13 @@ public:
     }
 
 
+    inline sizeVector_Type& getDofIntersection( )
+    {
+        return  M_DOF_Intersection;
+    }
+
+
+
 private:
 
     size_type M_ID;
@@ -88,6 +95,9 @@ private:
     getfem::mesh M_meshFlat;
 
     scalarVector_Type M_ci;
+
+	// Salviamo, in caso di una biforcazione, in quale degli estremi della frattura cade
+	sizeVector_Type M_DOF_Intersection;
 
     // Geometric transformation usign pressure finite elements type
     bgeot::pgeometric_trans M_geometricTransformation;

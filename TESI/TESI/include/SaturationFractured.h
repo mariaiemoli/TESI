@@ -22,6 +22,7 @@
 #include "StringUtility.h"
 #include "Parser.h"
 #include "Exporter.h"
+#include "BCHandler.h"
 
 
 class SaturationFractured
@@ -29,6 +30,8 @@ class SaturationFractured
 public:
 	SaturationFractured( const GetPot& dataFile,
 						 FracturesSetPtr_Type& fractures,
+						 const BCHandlerPtr_Type& bcHandler,
+						 const ExporterPtr_Type& exporter,
 					     const std::string time = "dataTime/" );
 
 	void init();
@@ -56,6 +59,12 @@ private:
 	std::string M_section;
 
 	FracturesSetPtr_Type M_fractures;
+
+    // BC Handler
+    BCHandlerPtr_Type M_bcHandler;
+
+    // Exporter
+    ExporterPtr_Type M_exporter;
 
 	scalar_type M_t;
 

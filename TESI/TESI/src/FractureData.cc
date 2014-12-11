@@ -40,14 +40,12 @@ FractureData::FractureData ( const GetPot& dataFile,
 
 	std::ostringstream sectionFlux;
 
-	std::cout << " M_numberFlux  " << M_numberFlux << std::endl;
 	for ( size_type i = 0; i < M_numberFlux; i++ )
 	{
 		sectionFlux << M_sectionSaturation << "fluxData" << i << "/";
 
 		M_flux [ i ].reset( new FluxHandler_Type( dataFile, sectionFlux.str() ));
 
-		std::cout << " letto flusso " << i+1 << std::endl;
 	}
 
 }// costruttore
