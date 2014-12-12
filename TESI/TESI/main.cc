@@ -12,8 +12,7 @@
 #include "include/SaturationFractured.h"
 #include "include/FracturesSet.h"
 #include "include/Core.h"
-#include "include/BC.h"
-#include "include/BCHandler.h"
+//#include "include/MeshHandler.h"
 
 /**************************************************************************/
 /*  main program                                                          */

@@ -26,5 +26,7 @@ void FracturesSet::init( const GetPot& dataFile, const std::string& section, con
 		sectionFracture.str("");
 	}
 
+	// costruisco l'intersezione
+
 	return;
 }// init

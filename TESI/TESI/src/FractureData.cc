@@ -72,11 +72,6 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 		}
 		M_parser.setString ( Flux );
     	M_parser.setVariable ( "x", u0 [ j ] );
-    	if ( i == 5)
-    	{
-    		std::cout << " u0 [ j ]  " << u0 [ j ] << std::endl;
-    		std::cout << " M_parser.evaluate ()  " << M_parser.evaluate () << std::endl;
-    	}
 
         flux.push_back( U*P*M_parser.evaluate () );
 
@@ -88,6 +83,9 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 // farla con un template
 scalar_type FractureData::feval_scal( const scalar_type& us)
 {
+	scalar_type U = velocity ( us );
+	scalar_type P = porosity ( us );
+
 	std::string Flux;
 	Flux = M_flux [ 0 ]->getFlux();
 
@@ -95,7 +93,8 @@ scalar_type FractureData::feval_scal( const scalar_type& us)
 
     M_parser.setVariable ( "x", us );
 
-    return M_parser.evaluate ();
+    return U*P*M_parser.evaluate ();
+
 }// feval_scal
 
 scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, const scalar_type& b )
