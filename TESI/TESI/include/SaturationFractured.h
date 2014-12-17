@@ -34,15 +34,32 @@ public:
 						 const ExporterPtr_Type& exporter,
 					     const std::string time = "dataTime/" );
 
+	/**
+	 * Funzione che inizializza le matrici per costruire il sistema algebrico
+	 */
 	void init();
 
+
+	/**
+	 * Funzione che assembla il sistema algebrico
+	 */
 	void assembly( const scalar_type& landa, const scalarVectorContainer_Type& u0, const scalarVectorContainer_Type& flux );
+
 
 	void solve();
 
+
+	/**
+	 * Funzione che risolve il problema nel caso un cui nella frattura in questione non vi siano discontinuità nel materiale
+	 */
 	void solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux );
 
+
+	/**
+	 * Funzione che risolve il problema nel caso un cui nella frattura in questione vi siano discontinuità nel materiale
+	 */
 	void solve_discontinuity ( const size_type f,  const scalarVector_Type& u0, scalarVector_Type& Flux );
+
 
 	FracturesSetPtr_Type& get_Fracture()
 	{

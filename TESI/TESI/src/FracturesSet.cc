@@ -6,8 +6,10 @@
 /*  Classe che rappresenta l'insieme di tutte le fratture		 		  */
 /**************************************************************************/
 
-FracturesSet::FracturesSet()//:M_intersections(new FractureIntersect_Type)
+FracturesSet::FracturesSet():
+				M_intersections(new FractureIntersect_Type)
 {}// costruttore nullo
+
 
 void FracturesSet::init( const GetPot& dataFile, const std::string& section, const size_type& numFractures, const ExporterPtr_Type& exporter )
 {
@@ -23,10 +25,14 @@ void FracturesSet::init( const GetPot& dataFile, const std::string& section, con
 
 		M_fractures [ f ]->init();
 
+		M_fractures [ f ]->numFractures ( numFractures );
+
 		sectionFracture.str("");
 	}
 
+	std::cout << "costruisco l'intersezione " << std::endl;
 	// costruisco l'intersezione
+	M_intersections->constructIntesection ( M_fractures );
 
 	return;
 }// init

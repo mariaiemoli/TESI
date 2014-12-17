@@ -85,8 +85,7 @@ int main ( int argc, char* argv [ ] )
 		bcFracture [ f ].reset(new BC_Type( dataFile,
 											sectionFracture.str(),
 											fractures->getFracture( f )->getMeshFlat(),
-										   	fractures->getFracture ( f )->getData().getMeshType(),
-										   	fractures->getFracture ( f ) -> getDofIntersection() ));
+										   	fractures->getFracture ( f )->getData().getMeshType() ));
 	}
 	std::cout << " completed!" << std::endl;
 	std::cout << std::endl;

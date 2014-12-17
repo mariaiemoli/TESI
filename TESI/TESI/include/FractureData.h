@@ -32,7 +32,7 @@ public:
 
 	void feval( scalarVector_Type& fl, const scalarVector_Type& u0, const size_type i, const size_type f );
 
-	scalar_type feval_scal( const scalar_type& us);
+	scalar_type feval_scal( const scalar_type& us, const size_type f = 0 );
 
 	scalar_type fzero( const std::string& f, const scalar_type& a, const scalar_type& b );
 

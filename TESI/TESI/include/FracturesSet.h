@@ -19,6 +19,7 @@
 
 #include "Core.h"
 #include "FractureHandler.h"
+#include "FractureIntersect.h"
 
 class FracturesSet
 {
@@ -46,7 +47,7 @@ private:
 	FracturePtrContainer_Type M_fractures;
 
 	// intersezioni
-//	FractureIntersectPtr_Type M_intersections;
+	FractureIntersectPtr_Type M_intersections;
 
 
 };

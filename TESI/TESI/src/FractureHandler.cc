@@ -31,9 +31,7 @@ void FractureHandler::init ()
 
     // costruisco una mesh standard, l'idea di mantenere una mesh 1d sul piano orizzontale è solo per comodità
 
-    sizeVector_Type fractureNumberSubdivision( M_data.getSpaceDimension() );	// numero suddivisioni
-
- //   std::cout << "  M_data.getSpatialDiscretization():  " <<  M_data.getSpatialDiscretization() << std::endl;
+    sizeVector_Type fractureNumberSubdivision( M_data.getSpaceDimension() );
 
     std::fill( fractureNumberSubdivision.begin(), fractureNumberSubdivision.end(), M_data.getSpatialDiscretization() );
 
@@ -57,13 +55,6 @@ void FractureHandler::init ()
     {
         M_meshFlat.points() [ i ] [ 0 ] = M_data.meshSpacing( M_meshFlat.points() [ i ] [ 0 ] );
     }
-
-    /*
-    std::ostringstream osFileName;
-
-    osFileName << "cmeshFlat-" << ".vtk";
-    exportMesh(M_exporter->getFolder() + osFileName.str().c_str(), M_meshFlat );
-	*/
 
 
     //-------------------- M_mesh, mesh reale nel piano 2d --------------------//
@@ -112,20 +103,25 @@ void FractureHandler::init ()
 		M_ci [ i ] = M_data.getCi( x );
 	}
 
+	std::ostringstream ss;
+	ss << "./matlab/risultati/inizialSaturation_" << M_ID << ".txt";
 
-	std::ofstream exp("u0.txt");
+	std::string name = ss.str();
 
-			exp << M_ci;
+	std::ofstream exp( name );
 
+	exp << M_ci;
 
 	return;
 }// init
 
 
+void FractureHandler::setFractureIntersection ( const sizeVector_Type& nodes, const FractureHandler& fractureInvolved )
+{
+	size_type otherFractureID = fractureInvolved.getID();
 
+	M_fractureIntersectElements[ otherFractureID ].push_back( nodes[ 0 ] );
 
-
-
-
-
+	return;
+}// setFractureIntersection
 

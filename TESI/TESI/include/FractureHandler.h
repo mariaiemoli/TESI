@@ -35,8 +35,13 @@ public:
 
     void init ();
 
+    /**
+     * Funzione che definisce il nodo in cui la frattura corrente ha un'intersezione, e la frattura coinvolta
+     */
+    void setFractureIntersection ( const sizeVector_Type& nodes, const FractureHandler& fractureInvolved );
 
-    inline size_type getID()
+
+    inline const size_type& getID() const
 	{
 		return M_ID;
 	}
@@ -44,6 +49,11 @@ public:
     inline FractureData& getData()
     {
     	return M_data;
+    }
+
+    inline LevelSetHandlerPtr_Type& getLevelSet()
+    {
+    	return M_levelSet;
     }
 
     inline const getfem::mesh& getMesh ( ) const
@@ -73,10 +83,10 @@ public:
     	return M_ci;
     }
 
-
-    inline sizeVector_Type& getDofIntersection( )
+    void numFractures ( const size_type& numFractures )
     {
-        return  M_DOF_Intersection;
+        M_fractureIntersectElements.resize ( numFractures );
+        M_fractureIntersectElementsGlobalIndex.resize ( numFractures );
     }
 
 
@@ -96,11 +106,11 @@ private:
 
     scalarVector_Type M_ci;
 
-	// Salviamo, in caso di una biforcazione, in quale degli estremi della frattura cade
-	sizeVector_Type M_DOF_Intersection;
-
     // Geometric transformation usign pressure finite elements type
     bgeot::pgeometric_trans M_geometricTransformation;
+
+    sizeVectorContainer_Type M_fractureIntersectElements;
+    pairSizeVectorContainer_Type M_fractureIntersectElementsGlobalIndex;  // vettore di vettori di coppie
 
 };
 

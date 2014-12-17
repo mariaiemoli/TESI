@@ -6,7 +6,7 @@ CXX = g++
 OPTFLAGS = -O3
 
 # Flags
-CPPFLAGS=-I. -I/usr/local/include/eigen3
+CPPFLAGS=-I. #-I/usr/local/include/eigen3
 
 WARNFLAGS=-Wall -Wno-deprecated
 
