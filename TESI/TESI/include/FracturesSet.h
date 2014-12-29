@@ -39,6 +39,10 @@ public:
 		return M_fractures.size();
 	}
 
+	const FractureIntersectPtr_Type& getIntersections() const
+	{
+		return M_intersections;
+	}
 
 
 private:

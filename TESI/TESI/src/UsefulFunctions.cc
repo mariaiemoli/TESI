@@ -36,3 +36,67 @@ void exportMesh ( const std::string& fileName, const getfem::mesh& mesh )
 
     return;
 }// exportMesh
+
+
+scalar_type min ( const std::string& flusso, const scalar_type ul, const scalar_type ur )
+{
+	LifeV::Parser M_parser;
+	scalar_type tmp;
+	scalarVector_Type u( 500 );
+	scalar_type h = ( ur-ul )/500;
+
+	for ( size_type i = 0; i < u.size(); i++ )
+	{
+		u[ i ] = ul + h*i;
+	}
+
+	M_parser.setString ( flusso );
+	M_parser.setVariable ( "x", u [ 0 ] );
+
+	tmp=M_parser.evaluate();
+
+	for( size_type i = 0; i < u.size(); i++ )
+	{
+		M_parser.setVariable ( "x", u [ i ] );
+
+		if ( M_parser.evaluate() < tmp )
+		{
+			tmp = M_parser.evaluate();
+		}
+	}
+
+	return tmp;
+}// min
+
+
+
+scalar_type max ( const std::string& flusso, const scalar_type ul, const scalar_type ur )
+{
+	LifeV::Parser M_parser;
+	scalar_type tmp;
+	scalarVector_Type u( 500 );
+	scalar_type h = ( ul-ur )/500;
+
+	for ( size_type i = 0; i < u.size(); i++ )
+	{
+		u[ i ] = ur + h*i;
+	}
+
+	M_parser.setString ( flusso );
+	M_parser.setVariable ( "x", u [ 0 ] );
+
+	tmp=M_parser.evaluate();
+
+	for( size_type i = 0; i < u.size(); i++ )
+	{
+		M_parser.setVariable ( "x", u [ i ] );
+
+		if ( M_parser.evaluate() > tmp )
+		{
+			tmp = M_parser.evaluate();
+		}
+	}
+
+	return tmp;
+
+}// max

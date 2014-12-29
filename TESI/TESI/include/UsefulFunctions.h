@@ -18,6 +18,8 @@
 /**************************************************************************/
 
 #include "Core.h"
+#include "Parser.h"
+
 
 /**
  * Funzioni per esportare soluzioni e mesh
@@ -28,5 +30,9 @@ void exportSolution ( const std::string& fileName,
 
 
 void exportMesh ( const std::string& fileName, const getfem::mesh& mesh );
+
+scalar_type min ( const std::string& flusso, const scalar_type ul, const scalar_type ur );
+
+scalar_type max ( const std::string& flusso, const scalar_type ul, const scalar_type ur );
 
 #endif /* _USEFULFUNCTION_H_ */

@@ -32,9 +32,9 @@ public:
 
 	void feval( scalarVector_Type& fl, const scalarVector_Type& u0, const size_type i, const size_type f );
 
-	scalar_type feval_scal( const scalar_type& us, const size_type f = 0 );
+	scalar_type feval_scal( const scalar_type& us, const size_type i, const size_type f = 0 );
 
-	scalar_type fzero( const std::string& f, const scalar_type& a, const scalar_type& b );
+	scalar_type fzero( const std::string& f, const scalar_type& a, const scalar_type& b, size_type count = 0 );
 
 	std::string getFlux( const size_type& i );
 
@@ -106,6 +106,11 @@ public:
 	inline size_type getNumberFlux () const
 	{
 		return M_numberFlux;
+	}
+
+	inline FluxHandlerPtr_Type getFluxHandler( const size_type i )
+	{
+		return M_flux[ i ];
 	}
 
 	inline scalar_type getXd () const

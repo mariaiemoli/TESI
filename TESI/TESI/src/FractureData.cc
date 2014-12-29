@@ -46,6 +46,8 @@ FractureData::FractureData ( const GetPot& dataFile,
 
 		M_flux [ i ].reset( new FluxHandler_Type( dataFile, sectionFlux.str() ));
 
+		sectionFlux.str("");
+
 	}
 
 }// costruttore
@@ -81,7 +83,7 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 
 
 // farla con un template
-scalar_type FractureData::feval_scal( const scalar_type& us, const size_type f )
+scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, const size_type f )
 {
 	scalar_type U = velocity ( us );
 	scalar_type P = porosity ( us );
@@ -90,7 +92,7 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type f )
 
 	if ( f == 0 )
 	{
-		Flux = M_flux [ 0 ]->getFlux();
+		Flux = M_flux [ i ]->getFlux();
 
 		M_parser.setString ( Flux );
 
@@ -100,7 +102,7 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type f )
 	}
 	else
 	{
-		Flux = M_flux [ 0 ]->getFlux1();
+		Flux = M_flux [ i ]->getFlux1();
 
 		M_parser.setString ( Flux );
 
@@ -112,9 +114,11 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type f )
 
 }// feval_scal
 
-scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, const scalar_type& b )
+
+scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, const scalar_type& b, size_type count )
 {
 	scalar_type toll = 1.0E-7;
+	size_type itermax = 100;
 	scalar_type x0;
 
 	M_parser.setString ( f );
@@ -127,7 +131,6 @@ scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, con
 	{
 		return a;
 	}
-
 	M_parser.setVariable ( "x", b );
 
 	scalar_type f_b = M_parser.evaluate ();
@@ -139,20 +142,30 @@ scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, con
 
 	scalar_type c = ( a + b )/2;
 
+	M_parser.setVariable ( "x", c );
+
 	scalar_type f_c = M_parser.evaluate ();
 
-	if ( f_b < toll )
+
+	if ( f_c < toll )
 	{
-		return b;
+		return c;
 	}
 
-	if ( f_a * f_c <0 )
+	if ( count < itermax )
 	{
-		x0 = fzero( f, a, c );
+		if ( f_a * f_c <0 )
+		{
+			x0 = fzero( f, a, c, count+1 );
+		}
+		else
+		{
+			x0 = fzero( f, c, b, count+1 );
+		}
 	}
 	else
 	{
-		x0 = fzero( f, c, b );
+		return x0;
 	}
 
 	return x0;

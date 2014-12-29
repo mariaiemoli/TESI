@@ -23,6 +23,8 @@
 #include "Parser.h"
 #include "Exporter.h"
 #include "BCHandler.h"
+#include "UsefulFunctions.h"
+#include <algorithm>
 
 
 class SaturationFractured
@@ -52,7 +54,7 @@ public:
 	/**
 	 * Funzione che risolve il problema nel caso un cui nella frattura in questione non vi siano discontinuità nel materiale
 	 */
-	void solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux );
+	void solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux, const size_type i = 0 );
 
 
 	/**
