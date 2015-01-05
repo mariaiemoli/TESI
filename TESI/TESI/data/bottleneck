@@ -1,0 +1,108 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parametri per il problema di saturazione                                %
+% caso con funzione flusso discontinua									  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 1
+
+[dataTime]
+
+        endTime = 4.
+        
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 300.
+                lengthOrdinate = 300.
+                lengthQuota = 300.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+
+[../]
+
+
+
+
+[fractureData0]														
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-2.*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 2.*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 2.
+			spatialDiscretization = 160
+	        translateAbscissa = 0.
+	        lengthAbscissa = 2 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 2
+			x0 = 1.
+            bc = g
+            u0 = 0.66  # 1.-1.*(x<0.)  #1.*(x>0.)  
+			cfl = 1.5
+			U = 1.
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = x*(1.-x)
+				f1 = 1.-2.*x  
+				monotone = false
+				us = 0.5 
+				us_meno = -0.7712
+				us_piu = 1.7712
+				
+			[../]
+			
+			[./fluxData1] # destra
+			
+				f = (2./3)*x*(1.-x)
+				f1 = 2/3-4/3*x  
+				monotone = false
+				us = 0.3333333333
+				us_meno = 0.2659
+				us_piu =  0.7341
+				
+			[../]
+			
+        [../]
+
+
+[../]

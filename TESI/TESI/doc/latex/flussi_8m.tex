@@ -1,0 +1,115 @@
+\hypertarget{flussi_8m}{\section{Riferimenti per il file matlab/flussi.m}
+\label{flussi_8m}\index{matlab/flussi.\-m@{matlab/flussi.\-m}}
+}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{flussi_8m_ac2f3e8e080c0625d00c44eb76bc9e683}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{quadratica_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux}(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})) hold on plot(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}
+\item 
+\hyperlink{flussi_8m_abc5cb58c4ea1a5ac46fcbaee35aae706}{flux2} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+\hyperlink{flussi_8m_afbba96d0dcee7f952fa8aace65c2acfb}{figure} () \hyperlink{risultati__bastian_8m_a4b2d0260a8eb448bed67c1a537642ff4}{plot}(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}
+\item 
+\hyperlink{flussi_8m_ab1eebfd5877315049dfcec63ac770b60}{flux3} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})) hold on \hyperlink{risultati__bastian_8m_a4b2d0260a8eb448bed67c1a537642ff4}{plot}(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}
+\item 
+\hyperlink{flussi_8m_ad34a8e62d1a457ababd15ffd480b77f9}{flux4} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+\hyperlink{flussi_8m_a93e5bec6ccc21acae217044375b6ab4f}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{flussi_8m_ac0a8402e815542b77c093ccfd17a8fc2}{flux5}(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})) hold on plot(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}
+\item 
+\hyperlink{flussi_8m_ae4aa7ce1ac678b997e2eaed51bda496b}{flux6} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\end{DoxyCompactItemize}
+\subsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+clear all close all clc \hyperlink{flussi_8m_af062d8422a1d2842b748f60fe19e303a}{x} =linspace(0,1)
+\item 
+\hyperlink{flussi_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} =inline('10.$\ast$(x.$^\wedge$2)./(10.$\ast$x.$^\wedge$2+20.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 )')
+\item 
+\hyperlink{flussi_8m_a1331bc2616f1dcc8a5d32b7ed3e8ed6f}{flux2} =inline('50.$\ast$(x.$^\wedge$2)./(50.$\ast$x.$^\wedge$2+5.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 )')
+\item 
+\hyperlink{flussi_8m_a06d2bcb0323a7ecca843cdc70308b7c8}{flux3} =inline('(\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})./( \hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}+0.\-5$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}) )')
+\item 
+\hyperlink{flussi_8m_aab1694ce455994d1ac4500d9b6687c1a}{flux4} =inline('(x.$^\wedge$2)./(x.$^\wedge$2+0.\-5$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 )')
+\item 
+\hyperlink{flussi_8m_ac0a8402e815542b77c093ccfd17a8fc2}{flux5} =inline('10.$\ast$(x.$^\wedge$2).$\ast$20.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2./(10.$\ast$x.$^\wedge$2+20.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 )')
+\item 
+\hyperlink{flussi_8m_af0d54ead8ddee69af95ac46d9fac12d3}{flux6} =inline('50.$\ast$(x.$^\wedge$2).$\ast$5.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 ./(50.$\ast$x.$^\wedge$2+5.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 )')
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{flussi_8m_afbba96d0dcee7f952fa8aace65c2acfb}{\index{flussi.\-m@{flussi.\-m}!figure@{figure}}
+\index{figure@{figure}!flussi.m@{flussi.\-m}}
+\subsubsection[{figure}]{\setlength{\rightskip}{0pt plus 5cm}figure (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_afbba96d0dcee7f952fa8aace65c2acfb}
+\hypertarget{flussi_8m_abc5cb58c4ea1a5ac46fcbaee35aae706}{\index{flussi.\-m@{flussi.\-m}!flux2@{flux2}}
+\index{flux2@{flux2}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux2}]{\setlength{\rightskip}{0pt plus 5cm}flux2 (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_abc5cb58c4ea1a5ac46fcbaee35aae706}
+\hypertarget{flussi_8m_ab1eebfd5877315049dfcec63ac770b60}{\index{flussi.\-m@{flussi.\-m}!flux3@{flux3}}
+\index{flux3@{flux3}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux3}]{\setlength{\rightskip}{0pt plus 5cm}flux3 (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_ab1eebfd5877315049dfcec63ac770b60}
+\hypertarget{flussi_8m_ad34a8e62d1a457ababd15ffd480b77f9}{\index{flussi.\-m@{flussi.\-m}!flux4@{flux4}}
+\index{flux4@{flux4}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux4}]{\setlength{\rightskip}{0pt plus 5cm}flux4 (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_ad34a8e62d1a457ababd15ffd480b77f9}
+\hypertarget{flussi_8m_ae4aa7ce1ac678b997e2eaed51bda496b}{\index{flussi.\-m@{flussi.\-m}!flux6@{flux6}}
+\index{flux6@{flux6}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux6}]{\setlength{\rightskip}{0pt plus 5cm}flux6 (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_ae4aa7ce1ac678b997e2eaed51bda496b}
+\hypertarget{flussi_8m_ac2f3e8e080c0625d00c44eb76bc9e683}{\index{flussi.\-m@{flussi.\-m}!plot@{plot}}
+\index{plot@{plot}!flussi.m@{flussi.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{{\bf flux}({\bf x})}]{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_ac2f3e8e080c0625d00c44eb76bc9e683}
+\hypertarget{flussi_8m_a93e5bec6ccc21acae217044375b6ab4f}{\index{flussi.\-m@{flussi.\-m}!plot@{plot}}
+\index{plot@{plot}!flussi.m@{flussi.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{{\bf flux5}({\bf x})}]{}
+\end{DoxyParamCaption}
+)}}\label{flussi_8m_a93e5bec6ccc21acae217044375b6ab4f}
+
+
+\subsection{Documentazione delle variabili}
+\hypertarget{flussi_8m_a96d7a28b6a4428be15fc1017d19343fa}{\index{flussi.\-m@{flussi.\-m}!flux@{flux}}
+\index{flux@{flux}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux}]{\setlength{\rightskip}{0pt plus 5cm}flux =inline('10.$\ast$(x.$^\wedge$2)./(10.$\ast$x.$^\wedge$2+20.$\ast$(1-\/{\bf x}).$^\wedge$2 )')}}\label{flussi_8m_a96d7a28b6a4428be15fc1017d19343fa}
+\hypertarget{flussi_8m_a1331bc2616f1dcc8a5d32b7ed3e8ed6f}{\index{flussi.\-m@{flussi.\-m}!flux2@{flux2}}
+\index{flux2@{flux2}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux2}]{\setlength{\rightskip}{0pt plus 5cm}flux2 =inline('50.$\ast$(x.$^\wedge$2)./(50.$\ast$x.$^\wedge$2+5.$\ast$(1-\/{\bf x}).$^\wedge$2 )')}}\label{flussi_8m_a1331bc2616f1dcc8a5d32b7ed3e8ed6f}
+\hypertarget{flussi_8m_a06d2bcb0323a7ecca843cdc70308b7c8}{\index{flussi.\-m@{flussi.\-m}!flux3@{flux3}}
+\index{flux3@{flux3}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux3}]{\setlength{\rightskip}{0pt plus 5cm}flux3 =inline('({\bf x})./( {\bf x}+0.\-5$\ast$(1-\/{\bf x}) )')}}\label{flussi_8m_a06d2bcb0323a7ecca843cdc70308b7c8}
+\hypertarget{flussi_8m_aab1694ce455994d1ac4500d9b6687c1a}{\index{flussi.\-m@{flussi.\-m}!flux4@{flux4}}
+\index{flux4@{flux4}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux4}]{\setlength{\rightskip}{0pt plus 5cm}flux4 =inline('(x.$^\wedge$2)./(x.$^\wedge$2+0.\-5$\ast$(1-\/{\bf x}).$^\wedge$2 )')}}\label{flussi_8m_aab1694ce455994d1ac4500d9b6687c1a}
+\hypertarget{flussi_8m_ac0a8402e815542b77c093ccfd17a8fc2}{\index{flussi.\-m@{flussi.\-m}!flux5@{flux5}}
+\index{flux5@{flux5}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux5}]{\setlength{\rightskip}{0pt plus 5cm}flux5 =inline('10.$\ast$(x.$^\wedge$2).$\ast$20.$\ast$(1-\/{\bf x}).$^\wedge$2./(10.$\ast$x.$^\wedge$2+20.$\ast$(1-\/{\bf x}).$^\wedge$2 )')}}\label{flussi_8m_ac0a8402e815542b77c093ccfd17a8fc2}
+\hypertarget{flussi_8m_af0d54ead8ddee69af95ac46d9fac12d3}{\index{flussi.\-m@{flussi.\-m}!flux6@{flux6}}
+\index{flux6@{flux6}!flussi.m@{flussi.\-m}}
+\subsubsection[{flux6}]{\setlength{\rightskip}{0pt plus 5cm}flux6 =inline('50.$\ast$(x.$^\wedge$2).$\ast$5.$\ast$(1-\/{\bf x}).$^\wedge$2 ./(50.$\ast$x.$^\wedge$2+5.$\ast$(1-\/{\bf x}).$^\wedge$2 )')}}\label{flussi_8m_af0d54ead8ddee69af95ac46d9fac12d3}
+\hypertarget{flussi_8m_af062d8422a1d2842b748f60fe19e303a}{\index{flussi.\-m@{flussi.\-m}!x@{x}}
+\index{x@{x}!flussi.m@{flussi.\-m}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}{\bf g} x =linspace(0,1)}}\label{flussi_8m_af062d8422a1d2842b748f60fe19e303a}

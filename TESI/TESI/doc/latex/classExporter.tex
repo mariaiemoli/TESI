@@ -1,0 +1,155 @@
+\hypertarget{classExporter}{\section{Riferimenti per la classe Exporter}
+\label{classExporter}\index{Exporter@{Exporter}}
+}
+
+
+{\ttfamily \#include $<$Exporter.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classExporter_a14a838ecbf8b9f5a370013430236081f}{Exporter} (const Get\-Pot \&data\-File, const std\-::string \&section=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Costruttore che fissa la cartella dove esportare i risultati. \end{DoxyCompactList}\item 
+const std\-::string \& \hyperlink{classExporter_a2771781a7f08fe8518973a6ba712a391}{get\-Folder} () const 
+\item 
+void \hyperlink{classExporter_a8ca0bdf8550569260ef4f3e39ab274dc}{spy} (const \hyperlink{Core_8h_a87137a9501b38c724ac80bc955164bb7}{sparse\-Matrix\-Ptr\-\_\-\-Type} \&matrix, const std\-::string \&name\-File) const 
+\begin{DoxyCompactList}\small\item\em Funzione che esporta una matrice di tipo sparso. \end{DoxyCompactList}\item 
+void \hyperlink{classExporter_ab5452c31e85ecfbbda8623aa20723e68}{spy} (const \hyperlink{Core_8h_ab09b6fa3c23db1b8c60456f8690c44a7}{scalar\-Vector\-Ptr\-\_\-\-Type} \&vector, const std\-::string \&name\-File) const 
+\begin{DoxyCompactList}\small\item\em Funzione che esporta un vettore di scalari. \end{DoxyCompactList}\item 
+void \hyperlink{classExporter_af02a2344019769ab23d9ac673a7b3709}{mesh\-Region} (const getfem\-::mesh \&mesh, const std\-::string \&name\-File=\char`\"{}Region\-Mesh.\-vtk\char`\"{}) const 
+\begin{DoxyCompactList}\small\item\em Funzione che esporta le regioni della mesh. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classExporter_a14a838ecbf8b9f5a370013430236081f}{\index{Exporter@{Exporter}!Exporter@{Exporter}}
+\index{Exporter@{Exporter}!Exporter@{Exporter}}
+\subsubsection[{Exporter}]{\setlength{\rightskip}{0pt plus 5cm}Exporter\-::\-Exporter (
+\begin{DoxyParamCaption}
+\item[{const Get\-Pot \&}]{data\-File, }
+\item[{const std\-::string \&}]{section = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classExporter_a14a838ecbf8b9f5a370013430236081f}
+
+
+Costruttore che fissa la cartella dove esportare i risultati. 
+
+
+\begin{DoxyParams}{Parametri}
+{\em data\-File} & variabile di tipo Get\-Pot che contiene il nome del file data \\
+\hline
+{\em section} & stringa con il nome della sezione in cui leggere \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+9                                                                       :
+10                     M\_vtkFolder(dataFile((section + \textcolor{stringliteral}{"folderVTK"}).data(), \textcolor{stringliteral}{"./vtk/"}))
+11 \{
+12 \}\textcolor{comment}{// costruttore}
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle funzioni membro}
+\hypertarget{classExporter_a2771781a7f08fe8518973a6ba712a391}{\index{Exporter@{Exporter}!get\-Folder@{get\-Folder}}
+\index{get\-Folder@{get\-Folder}!Exporter@{Exporter}}
+\subsubsection[{get\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}const std\-::string\& Exporter\-::get\-Folder (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classExporter_a2771781a7f08fe8518973a6ba712a391}
+\begin{DoxyReturn}{Restituisce}
+std\-::string\& M\-\_\-vtk\-Folder\-: stringa col nome della cartella di esportazione 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+43     \{
+44         \textcolor{keywordflow}{return} M\_vtkFolder;
+45     \}
+\end{DoxyCode}
+\hypertarget{classExporter_af02a2344019769ab23d9ac673a7b3709}{\index{Exporter@{Exporter}!mesh\-Region@{mesh\-Region}}
+\index{mesh\-Region@{mesh\-Region}!Exporter@{Exporter}}
+\subsubsection[{mesh\-Region}]{\setlength{\rightskip}{0pt plus 5cm}void Exporter\-::mesh\-Region (
+\begin{DoxyParamCaption}
+\item[{const getfem\-::mesh \&}]{mesh, }
+\item[{const std\-::string \&}]{name\-File = {\ttfamily \char`\"{}RegionMesh.vtk\char`\"{}}}
+\end{DoxyParamCaption}
+) const}}\label{classExporter_af02a2344019769ab23d9ac673a7b3709}
+
+
+Funzione che esporta le regioni della mesh. 
+
+
+\begin{DoxyParams}{Parametri}
+{\em getfem\-::mesh\&} & mesh\-: mesh di supporto \\
+\hline
+{\em std\-::string\&} & name\-File = \char`\"{}\-Region\-Mesh.\-vtk\char`\"{}\-: nome del file su cui scrivere la soluzione, se non è dato è posto di default pari a \char`\"{}\-Region\-Mesh.\-vtk\char`\"{} \\
+\hline
+\end{DoxyParams}
+\hypertarget{classExporter_a8ca0bdf8550569260ef4f3e39ab274dc}{\index{Exporter@{Exporter}!spy@{spy}}
+\index{spy@{spy}!Exporter@{Exporter}}
+\subsubsection[{spy}]{\setlength{\rightskip}{0pt plus 5cm}void Exporter\-::spy (
+\begin{DoxyParamCaption}
+\item[{const {\bf sparse\-Matrix\-Ptr\-\_\-\-Type} \&}]{matrix, }
+\item[{const std\-::string \&}]{name\-File}
+\end{DoxyParamCaption}
+) const}}\label{classExporter_a8ca0bdf8550569260ef4f3e39ab274dc}
+
+
+Funzione che esporta una matrice di tipo sparso. 
+
+
+\begin{DoxyParams}{Parametri}
+{\em sparse\-Matrix\-Ptr\-\_\-\-Type\&} & matrix\-: matrice sparsa \\
+\hline
+{\em td\-::string\&} & name\-File\-: nome del file in cui esportare \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+16 \{
+17     gmm::MatrixMarket\_IO::write(nameFile.c\_str(), *matrix);
+18 
+19     \textcolor{keywordflow}{return};
+20 
+21 \} \textcolor{comment}{// spy}
+\end{DoxyCode}
+\hypertarget{classExporter_ab5452c31e85ecfbbda8623aa20723e68}{\index{Exporter@{Exporter}!spy@{spy}}
+\index{spy@{spy}!Exporter@{Exporter}}
+\subsubsection[{spy}]{\setlength{\rightskip}{0pt plus 5cm}void Exporter\-::spy (
+\begin{DoxyParamCaption}
+\item[{const {\bf scalar\-Vector\-Ptr\-\_\-\-Type} \&}]{vector, }
+\item[{const std\-::string \&}]{name\-File}
+\end{DoxyParamCaption}
+) const}}\label{classExporter_ab5452c31e85ecfbbda8623aa20723e68}
+
+
+Funzione che esporta un vettore di scalari. 
+
+
+\begin{DoxyParams}{Parametri}
+{\em scalar\-Vector\-Ptr\-\_\-\-Type\&} & vector\-: vettore di scalari \\
+\hline
+{\em std\-::string\&} & name\-File\-: nome del file in cui esportare \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+25 \{
+26     std::ofstream file;
+27     file.open(nameFile.c\_str());
+28     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < vector->size(); ++\hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} )
+29     \{
+30         file << std::setprecision(15) << vector->at(\hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}) << std::endl;
+31     \}
+32     file.close();
+33 
+34     \textcolor{keywordflow}{return};
+35 
+36 \} \textcolor{comment}{// spy}
+\end{DoxyCode}
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Exporter_8h}{Exporter.\-h}\item 
+src/\hyperlink{Exporter_8cc}{Exporter.\-cc}\end{DoxyCompactItemize}

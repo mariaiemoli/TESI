@@ -1,0 +1,247 @@
+\hypertarget{quadratica_8m}{\section{Riferimenti per il file matlab/quadratica.m}
+\label{quadratica_8m}\index{matlab/quadratica.\-m@{matlab/quadratica.\-m}}
+}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{quadratica_8m_adf5a65b6e5d2a28e3af90c7d679950d7}{plot} (\hyperlink{quadratica_8m_aea416ed0759d46a8de58f63a59077499}{xx}, \hyperlink{quadratica_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux}(\hyperlink{quadratica_8m_aea416ed0759d46a8de58f63a59077499}{xx}), '\hyperlink{confronto_8m_a73c18c59a39b18382081ec00bb456d43}{g}') \hyperlink{discontinuo_8m_ad9cea4edeb9e9d51c1305958394049ef}{cfl}
+\item 
+\hyperlink{quadratica_8m_ac9be290c17a7eb941e0eb6fc46e86735}{figure} () \hyperlink{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{u0}
+\item 
+\hyperlink{quadratica_8m_a43f1cf94054364ff9034c40b0c1e9453}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{u0},'r','\hyperlink{lineare_8m_a85cb28c72f56d8ba19393518ef33f96a}{Linewidth}', 2) axis(\mbox{[}\hyperlink{risultati__bastian_8m_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A} \hyperlink{risultati__bastian_8m_a9d3d9048db16a7eee539e93e3618cbe7}{B} 0.\-1.\-2\mbox{]})\%\%\%\hyperlink{risultati__bastian_8m_aa7255c4bc0e9fa663f62fbafe1026daa}{T1}\mbox{[}\hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u}
+\item 
+hold on \hyperlink{quadratica_8m_ad23c599ace32b8f4387ad0de884bb13e}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u},'\hyperlink{confronto_8m_a73c18c59a39b18382081ec00bb456d43}{g}','\hyperlink{lineare_8m_a85cb28c72f56d8ba19393518ef33f96a}{Linewidth}', 2)\%\%\%\hyperlink{quadratica_8m_a5a30d530a77bc992810b0c24a3e8f550}{T2}\mbox{[}\hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u}
+\item 
+hold on \hyperlink{quadratica_8m_acbb1e2c0cf0a4d7358c37c385b64751b}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u},'\hyperlink{rieman_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{b}','\hyperlink{lineare_8m_a85cb28c72f56d8ba19393518ef33f96a}{Linewidth}', 2)\%\%\%\hyperlink{quadratica_8m_a46f7973da1d3aac82976aecba9301120}{T3}\mbox{[}\hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u}
+\item 
+hold on \hyperlink{quadratica_8m_a6ee66ed7208554512b149c46de62a1aa}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u},'y','\hyperlink{lineare_8m_a85cb28c72f56d8ba19393518ef33f96a}{Linewidth}', 2)\%\%\%\hyperlink{quadratica_8m_ab59c62131f2b2a699b6ae70e899ff862}{T4}\mbox{[}\hyperlink{god__e_8m_a5d13973cebbcfb3c9181cd74c7bc1812}{u}
+\item 
+id \hyperlink{quadratica_8m_a329626dffc42c84371831246a2ddac71}{e} ()
+\item 
+hold on \hyperlink{quadratica_8m_a4f3bd42808cb26b6432d44999bdee6be}{plot} (\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, v2,'\hyperlink{confronto_8m_a73c18c59a39b18382081ec00bb456d43}{g}-\/-\/','\hyperlink{lineare_8m_a85cb28c72f56d8ba19393518ef33f96a}{Linewidth}', 2)\%\%\%\hyperlink{quadratica_8m_adf1f3edb9115acb0a1e04209b7a9937b}{T}
+\end{DoxyCompactItemize}
+\subsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+Two phase flow Equazione di \hyperlink{quadratica_8m_a36f9c8c54c92e3b2b964b4d7878f1d5d}{saturazione}
+\item 
+\hyperlink{quadratica_8m_a61c566bedabf4a0959cd7a17f6d329a0}{landa0} =0.\-9
+\item 
+\hyperlink{quadratica_8m_a84e4236f07668a770c27567f1f9615ff}{nx} =500
+\item 
+\hyperlink{quadratica_8m_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A} =0
+\item 
+\hyperlink{quadratica_8m_a9d3d9048db16a7eee539e93e3618cbe7}{B} =300
+\item 
+\hyperlink{quadratica_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} =inline('(x.$^\wedge$2)./( (x.$^\wedge$2)+0.\-5$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2 )')
+\item 
+\hyperlink{quadratica_8m_a57e57ff9dae63f49b4dafe62b6c85f6d}{flux1} =inline('x.$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})./((x.$^\wedge$2+0.\-5$\ast$(1-\/\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}).$^\wedge$2).$^\wedge$2)')
+\item 
+\hyperlink{quadratica_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x} =linspace(\hyperlink{risultati__bastian_8m_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A},\hyperlink{risultati__bastian_8m_a9d3d9048db16a7eee539e93e3618cbe7}{B},\hyperlink{risultati__bastian_8m_a2c922f7f535918f30cd11355c35da00f}{nx})
+\item 
+\hyperlink{quadratica_8m_aea416ed0759d46a8de58f63a59077499}{xx} =linspace(0,1)
+\item 
+hold on \hyperlink{quadratica_8m_a0cb36cbd1704f8cda741cd42d8044a71}{T1} = 2.\-0
+\item 
+\hyperlink{quadratica_8m_a5a30d530a77bc992810b0c24a3e8f550}{T2} = 5.\-0
+\item 
+\hyperlink{quadratica_8m_a46f7973da1d3aac82976aecba9301120}{T3} = 10.\-0
+\item 
+\hyperlink{quadratica_8m_ab59c62131f2b2a699b6ae70e899ff862}{T4} = 20.\-0
+\item 
+\hyperlink{quadratica_8m_ad801218489631a0265d9612840996726}{T5} = 0.\-9
+\item 
+\hyperlink{quadratica_8m_aec37496a8df7bd0924ea2771d6a8b0f3}{T6} = 1.\-2
+\item 
+\hyperlink{quadratica_8m_adf1f3edb9115acb0a1e04209b7a9937b}{T}
+\item 
+\hyperlink{quadratica_8m_afa0247656d4dccf5beb7be08aa79be96}{v1}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{quadratica_8m_a329626dffc42c84371831246a2ddac71}{\index{quadratica.\-m@{quadratica.\-m}!e@{e}}
+\index{e@{e}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{e}]{\setlength{\rightskip}{0pt plus 5cm}id e (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{quadratica_8m_a329626dffc42c84371831246a2ddac71}
+\hypertarget{quadratica_8m_ac9be290c17a7eb941e0eb6fc46e86735}{\index{quadratica.\-m@{quadratica.\-m}!figure@{figure}}
+\index{figure@{figure}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{figure}]{\setlength{\rightskip}{0pt plus 5cm}figure (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_ac9be290c17a7eb941e0eb6fc46e86735}
+\hypertarget{quadratica_8m_adf5a65b6e5d2a28e3af90c7d679950d7}{\index{quadratica.\-m@{quadratica.\-m}!plot@{plot}}
+\index{plot@{plot}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf xx}}]{, }
+\item[{{\bf flux}({\bf xx})}]{, }
+\item[{'{\bf g}'}]{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_adf5a65b6e5d2a28e3af90c7d679950d7}
+\hypertarget{quadratica_8m_a43f1cf94054364ff9034c40b0c1e9453}{\index{quadratica.\-m@{quadratica.\-m}!plot@{plot}}
+\index{plot@{plot}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{{\bf u0}}]{, }
+\item[{'r'}]{, }
+\item[{'{\bf Linewidth}'}]{, }
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_a43f1cf94054364ff9034c40b0c1e9453}
+\hypertarget{quadratica_8m_ad23c599ace32b8f4387ad0de884bb13e}{\index{quadratica.\-m@{quadratica.\-m}!plot@{plot}}
+\index{plot@{plot}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}hold on plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{{\bf u}}]{, }
+\item[{'{\bf g}'}]{, }
+\item[{'{\bf Linewidth}'}]{, }
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_ad23c599ace32b8f4387ad0de884bb13e}
+\hypertarget{quadratica_8m_acbb1e2c0cf0a4d7358c37c385b64751b}{\index{quadratica.\-m@{quadratica.\-m}!plot@{plot}}
+\index{plot@{plot}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}hold on plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{{\bf u}}]{, }
+\item[{'{\bf b}'}]{, }
+\item[{'{\bf Linewidth}'}]{, }
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_acbb1e2c0cf0a4d7358c37c385b64751b}
+\hypertarget{quadratica_8m_a6ee66ed7208554512b149c46de62a1aa}{\index{quadratica.\-m@{quadratica.\-m}!plot@{plot}}
+\index{plot@{plot}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}hold on plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{{\bf u}}]{, }
+\item[{'y'}]{, }
+\item[{'{\bf Linewidth}'}]{, }
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_a6ee66ed7208554512b149c46de62a1aa}
+\hypertarget{quadratica_8m_a4f3bd42808cb26b6432d44999bdee6be}{\index{quadratica.\-m@{quadratica.\-m}!plot@{plot}}
+\index{plot@{plot}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}hold on plot (
+\begin{DoxyParamCaption}
+\item[{{\bf x}}]{, }
+\item[{v2}]{, }
+\item[{'{\bf g}-\/-\/'}]{, }
+\item[{'{\bf Linewidth}'}]{, }
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{quadratica_8m_a4f3bd42808cb26b6432d44999bdee6be}
+{\bfseries Valore iniziale\-:}
+\begin{DoxyCode}
+= 80
+
+v3 = [ 1, 0.993077, 0.988913, 0.985116, 0.981517, 0.978055, 0.974701, 0.971437, 0.968252, 0.965137, 0.96208
+      6, 0.959094, 0.956156, 0.953271, 0.950434, 0.947643, 0.944896, 0.942191, 0.939526, 0.936899, 0.934308, 0.931
+      753, 0.929232, 0.926744, 0.924287, 0.921861, 0.919464, 0.917096, 0.914756, 0.912442, 0.910154, 0.907891, 0.9
+      05652, 0.903438, 0.901246, 0.899077, 0.896929, 0.894802, 0.892696, 0.89061, 0.888544, 0.886496, 0.884467, 0.
+      882456, 0.880463, 0.878486, 0.876527, 0.874583, 0.872656, 0.870744, 0.868847, 0.866965, 0.865098, 0.863244, 
+      0.861405, 0.859579, 0.857766, 0.855965, 0.854178, 0.852403, 0.850639, 0.848888, 0.847148, 0.845419, 0.843701
+      , 0.841994, 0.840298, 0.838612, 0.836936, 0.83527, 0.833613, 0.831966, 0.830328, 0.828699, 0.827079, 0.82546
+      8, 0.823865, 0.82227, 0.820683, 0.819105, 0.817534, 0.815971, 0.814415, 0.812866, 0.811325, 0.80979, 0.80826
+      2, 0.806741, 0.805226, 0.803718, 0.802216, 0.80072, 0.799229, 0.797745, 0.796265, 0.794792, 0.793324, 0.7918
+      6, 0.790402, 0.788949, 0.787501, 0.786057, 0.784617, 0.783182, 0.781751, 0.780324, 0.778901, 0.777482, 0.776
+      066, 0.774654, 0.773244, 0.771839, 0.770436, 0.769035, 0.767638, 0.766243, 0.76485, 0.763459, 0.76207, 0.760
+      683, 0.759297, 0.757913, 0.756529, 0.755147, 0.753764, 0.752382, 0.751, 0.749617, 0.748233, 0.746848, 0.7454
+      61, 0.744072, 0.74268, 0.741284, 0.739885, 0.73848, 0.73707, 0.735653, 0.734228, 0.732793, 0.731347, 0.72988
+      8, 0.728414, 0.726922, 0.725408, 0.723869, 0.7223, 0.720693, 0.719041, 0.717334, 0.715556, 0.713688, 0.71170
+      5, 0.709566, 0.707214, 0.704559, 0.701451, 0.69762, 0.692529, 0.684969, 0.6707, 0.629627, 0.126189, 5.41553e
+      -07, 4.18451e-38, 9.45018e-217, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle variabili}
+\hypertarget{quadratica_8m_a3b98e2dffc6cb06a89dcb0d5c60a0206}{\index{quadratica.\-m@{quadratica.\-m}!A@{A}}
+\index{A@{A}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{A}]{\setlength{\rightskip}{0pt plus 5cm}A =0}}\label{quadratica_8m_a3b98e2dffc6cb06a89dcb0d5c60a0206}
+\hypertarget{quadratica_8m_a9d3d9048db16a7eee539e93e3618cbe7}{\index{quadratica.\-m@{quadratica.\-m}!B@{B}}
+\index{B@{B}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{B}]{\setlength{\rightskip}{0pt plus 5cm}B =300}}\label{quadratica_8m_a9d3d9048db16a7eee539e93e3618cbe7}
+\hypertarget{quadratica_8m_a96d7a28b6a4428be15fc1017d19343fa}{\index{quadratica.\-m@{quadratica.\-m}!flux@{flux}}
+\index{flux@{flux}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{flux}]{\setlength{\rightskip}{0pt plus 5cm}flux =inline('(x.$^\wedge$2)./( (x.$^\wedge$2)+0.\-5$\ast$(1-\/{\bf x}).$^\wedge$2 )')}}\label{quadratica_8m_a96d7a28b6a4428be15fc1017d19343fa}
+\hypertarget{quadratica_8m_a57e57ff9dae63f49b4dafe62b6c85f6d}{\index{quadratica.\-m@{quadratica.\-m}!flux1@{flux1}}
+\index{flux1@{flux1}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{flux1}]{\setlength{\rightskip}{0pt plus 5cm}flux1 =inline('x.$\ast$(1-\/{\bf x})./((x.$^\wedge$2+0.\-5$\ast$(1-\/{\bf x}).$^\wedge$2).$^\wedge$2)')}}\label{quadratica_8m_a57e57ff9dae63f49b4dafe62b6c85f6d}
+\hypertarget{quadratica_8m_a61c566bedabf4a0959cd7a17f6d329a0}{\index{quadratica.\-m@{quadratica.\-m}!landa0@{landa0}}
+\index{landa0@{landa0}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{landa0}]{\setlength{\rightskip}{0pt plus 5cm}hold on {\bf plot} ({\bf x},{\bf u},'{\bf c}','{\bf Linewidth}',2) \%\% miei risultati \% \% caso 1) landa0 =0.\-9}}\label{quadratica_8m_a61c566bedabf4a0959cd7a17f6d329a0}
+\hypertarget{quadratica_8m_a84e4236f07668a770c27567f1f9615ff}{\index{quadratica.\-m@{quadratica.\-m}!nx@{nx}}
+\index{nx@{nx}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{nx}]{\setlength{\rightskip}{0pt plus 5cm}nx =500}}\label{quadratica_8m_a84e4236f07668a770c27567f1f9615ff}
+\hypertarget{quadratica_8m_a36f9c8c54c92e3b2b964b4d7878f1d5d}{\index{quadratica.\-m@{quadratica.\-m}!saturazione@{saturazione}}
+\index{saturazione@{saturazione}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{saturazione}]{\setlength{\rightskip}{0pt plus 5cm}Two phase flow Equazione di saturazione}}\label{quadratica_8m_a36f9c8c54c92e3b2b964b4d7878f1d5d}
+\hypertarget{quadratica_8m_adf1f3edb9115acb0a1e04209b7a9937b}{\index{quadratica.\-m@{quadratica.\-m}!T@{T}}
+\index{T@{T}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T}]{\setlength{\rightskip}{0pt plus 5cm}T}}\label{quadratica_8m_adf1f3edb9115acb0a1e04209b7a9937b}
+{\bfseries Valore iniziale\-:}
+\begin{DoxyCode}
+= 20
+
+\hyperlink{quadratica_8m_afa0247656d4dccf5beb7be08aa79be96}{v1} = [ 1, 0.957226, 0.934314, 0.914988, 0.897845, 0.882289, 0.867976, 0.85468, 0.842237, 0.830524, 0.8194
+      43, 0.808916, 0.798879, 0.789278, 0.780067, 0.771208, 0.762666, 0.754412, 0.74642, 0.738666, 0.731131, 0.723
+      795, 0.71664, 0.709653, 0.702817, 0.69612, 0.689549, 0.683091, 0.676736, 0.67047, 0.664283, 0.658162, 0.6520
+      94, 0.646066, 0.640061, 0.63406, 0.62804, 0.621972, 0.615815, 0.609512, 0.602978, 0.596076, 0.588562, 0.5799
+      72, 0.569215, 0.55328, 0.513378, 0.0744419, 2.65575e-10, 3.13843e-84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0 ]
+\end{DoxyCode}
+\hypertarget{quadratica_8m_a0cb36cbd1704f8cda741cd42d8044a71}{\index{quadratica.\-m@{quadratica.\-m}!T1@{T1}}
+\index{T1@{T1}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T1}]{\setlength{\rightskip}{0pt plus 5cm}hold on T1 = 2.\-0}}\label{quadratica_8m_a0cb36cbd1704f8cda741cd42d8044a71}
+\hypertarget{quadratica_8m_a5a30d530a77bc992810b0c24a3e8f550}{\index{quadratica.\-m@{quadratica.\-m}!T2@{T2}}
+\index{T2@{T2}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T2}]{\setlength{\rightskip}{0pt plus 5cm}T2 = 5.\-0}}\label{quadratica_8m_a5a30d530a77bc992810b0c24a3e8f550}
+\hypertarget{quadratica_8m_a46f7973da1d3aac82976aecba9301120}{\index{quadratica.\-m@{quadratica.\-m}!T3@{T3}}
+\index{T3@{T3}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T3}]{\setlength{\rightskip}{0pt plus 5cm}T3 = 10.\-0}}\label{quadratica_8m_a46f7973da1d3aac82976aecba9301120}
+\hypertarget{quadratica_8m_ab59c62131f2b2a699b6ae70e899ff862}{\index{quadratica.\-m@{quadratica.\-m}!T4@{T4}}
+\index{T4@{T4}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T4}]{\setlength{\rightskip}{0pt plus 5cm}T4 = 20.\-0}}\label{quadratica_8m_ab59c62131f2b2a699b6ae70e899ff862}
+\hypertarget{quadratica_8m_ad801218489631a0265d9612840996726}{\index{quadratica.\-m@{quadratica.\-m}!T5@{T5}}
+\index{T5@{T5}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T5}]{\setlength{\rightskip}{0pt plus 5cm}T5 = 0.\-9}}\label{quadratica_8m_ad801218489631a0265d9612840996726}
+\hypertarget{quadratica_8m_aec37496a8df7bd0924ea2771d6a8b0f3}{\index{quadratica.\-m@{quadratica.\-m}!T6@{T6}}
+\index{T6@{T6}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{T6}]{\setlength{\rightskip}{0pt plus 5cm}T6 = 1.\-2}}\label{quadratica_8m_aec37496a8df7bd0924ea2771d6a8b0f3}
+\hypertarget{quadratica_8m_afa0247656d4dccf5beb7be08aa79be96}{\index{quadratica.\-m@{quadratica.\-m}!v1@{v1}}
+\index{v1@{v1}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{v1}]{\setlength{\rightskip}{0pt plus 5cm}hold on {\bf plot} ({\bf x}, v3,'{\bf c}-\/-\/','{\bf Linewidth}',2) \%\% \% \% caso 3) v1}}\label{quadratica_8m_afa0247656d4dccf5beb7be08aa79be96}
+\hypertarget{quadratica_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{\index{quadratica.\-m@{quadratica.\-m}!x@{x}}
+\index{x@{x}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}x =linspace({\bf A},{\bf B},{\bf nx})}}\label{quadratica_8m_a9336ebf25087d91c818ee6e9ec29f8c1}
+\hypertarget{quadratica_8m_aea416ed0759d46a8de58f63a59077499}{\index{quadratica.\-m@{quadratica.\-m}!xx@{xx}}
+\index{xx@{xx}!quadratica.m@{quadratica.\-m}}
+\subsubsection[{xx}]{\setlength{\rightskip}{0pt plus 5cm}xx =linspace(0,1)}}\label{quadratica_8m_aea416ed0759d46a8de58f63a59077499}

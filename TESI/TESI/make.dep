@@ -1,0 +1,8 @@
+main.o: main.cc include/SaturationFractured.h include/Core.h \
+ include/FracturesSet.h include/FractureHandler.h include/StringUtility.h \
+ include/FractureData.h include/Parser.h include/ParserDefinitions.h \
+ include/ParserSpiritGrammar.h include/FluxHandler.h \
+ include/LevelSetHandler.h include/LevelSetData.h \
+ include/UsefulFunctions.h include/Exporter.h include/FractureIntersect.h \
+ include/IntersectData.h include/BCHandler.h include/BC.h \
+ include/FracturesSet.h include/Core.h

@@ -1,0 +1,4 @@
+<map id="IntersectData::getFractures" name="IntersectData::getFractures">
+<area shape="rect" id="node2" href="$classIntersectData.html#acbb362d913af755b71fa801e3a507a63" title="Funzione che verifica se due intersezioni sono uguali a meno dei nodi, ossia se le fratture coinvolte..." alt="" coords="255,5,407,32"/>
+<area shape="rect" id="node3" href="$classIntersectData.html#a6bcd52066286893ea1f7c36ea841da82" title="Funzione che aggiunge uno degli indici dei nodi di intersezione mancanti. " alt="" coords="237,56,424,83"/>
+</map>

@@ -1,0 +1,199 @@
+\hypertarget{UsefulFunctions_8h}{\section{Riferimenti per il file include/\-Useful\-Functions.h}
+\label{UsefulFunctions_8h}\index{include/\-Useful\-Functions.\-h@{include/\-Useful\-Functions.\-h}}
+}
+{\ttfamily \#include \char`\"{}Core.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Parser.\-h\char`\"{}}\\*
+Grafo delle dipendenze di inclusione per Useful\-Functions.\-h\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{UsefulFunctions_8h__incl}
+\end{center}
+\end{figure}
+Questo grafo mostra quali altri file includono direttamente o indirettamente questo file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{UsefulFunctions_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{UsefulFunctions_8h_ac690ad9fb635ed450165c19029bdacaf}{export\-Solution} (const std\-::string \&file\-Name, const std\-::string \&solution\-Name, const \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalar\-Vector\-\_\-\-Type} \&solution)
+\begin{DoxyCompactList}\small\item\em Funzioni per esportare soluzioni e mesh. \end{DoxyCompactList}\item 
+void \hyperlink{UsefulFunctions_8h_ae4bd400c144e72bee180107bb41ae72a}{export\-Mesh} (const std\-::string \&file\-Name, const getfem\-::mesh \&mesh)
+\item 
+scalar\-\_\-type \hyperlink{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4}{min} (const std\-::string \&flusso, const scalar\-\_\-type ul, const scalar\-\_\-type ur)
+\item 
+scalar\-\_\-type \hyperlink{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55}{max} (const std\-::string \&flusso, const scalar\-\_\-type ul, const scalar\-\_\-type ur)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{UsefulFunctions_8h_ae4bd400c144e72bee180107bb41ae72a}{\index{Useful\-Functions.\-h@{Useful\-Functions.\-h}!export\-Mesh@{export\-Mesh}}
+\index{export\-Mesh@{export\-Mesh}!UsefulFunctions.h@{Useful\-Functions.\-h}}
+\subsubsection[{export\-Mesh}]{\setlength{\rightskip}{0pt plus 5cm}void export\-Mesh (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-Name, }
+\item[{const getfem\-::mesh \&}]{mesh}
+\end{DoxyParamCaption}
+)}}\label{UsefulFunctions_8h_ae4bd400c144e72bee180107bb41ae72a}
+
+\begin{DoxyCode}
+28 \{
+29     getfem::vtk\_export exporter(fileName.data(), \textcolor{keyword}{true});
+30 
+31     \textcolor{comment}{// con true mi permette di esportare la mesh in formato txt}
+32 
+33     exporter.exporting(mesh);
+34 
+35     exporter.write\_mesh();
+36 
+37     \textcolor{keywordflow}{return};
+38 \}\textcolor{comment}{// exportMesh}
+\end{DoxyCode}
+\hypertarget{UsefulFunctions_8h_ac690ad9fb635ed450165c19029bdacaf}{\index{Useful\-Functions.\-h@{Useful\-Functions.\-h}!export\-Solution@{export\-Solution}}
+\index{export\-Solution@{export\-Solution}!UsefulFunctions.h@{Useful\-Functions.\-h}}
+\subsubsection[{export\-Solution}]{\setlength{\rightskip}{0pt plus 5cm}void export\-Solution (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-Name, }
+\item[{const std\-::string \&}]{solution\-Name, }
+\item[{const {\bf scalar\-Vector\-\_\-\-Type} \&}]{solution}
+\end{DoxyParamCaption}
+)}}\label{UsefulFunctions_8h_ac690ad9fb635ed450165c19029bdacaf}
+
+
+Funzioni per esportare soluzioni e mesh. 
+
+\hypertarget{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55}{\index{Useful\-Functions.\-h@{Useful\-Functions.\-h}!max@{max}}
+\index{max@{max}!UsefulFunctions.h@{Useful\-Functions.\-h}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}scalar\-\_\-type max (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{flusso, }
+\item[{const scalar\-\_\-type}]{ul, }
+\item[{const scalar\-\_\-type}]{ur}
+\end{DoxyParamCaption}
+)}}\label{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55}
+
+\begin{DoxyCode}
+74 \{
+75     \hyperlink{classLifeV_1_1Parser}{LifeV::Parser} M\_parser;
+76     scalar\_type tmp;
+77     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}( 500 );
+78     scalar\_type \hyperlink{confronto_8m_a5e36941b3d856737e81516acd45edc50}{h} = ( ul-ur )/500;
+79 
+80     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+81     \{
+82         \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = ur + h*\hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i};
+83     \}
+84 
+85     M\_parser.\hyperlink{classLifeV_1_1Parser_ac05769e836a0dc95d9c020df361a5194}{setString} ( flusso );
+86     M\_parser.\hyperlink{classLifeV_1_1Parser_aa2b362e12b8feb60231705d499c9fbae}{setVariable} ( \textcolor{stringliteral}{"x"}, \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u} [ 0 ] );
+87 
+88     tmp=M\_parser.\hyperlink{classLifeV_1_1Parser_a51d84fd4ae6d420620e7beee58fad673}{evaluate}();
+89 
+90     \textcolor{keywordflow}{for}( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+91     \{
+92         M\_parser.\hyperlink{classLifeV_1_1Parser_aa2b362e12b8feb60231705d499c9fbae}{setVariable} ( \textcolor{stringliteral}{"x"}, \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+93 
+94         \textcolor{keywordflow}{if} ( M\_parser.\hyperlink{classLifeV_1_1Parser_a51d84fd4ae6d420620e7beee58fad673}{evaluate}() > tmp )
+95         \{
+96             tmp = M\_parser.\hyperlink{classLifeV_1_1Parser_a51d84fd4ae6d420620e7beee58fad673}{evaluate}();
+97         \}
+98     \}
+99 
+100     \textcolor{keywordflow}{return} tmp;
+101 
+102 \}\textcolor{comment}{// max}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4}{\index{Useful\-Functions.\-h@{Useful\-Functions.\-h}!min@{min}}
+\index{min@{min}!UsefulFunctions.h@{Useful\-Functions.\-h}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}scalar\-\_\-type min (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{flusso, }
+\item[{const scalar\-\_\-type}]{ul, }
+\item[{const scalar\-\_\-type}]{ur}
+\end{DoxyParamCaption}
+)}}\label{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4}
+
+\begin{DoxyCode}
+42 \{
+43     \hyperlink{classLifeV_1_1Parser}{LifeV::Parser} M\_parser;
+44     scalar\_type tmp;
+45     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}( 500 );
+46     scalar\_type \hyperlink{confronto_8m_a5e36941b3d856737e81516acd45edc50}{h} = ( ur-ul )/500;
+47 
+48     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+49     \{
+50         \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = ul + h*\hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i};
+51     \}
+52 
+53     M\_parser.\hyperlink{classLifeV_1_1Parser_ac05769e836a0dc95d9c020df361a5194}{setString} ( flusso );
+54     M\_parser.\hyperlink{classLifeV_1_1Parser_aa2b362e12b8feb60231705d499c9fbae}{setVariable} ( \textcolor{stringliteral}{"x"}, \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u} [ 0 ] );
+55 
+56     tmp=M\_parser.\hyperlink{classLifeV_1_1Parser_a51d84fd4ae6d420620e7beee58fad673}{evaluate}();
+57 
+58     \textcolor{keywordflow}{for}( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u}.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+59     \{
+60         M\_parser.\hyperlink{classLifeV_1_1Parser_aa2b362e12b8feb60231705d499c9fbae}{setVariable} ( \textcolor{stringliteral}{"x"}, \hyperlink{confronto_8m_a6277e2a7446059985dc9bcf0a4ac1a8f}{u} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+61 
+62         \textcolor{keywordflow}{if} ( M\_parser.\hyperlink{classLifeV_1_1Parser_a51d84fd4ae6d420620e7beee58fad673}{evaluate}() < tmp )
+63         \{
+64             tmp = M\_parser.\hyperlink{classLifeV_1_1Parser_a51d84fd4ae6d420620e7beee58fad673}{evaluate}();
+65         \}
+66     \}
+67 
+68     \textcolor{keywordflow}{return} tmp;
+69 \}\textcolor{comment}{// min}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4_icgraph}
+\end{center}
+\end{figure}
+
+

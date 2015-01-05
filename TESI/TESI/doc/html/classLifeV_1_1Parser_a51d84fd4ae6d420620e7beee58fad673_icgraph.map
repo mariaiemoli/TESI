@@ -1,0 +1,22 @@
+<map id="LifeV::Parser::evaluate" name="LifeV::Parser::evaluate">
+<area shape="rect" id="node2" href="$classFractureData.html#a49671c83ba3f6501803913c224177a72" title="FractureData::feval" alt="" coords="485,51,619,78"/>
+<area shape="rect" id="node3" href="$classFractureData.html#a8f6e19cc2575dd30498eb144d1d17554" title="FractureData::feval_scal" alt="" coords="469,102,635,129"/>
+<area shape="rect" id="node4" href="$classFractureData.html#ae9fcfaedfb880fe7ef5bfe9eaffe0e50" title="FractureData::fzero" alt="" coords="247,203,382,230"/>
+<area shape="rect" id="node5" href="$classFractureData.html#ab79d66dd830b6e1c55ade0d940c5c8cf" title="FractureData::meshSpacing" alt="" coords="222,254,407,281"/>
+<area shape="rect" id="node7" href="$classFractureData.html#a9598cf66a822a593e819df754420a2c2" title="FractureData::velocity" alt="" coords="239,51,390,78"/>
+<area shape="rect" id="node8" href="$classFractureData.html#aab77ec8a8d3e878b5dfb72deb48841e7" title="FractureData::porosity" alt="" coords="239,102,391,129"/>
+<area shape="rect" id="node9" href="$classFractureData.html#a142a1bb428365b60ed002362ca566517" title="FractureData::getCi" alt="" coords="246,305,383,331"/>
+<area shape="rect" id="node10" href="$classLevelSetData.html#a665241939c12bad26face4d997e655ce" title="Questa funzione definisce il level set che rappresenta la frattura, level set valutato in (x..." alt="" coords="211,355,418,382"/>
+<area shape="rect" id="node11" href="$classLevelSetData.html#a732ae59581206d4f94237e54bc0071e3" title="Questa funzione definisce il level set che rappresenta la frattura, level set valutato in (t..." alt="" coords="208,406,421,433"/>
+<area shape="rect" id="node12" href="$classLevelSetData.html#a60ea6aa9991dfdae4e4a3950ed8db66c" title="scalar_type levelSetCutFunction ( const base_node&amp; x, int num = 0 ) " alt="" coords="226,457,403,499"/>
+<area shape="rect" id="node13" href="$classLevelSetData.html#aa4cda1cced4bc385d85383b40bbc2631" title="Questa funzione rappresenta la mappa dalla frattura piatta, y(t). " alt="" coords="241,523,389,550"/>
+<area shape="rect" id="node14" href="$classLevelSetData.html#ae7f10d3f10b72fbb6f703ba7aa8fe17b" title="Questa funzione rappresenta la mappa dalla frattura piatta, x(t). " alt="" coords="241,574,389,601"/>
+<area shape="rect" id="node15" href="$classLevelSetData.html#a40fcfa36de7ac76613284d03690eb54b" title="Questa funzione serve per convertire la lunghezza/area degli elementi dalla frattura piatta a quella ..." alt="" coords="235,625,394,651"/>
+<area shape="rect" id="node16" href="$classLevelSetData.html#a674d56690f4e22cbca38bf4b5f176a5e" title="Funzione che calcola la normale alla frattura &#45; può anche dipendere da x. " alt="" coords="225,675,405,702"/>
+<area shape="rect" id="node17" href="$UsefulFunctions_8cc.html#a9700932e89ccb7eeacaee21db125b0c4" title="min" alt="" coords="293,726,336,753"/>
+<area shape="rect" id="node21" href="$UsefulFunctions_8cc.html#a41a4284c74a9bcf6e35509f5eec72a55" title="max" alt="" coords="291,777,338,803"/>
+<area shape="rect" id="node6" href="$classFractureHandler.html#aa28ce054ba2a2679214956c71f8cf1e0" title="FractureHandler::init" alt="" coords="482,279,622,306"/>
+<area shape="rect" id="node18" href="$classSaturationFractured.html#ad7b71f3d032a3b9b52846c9277d706ec" title="Funzione che risolve il problema nel caso un cui nella frattura in questione non vi siano discontinui..." alt="" coords="484,711,620,752"/>
+<area shape="rect" id="node20" href="$classSaturationFractured.html#ad1eb498b01ebc0826fd4bfe9da6b6a59" title="Funzione che risolve il problema nel caso un cui nella frattura in questione vi siano discontinuità n..." alt="" coords="481,776,623,817"/>
+<area shape="rect" id="node19" href="$classSaturationFractured.html#a20f1abf94a54768815c78e13a02ed209" title="SaturationFractured\l::solve" alt="" coords="683,744,819,785"/>
+</map>

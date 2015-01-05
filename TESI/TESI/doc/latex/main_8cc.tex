@@ -1,0 +1,142 @@
+\hypertarget{main_8cc}{\section{Riferimenti per il file main.\-cc}
+\label{main_8cc}\index{main.\-cc@{main.\-cc}}
+}
+{\ttfamily \#include \char`\"{}include/\-Saturation\-Fractured.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}include/\-Fractures\-Set.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}include/\-Core.\-h\char`\"{}}\\*
+Grafo delle dipendenze di inclusione per main.\-cc\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{main_8cc_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{main_8cc_a0ddf1224851353fc92bfbff6f499fa97}{\index{main.\-cc@{main.\-cc}!main@{main}}
+\index{main@{main}!main.cc@{main.\-cc}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{main_8cc_a0ddf1224851353fc92bfbff6f499fa97}
+
+\begin{DoxyCode}
+23 \{
+24     std::string fileName(\textcolor{stringliteral}{"data"});
+25 
+26     \textcolor{keywordflow}{if} ( argc == 2 )
+27     \{
+28         fileName = argv[1];
+29     \}
+30 
+31     GetPot dataFile( fileName.c\_str() );
+32 
+33     \textcolor{keyword}{const} std::string section = \textcolor{stringliteral}{""};
+34 
+35     \textcolor{keyword}{const} std::string vtkFolder = \textcolor{stringliteral}{"vtk/"};
+36 
+37     \textcolor{comment}{// Creo la cartella dove salvare i risultati se già non esiste}
+38     \textcolor{comment}{//  std::string s = "mkdir "+vtkFolder;}
+39     \textcolor{comment}{//  system (s.c\_str());}
+40 
+41     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+42     std::cout << std::endl;
+43 
+44     std::cout << \textcolor{stringliteral}{"Solving the Saturation problem for a set of fractures."} << std::endl;
+45     std::cout << std::endl;
+46     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+47     std::cout << std::endl;
+48 
+49 
+50     \textcolor{comment}{//Data exporter}
+51     std::cout << \textcolor{stringliteral}{"Create the data exporter..."} << std::flush;
+52     \hyperlink{Exporter_8h_ac9d7f94fea8b91459a536bfaa2f3910c}{ExporterPtr\_Type} exporter( \textcolor{keyword}{new} \hyperlink{Exporter_8h_a4b759507874351b3feb7e4023a152ccf}{Exporter\_Type}(dataFile));
+53     std::cout << \textcolor{stringliteral}{" completed!"} <<std::endl;
+54     std::cout << std::endl;
+55     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+56     std::cout << std::endl;
+57 
+58 
+59     \textcolor{comment}{// Fracture Set}
+60     std::cout << \textcolor{stringliteral}{"Create the set of fractures for "} << std::flush;
+61     \textcolor{keyword}{const} size\_type numberFractures = dataFile(
+62             (section + \textcolor{stringliteral}{"numberFractures"}).data(), 0);
+63     std::cout << numberFractures << \textcolor{stringliteral}{" fracture(s)..."} << std::endl << std::flush;
+64 
+65 
+66     \textcolor{comment}{// Inizializzo le fratture}
+67     \hyperlink{FracturesSet_8h_ac29a2a91d3af77fb459980a7db47f420}{FracturesSetPtr\_Type} fractures ( \textcolor{keyword}{new}  \hyperlink{classFracturesSet}{FracturesSet}  );
+68 
+69     std::cout << \textcolor{stringliteral}{" completed! "} << std::endl;
+70     fractures->init( dataFile, section, numberFractures, exporter );
+71     std::cout << std::endl;
+72     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+73     std::cout << std::endl;
+74 
+75 
+76     \textcolor{comment}{// Impongo le condizioni al contorno per le fratture}
+77     std::cout << \textcolor{stringliteral}{"Create fracture boundary conditions..."} << std::flush;
+78     \hyperlink{BC_8h_ae127263052e0676d0fe233f834ca7227}{BCPtrContainer\_Type} bcFracture(numberFractures);
+79     std::ostringstream sectionFracture;
+80 
+81     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFractures; ++\hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )
+82     \{
+83         sectionFracture << section << \textcolor{stringliteral}{"fractureData"} << \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} << \textcolor{stringliteral}{"/"};
+84 
+85         bcFracture [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ].reset(\textcolor{keyword}{new} \hyperlink{BC_8h_a0fe235bbd14db4aea3ae80332cff646e}{BC\_Type}( dataFile,
+86                                             sectionFracture.str(),
+87                                             fractures->getFracture( f )->getMeshFlat(),
+88                                             fractures->getFracture ( f )->getData().getMeshType() ));
+89     \}
+90     std::cout << \textcolor{stringliteral}{" completed!"} << std::endl;
+91     std::cout << std::endl;
+92     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+93     std::cout << std::endl;
+94 
+95 
+96     std::cout << \textcolor{stringliteral}{"Create boundary conditions handler..."} << std::flush;
+97     \hyperlink{BCHandler_8h_aa175884cb453788647f17f2230a2a762}{BCHandlerPtr\_Type} bcHandler(\textcolor{keyword}{new} \hyperlink{BCHandler_8h_a37cc8157d35b390c633acad42ab6da0c}{BCHandler\_Type}( bcFracture ));
+98     std::cout << \textcolor{stringliteral}{" completed!"} << std::endl;
+99     std::cout << std::endl;
+100     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+101     std::cout << std::endl;
+102 
+103 
+104     \textcolor{comment}{// Risolvo il problema in saturazione}
+105     \hyperlink{SaturationFractured_8h_ae6e1de3addff324dbce89ed4c62fff52}{SaturationFracturedPtr\_Type} saturation(\textcolor{keyword}{new} 
+      \hyperlink{SaturationFractured_8h_a4b1294dcb64342f77c6e16a23f969a6d}{SaturationFractured\_Type}( dataFile, fractures, bcHandler, exporter ) );
+106 
+107     saturation->init();
+108 
+109     saturation-> solve();
+110 
+111     std::cout << std::endl;
+112     std::cout << \textcolor{stringliteral}{"*******************   "} << std::endl;
+113     std::cout << std::endl;
+114 
+115 
+116     \textcolor{keywordflow}{return} 0;
+117 
+118 \}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{main_8cc_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}
+
+

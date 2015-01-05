@@ -1,0 +1,762 @@
+\hypertarget{classSaturationFractured}{\section{Riferimenti per la classe Saturation\-Fractured}
+\label{classSaturationFractured}\index{Saturation\-Fractured@{Saturation\-Fractured}}
+}
+
+
+{\ttfamily \#include $<$Saturation\-Fractured.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSaturationFractured_a2d080ad53569f8a8c344d690903b8d11}{Saturation\-Fractured} (const Get\-Pot \&data\-File, \hyperlink{FracturesSet_8h_ac29a2a91d3af77fb459980a7db47f420}{Fractures\-Set\-Ptr\-\_\-\-Type} \&fractures, const \hyperlink{BCHandler_8h_aa175884cb453788647f17f2230a2a762}{B\-C\-Handler\-Ptr\-\_\-\-Type} \&bc\-Handler, const \hyperlink{Exporter_8h_ac9d7f94fea8b91459a536bfaa2f3910c}{Exporter\-Ptr\-\_\-\-Type} \&exporter, const std\-::string time=\char`\"{}data\-Time/\char`\"{})
+\item 
+void \hyperlink{classSaturationFractured_a6336137dd94d0ff95efc5967f4ab89c4}{init} ()
+\begin{DoxyCompactList}\small\item\em Funzione che inizializza le matrici per costruire il sistema algebrico. \end{DoxyCompactList}\item 
+void \hyperlink{classSaturationFractured_ad5271c4036ec9a4a7c58cddbb42515ec}{assembly} (const scalar\-\_\-type \&landa, const \hyperlink{Core_8h_ae3afecb4de4310d8262e9ab20cfb875b}{scalar\-Vector\-Container\-\_\-\-Type} \&\hyperlink{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{u0}, const \hyperlink{Core_8h_ae3afecb4de4310d8262e9ab20cfb875b}{scalar\-Vector\-Container\-\_\-\-Type} \&\hyperlink{quadratica_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux})
+\begin{DoxyCompactList}\small\item\em Funzione che assembla il sistema algebrico. \end{DoxyCompactList}\item 
+void \hyperlink{classSaturationFractured_a20f1abf94a54768815c78e13a02ed209}{solve} ()
+\item 
+void \hyperlink{classSaturationFractured_ad7b71f3d032a3b9b52846c9277d706ec}{solve\-\_\-continuity} (const size\-\_\-type \hyperlink{god__e_8m_a8ea372f7ee3c01d11fc4b4d13b8e6a75}{f}, const \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalar\-Vector\-\_\-\-Type} \&\hyperlink{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{u0}, \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalar\-Vector\-\_\-\-Type} \&Flux)
+\begin{DoxyCompactList}\small\item\em Funzione che risolve il problema nel caso un cui nella frattura in questione non vi siano discontinuità nel materiale. \end{DoxyCompactList}\item 
+void \hyperlink{classSaturationFractured_ad1eb498b01ebc0826fd4bfe9da6b6a59}{solve\-\_\-discontinuity} (const size\-\_\-type \hyperlink{god__e_8m_a8ea372f7ee3c01d11fc4b4d13b8e6a75}{f}, const \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalar\-Vector\-\_\-\-Type} \&\hyperlink{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{u0}, \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalar\-Vector\-\_\-\-Type} \&Flux)
+\begin{DoxyCompactList}\small\item\em Funzione che risolve il problema nel caso un cui nella frattura in questione vi siano discontinuità nel materiale. \end{DoxyCompactList}\item 
+\hyperlink{FracturesSet_8h_ac29a2a91d3af77fb459980a7db47f420}{Fractures\-Set\-Ptr\-\_\-\-Type} \& \hyperlink{classSaturationFractured_afd7677569be76111c81f2fb73aef2d27}{get\-\_\-\-Fracture} ()
+\item 
+scalar\-\_\-type \hyperlink{classSaturationFractured_a77ac2375f36964b0e99457a900df48cf}{get\-Final\-Time} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classSaturationFractured_a2d080ad53569f8a8c344d690903b8d11}{\index{Saturation\-Fractured@{Saturation\-Fractured}!Saturation\-Fractured@{Saturation\-Fractured}}
+\index{Saturation\-Fractured@{Saturation\-Fractured}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{Saturation\-Fractured}]{\setlength{\rightskip}{0pt plus 5cm}Saturation\-Fractured\-::\-Saturation\-Fractured (
+\begin{DoxyParamCaption}
+\item[{const Get\-Pot \&}]{data\-File, }
+\item[{{\bf Fractures\-Set\-Ptr\-\_\-\-Type} \&}]{fractures, }
+\item[{const {\bf B\-C\-Handler\-Ptr\-\_\-\-Type} \&}]{bc\-Handler, }
+\item[{const {\bf Exporter\-Ptr\-\_\-\-Type} \&}]{exporter, }
+\item[{const std\-::string}]{time = {\ttfamily \char`\"{}dataTime/\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classSaturationFractured_a2d080ad53569f8a8c344d690903b8d11}
+
+\begin{DoxyCode}
+14                                                                 :
+15                                           M\_section ( time ),
+16                                           M\_fractures( fractures ),
+17                                           M\_bcHandler( bcHandler ),
+18                                           M\_exporter ( exporter ),
+19                                           M\_t ( dataFile ( ( M\_section + \textcolor{stringliteral}{"endTime"} ).data (), 1. ) ),
+20                                           M\_fractureSaturation ( M\_fractures->getNumberFractures() )
+21 \{
+22 \}
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle funzioni membro}
+\hypertarget{classSaturationFractured_ad5271c4036ec9a4a7c58cddbb42515ec}{\index{Saturation\-Fractured@{Saturation\-Fractured}!assembly@{assembly}}
+\index{assembly@{assembly}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{assembly}]{\setlength{\rightskip}{0pt plus 5cm}void Saturation\-Fractured\-::assembly (
+\begin{DoxyParamCaption}
+\item[{const scalar\-\_\-type \&}]{landa, }
+\item[{const {\bf scalar\-Vector\-Container\-\_\-\-Type} \&}]{u0, }
+\item[{const {\bf scalar\-Vector\-Container\-\_\-\-Type} \&}]{flux}
+\end{DoxyParamCaption}
+)}}\label{classSaturationFractured_ad5271c4036ec9a4a7c58cddbb42515ec}
+
+
+Funzione che assembla il sistema algebrico. 
+
+
+\begin{DoxyCode}
+66 \{
+67     size\_type numberFracture = M\_fractures->getNumberFractures();
+68 
+69     size\_type fractureShift = 0;
+70 
+71     \hyperlink{Core_8h_a83c51913d041a5001e8683434c09857f}{sizeVector\_Type} fractureNumberDOF ( numberFracture );
+72 
+73     \textcolor{comment}{// numero complessivo dei gradi di libertà}
+74     size\_type fractureTotalNumberDOF = 0;
+75 
+76     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+77     \{
+78         fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] = M\_fractures ->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getSpatialDiscretization() -
+      1;
+79 
+80         fractureTotalNumberDOF += fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+81     \}
+82 
+83     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+84     \{
+85         \textcolor{comment}{// Impongo i flussi}
+86         \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 1; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ]; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+87         \{
+88             ( *M\_globalRightHandSide ) [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} + fractureShift ]  = \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ][ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] - landa*(
+      \hyperlink{confronto_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] - \hyperlink{confronto_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} - 1 ]);
+89         \}
+90 
+91         scalar\_type \hyperlink{init_8m_ab6991d210d93a78cdbdf6de1889c1259}{a} = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getA();
+92         scalar\_type \hyperlink{init_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{b} = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getB();
+93 
+94         \textcolor{comment}{// Impongo le condizioni al contorno}
+95         \textcolor{keywordflow}{if} ( M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getBc() ==\textcolor{stringliteral}{"f"})
+96         \{
+97             ( *M\_globalRightHandSide ) [ fractureShift ]  = M\_fractures->getFracture ( 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getCi( a );
+98 
+99             ( *M\_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] - 1 ] = M\_fractures->
+      getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getCi( b );
+100 
+101         \}
+102         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ( M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getBc() ==\textcolor{stringliteral}{"p"})
+103         \{
+104             ( *M\_globalRightHandSide ) [ fractureShift ]  = ( *M\_globalRightHandSide ) [ fractureShift + 
+      fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] - 2 ];
+105             ( *M\_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] - 1 ]  = (
+       *M\_globalRightHandSide ) [ fractureShift + 1 ];
+106         \}
+107         \textcolor{keywordflow}{else}
+108         \{
+109             \textcolor{comment}{//std::cout << " bc non è stato impostato " << std::endl;}
+110 
+111             \textcolor{keywordflow}{if} ( M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( a, 1 ) > 0 )
+112             \{
+113                 ( *M\_globalRightHandSide ) [ fractureShift ]  = M\_fractures->getFracture ( 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getCi( a );
+114 
+115             \}
+116             \textcolor{keywordflow}{if} ( M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( b, 1 ) > 0 )
+117             \{
+118                 ( *M\_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] - 1 ]  = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getCi( b );
+119             \}
+120 
+121         \}
+122 
+123         fractureShift += fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+124 
+125     \}
+126 
+127     size\_type NumCross = M\_fractures->getIntersections()->getNumberCross ();
+128     size\_type NumBifurcation = M\_fractures->getIntersections()->getNumberBifurcation ();
+129 
+130 
+131     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < NumBifurcation; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+132     \{
+133         \textcolor{comment}{/*}
+134 \textcolor{comment}{         * devo eliminare la riga corrispondente della riga e l'elemento corrispondente del termine noto
+       per ogni frattura}
+135 \textcolor{comment}{         */}
+136     \}
+137 
+138     \textcolor{keywordflow}{return};
+139 
+140 \}\textcolor{comment}{// assembly}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classSaturationFractured_ad5271c4036ec9a4a7c58cddbb42515ec_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{classSaturationFractured_ad5271c4036ec9a4a7c58cddbb42515ec_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classSaturationFractured_afd7677569be76111c81f2fb73aef2d27}{\index{Saturation\-Fractured@{Saturation\-Fractured}!get\-\_\-\-Fracture@{get\-\_\-\-Fracture}}
+\index{get\-\_\-\-Fracture@{get\-\_\-\-Fracture}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{get\-\_\-\-Fracture}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Fractures\-Set\-Ptr\-\_\-\-Type}\& Saturation\-Fractured\-::get\-\_\-\-Fracture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classSaturationFractured_afd7677569be76111c81f2fb73aef2d27}
+
+\begin{DoxyCode}
+67     \{
+68         \textcolor{keywordflow}{return} M\_fractures;
+69     \}
+\end{DoxyCode}
+\hypertarget{classSaturationFractured_a77ac2375f36964b0e99457a900df48cf}{\index{Saturation\-Fractured@{Saturation\-Fractured}!get\-Final\-Time@{get\-Final\-Time}}
+\index{get\-Final\-Time@{get\-Final\-Time}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{get\-Final\-Time}]{\setlength{\rightskip}{0pt plus 5cm}scalar\-\_\-type Saturation\-Fractured\-::get\-Final\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classSaturationFractured_a77ac2375f36964b0e99457a900df48cf}
+
+\begin{DoxyCode}
+72     \{
+73         \textcolor{keywordflow}{return} M\_t;
+74     \}
+\end{DoxyCode}
+\hypertarget{classSaturationFractured_a6336137dd94d0ff95efc5967f4ab89c4}{\index{Saturation\-Fractured@{Saturation\-Fractured}!init@{init}}
+\index{init@{init}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void Saturation\-Fractured\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classSaturationFractured_a6336137dd94d0ff95efc5967f4ab89c4}
+
+
+Funzione che inizializza le matrici per costruire il sistema algebrico. 
+
+
+\begin{DoxyCode}
+25 \{
+26     size\_type numberFracture = M\_fractures->getNumberFractures();
+27 
+28     \hyperlink{Core_8h_a83c51913d041a5001e8683434c09857f}{sizeVector\_Type} fractureNumberDOF ( numberFracture );
+29 
+30     \textcolor{comment}{// numero complessivo dei gradi di libertà}
+31     size\_type fractureTotalNumberDOF = 0;
+32 
+33     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+34     \{
+35         fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] = M\_fractures ->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getSpatialDiscretization() -
+       1;
+36 
+37         fractureTotalNumberDOF += fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+38     \}
+39 
+40     \textcolor{comment}{// Inizializziamo tutte le matrici a blocchi, la matrice globale e il termine di destra per il sistema
+       e il vettore delle soluzioni}
+41 
+42     \textcolor{comment}{// Allochiamo la matrice globale del sistema:  M\_darcyGlobalMatrix}
+43     M\_globalMatrix.reset( \textcolor{keyword}{new} \hyperlink{Core_8h_afba9f623673e2ae32054015bdb5500f9}{sparseMatrix\_Type}( fractureTotalNumberDOF, 
+      fractureTotalNumberDOF ));
+44     gmm::clear( *M\_globalMatrix );
+45 
+46     \textcolor{comment}{// Allochiamo il vettore del termine noto di destra del sistema: M\_darcyGlobalRightHandSide}
+47     M\_globalRightHandSide.reset( \textcolor{keyword}{new} \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type}( fractureTotalNumberDOF ));
+48     gmm::clear( *M\_globalRightHandSide );
+49 
+50     \textcolor{comment}{// Allochiamo il vettore globale del termine incognito del sistema: M\_darcyVelocityAndPressure}
+51     M\_saturation.reset( \textcolor{keyword}{new} \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type}( fractureTotalNumberDOF ));
+52     gmm::clear( *M\_saturation );
+53 
+54     \textcolor{comment}{// Inizio a riempire la matrice globale del sistema}
+55     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}< fractureTotalNumberDOF; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+56     \{
+57         ( *M\_globalMatrix )( \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}, \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ) = 1.;
+58     \}
+59 
+60     \textcolor{keywordflow}{return};
+61 \}\textcolor{comment}{// init}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classSaturationFractured_a6336137dd94d0ff95efc5967f4ab89c4_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classSaturationFractured_a20f1abf94a54768815c78e13a02ed209}{\index{Saturation\-Fractured@{Saturation\-Fractured}!solve@{solve}}
+\index{solve@{solve}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}void Saturation\-Fractured\-::solve (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classSaturationFractured_a20f1abf94a54768815c78e13a02ed209}
+
+\begin{DoxyCode}
+145 \{
+146     size\_type numberFracture = M\_fractures->getNumberFractures();
+147 
+148     scalar\_type \hyperlink{confronto_8m_a5e36941b3d856737e81516acd45edc50}{h} = M\_fractures->getFracture ( 0 )-> getData().getH();
+149     scalar\_type \hyperlink{discontinuo_8m_ad9cea4edeb9e9d51c1305958394049ef}{cfl} = M\_fractures->getFracture ( 0 )->getData().getCfl();
+150 
+151     \hyperlink{Core_8h_ae3afecb4de4310d8262e9ab20cfb875b}{scalarVectorContainer\_Type} \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} ( numberFracture );
+152 
+153     \hyperlink{Core_8h_a83c51913d041a5001e8683434c09857f}{sizeVector\_Type} fractureNumberDOF ( numberFracture );
+154 
+155     size\_type fractureShift = 0;
+156 
+157     \textcolor{comment}{// numero complessivo dei gradi di libertà}
+158     size\_type fractureTotalNumberDOF = 0;
+159 
+160     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+161     \{
+162         fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] = M\_fractures ->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getSpatialDiscretization() -
+       1;
+163 
+164         fractureTotalNumberDOF += fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+165 
+166     \}
+167 
+168     \textcolor{comment}{// Ricavo dt come il massimo valore che verifichi la condizione cfl per ogni frattura}
+169     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+170     \{
+171         \textcolor{keywordflow}{if} ( h > M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )-> getData().getH() )
+172         \{
+173             h = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )-> getData().getH();
+174         \}
+175 
+176         \textcolor{keywordflow}{if} ( cfl < M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getCfl() )
+177         \{
+178             cfl = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getCfl();
+179         \}
+180 
+181         \textcolor{comment}{// Condizione iniziale}
+182         \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getCi();
+183 
+184         M\_fractureSaturation [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ].reset(\textcolor{keyword}{new} \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type}( fractureNumberDOF [ 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ], 0));
+185 
+186     \}
+187 
+188 
+189     scalar\_type dt = h/\hyperlink{discontinuo_8m_ad9cea4edeb9e9d51c1305958394049ef}{cfl};
+190     scalar\_type nt = ceil(M\_t/dt);
+191     dt = M\_t/nt;
+192     scalar\_type landa = dt/\hyperlink{confronto_8m_a5e36941b3d856737e81516acd45edc50}{h};
+193 
+194     std::cout << \textcolor{stringliteral}{" cfl "} << cfl << \textcolor{stringliteral}{"    dt  "} << dt << \textcolor{stringliteral}{"   nt  "} << nt << \textcolor{stringliteral}{"    landa  "} << landa << 
+      std::endl;
+195     \hyperlink{Core_8h_ae3afecb4de4310d8262e9ab20cfb875b}{scalarVectorContainer\_Type} \hyperlink{confronto_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux}( numberFracture );
+196 
+197 
+198     std::cout << std::endl << \textcolor{stringliteral}{"Solving problem in Omega..."} << std::flush;
+199 
+200     \textcolor{keywordflow}{for}( size\_type k = 0; k < nt; k++ )
+201     \{
+202         fractureShift = 0;
+203 
+204         \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+205         \{
+206 
+207             \textcolor{keywordflow}{if}( M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getNumberFlux() == 1 )
+208             \{
+209                 std::cout << \textcolor{stringliteral}{" solve continuity "} << std::endl;
+210                 \hyperlink{classSaturationFractured_ad7b71f3d032a3b9b52846c9277d706ec}{solve\_continuity} ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ], \hyperlink{confronto_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} [ f ] );
+211                 std::cout << \textcolor{stringliteral}{" risolto "} << std::endl;
+212             \}
+213             \textcolor{keywordflow}{else}
+214             \{
+215                 \hyperlink{classSaturationFractured_ad1eb498b01ebc0826fd4bfe9da6b6a59}{solve\_discontinuity} ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ], \hyperlink{confronto_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} [ f ] );
+216             \}
+217         \}
+218 
+219         \hyperlink{classSaturationFractured_ad5271c4036ec9a4a7c58cddbb42515ec}{assembly} ( landa, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}, \hyperlink{confronto_8m_a96d7a28b6a4428be15fc1017d19343fa}{flux} );
+220 
+221         \textcolor{comment}{// Solve the Saturation problem}
+222         scalar\_type roundConditionNumber;
+223 
+224         SuperLU\_solve(*M\_globalMatrix, *M\_saturation,
+225                       *M\_globalRightHandSide, roundConditionNumber);
+226 
+227         \textcolor{comment}{// aggiorno u0}
+228         \textcolor{keywordflow}{for} (size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+229         \{
+230             gmm::copy( gmm::sub\_vector( *M\_saturation, gmm::sub\_interval( fractureShift, fractureNumberDOF 
+      [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] )), \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ f ] );
+231 
+232             fractureShift += fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+233         \}
+234 
+235     \}
+236 
+237     M\_exporter->spy(M\_globalMatrix, \textcolor{stringliteral}{"./matlab/matrice.mm"});
+238 
+239     fractureShift = 0;
+240 
+241 
+242     \textcolor{comment}{// esporto la soluzione}
+243     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numberFracture; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+244     \{
+245         gmm::copy ( gmm::sub\_vector ( *M\_saturation, gmm::sub\_interval( fractureShift, fractureNumberDOF [ 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] )), *( M\_fractureSaturation [ f ] ) );
+246 
+247         fractureShift += fractureNumberDOF [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+248 
+249 
+250         std::ostringstream ss;
+251         ss << \textcolor{stringliteral}{"./matlab/risultati/saturation\_"} << f << \textcolor{stringliteral}{".txt"};
+252 
+253         std::string name = ss.str();
+254 
+255         std::ofstream exp( name );
+256 
+257         exp << *( M\_fractureSaturation [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ] );
+258 
+259     \}
+260 
+261     std::cout << std::endl << \textcolor{stringliteral}{" completed! "} << std::endl;
+262 
+263     \textcolor{keywordflow}{return};
+264 
+265 \}\textcolor{comment}{// solve}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classSaturationFractured_a20f1abf94a54768815c78e13a02ed209_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classSaturationFractured_ad7b71f3d032a3b9b52846c9277d706ec}{\index{Saturation\-Fractured@{Saturation\-Fractured}!solve\-\_\-continuity@{solve\-\_\-continuity}}
+\index{solve\-\_\-continuity@{solve\-\_\-continuity}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{solve\-\_\-continuity}]{\setlength{\rightskip}{0pt plus 5cm}void Saturation\-Fractured\-::solve\-\_\-continuity (
+\begin{DoxyParamCaption}
+\item[{const size\-\_\-type}]{f, }
+\item[{const {\bf scalar\-Vector\-\_\-\-Type} \&}]{u0, }
+\item[{{\bf scalar\-Vector\-\_\-\-Type} \&}]{Flux}
+\end{DoxyParamCaption}
+)}}\label{classSaturationFractured_ad7b71f3d032a3b9b52846c9277d706ec}
+
+
+Funzione che risolve il problema nel caso un cui nella frattura in questione non vi siano discontinuità nel materiale. 
+
+
+\begin{DoxyCode}
+269 \{
+270     size\_type n = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )-> getData().getSpatialDiscretization() - 1;
+271 
+272     Flux.clear();
+273     Flux.resize( n );
+274 
+275     \textcolor{comment}{// calcolo il punto di massimo o di minimo, punto in cui si annulla la derivata}
+276     scalar\_type Us = \hyperlink{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55}{max} ( M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getFlux1( 0 ), 0, 1 );
+277     \textcolor{comment}{//M\_fractures->getFracture ( f )->getData().fzero( M\_fractures->getFracture ( f )->getData().getFlux1(
+       0 ), 0, 1 );}
+278 
+279     std::cout << \textcolor{stringliteral}{"punto nullo "} << Us << std::endl;
+280 
+281     scalar\_type F\_Us = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getUs();
+282 
+283     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < n-1; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++)
+284     \{
+285 
+286         \textcolor{keywordflow}{if}( F\_Us > 0 )      \textcolor{comment}{// caso A}
+287         \{
+288             \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] < Us )      \textcolor{comment}{// caso 1}
+289             \{
+290                 \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}+1 ] < Us )
+291                 \{
+292                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+293                 \}
+294                 \textcolor{keywordflow}{else}
+295                 \{
+296                     scalar\_type F\_ul = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+297                     scalar\_type F\_ur = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] );
+298                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = \hyperlink{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4}{std::min}( F\_ul, F\_ur );
+299                 \}
+300             \}
+301             \textcolor{keywordflow}{else}                    \textcolor{comment}{// caso 2}
+302             \{
+303                 \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] < Us )
+304                 \{
+305                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = F\_Us;
+306                 \}
+307                 \textcolor{keywordflow}{else}
+308                 \{
+309                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] );
+310                 \}
+311             \}
+312         \}
+313         \textcolor{keywordflow}{else}        \textcolor{comment}{// caso B}
+314         \{
+315             \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i ] < Us )       \textcolor{comment}{// caso 1}
+316             \{
+317                 \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] < Us )
+318                 \{
+319                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] );
+320                 \}
+321                 \textcolor{keywordflow}{else}
+322                 \{
+323                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = F\_Us;
+324                 \}
+325             \}
+326             \textcolor{keywordflow}{else}                \textcolor{comment}{// caso 2}
+327             \{
+328                 \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] < Us )
+329                 \{
+330                     scalar\_type F\_ul = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i ] );
+331                     scalar\_type F\_ur = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i+1 ] );
+332                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = \hyperlink{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55}{std::max}( F\_ul, F\_ur );
+333                 \}
+334                 \textcolor{keywordflow}{else}
+335                 \{
+336                     Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( 
+      \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}[ i ] );
+337                 \}
+338             \}
+339 
+340         \}
+341     \}
+342 
+343 
+344     \textcolor{keywordflow}{return};
+345 \}\textcolor{comment}{// solve\_continuity}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classSaturationFractured_ad7b71f3d032a3b9b52846c9277d706ec_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{classSaturationFractured_ad7b71f3d032a3b9b52846c9277d706ec_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classSaturationFractured_ad1eb498b01ebc0826fd4bfe9da6b6a59}{\index{Saturation\-Fractured@{Saturation\-Fractured}!solve\-\_\-discontinuity@{solve\-\_\-discontinuity}}
+\index{solve\-\_\-discontinuity@{solve\-\_\-discontinuity}!SaturationFractured@{Saturation\-Fractured}}
+\subsubsection[{solve\-\_\-discontinuity}]{\setlength{\rightskip}{0pt plus 5cm}void Saturation\-Fractured\-::solve\-\_\-discontinuity (
+\begin{DoxyParamCaption}
+\item[{const size\-\_\-type}]{f, }
+\item[{const {\bf scalar\-Vector\-\_\-\-Type} \&}]{u0, }
+\item[{{\bf scalar\-Vector\-\_\-\-Type} \&}]{Flux}
+\end{DoxyParamCaption}
+)}}\label{classSaturationFractured_ad1eb498b01ebc0826fd4bfe9da6b6a59}
+
+
+Funzione che risolve il problema nel caso un cui nella frattura in questione vi siano discontinuità nel materiale. 
+
+
+\begin{DoxyCode}
+378 \{
+379     scalar\_type x\_d = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getXd();
+380 
+381     size\_type n = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )-> getData().getSpatialDiscretization()-1;
+382 
+383     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} fl;
+384     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} \hyperlink{god__e_8m_a23a31775698fad0a58afa118f6a247bc}{fl1};
+385 
+386     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} gl;
+387     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} gl1;
+388 
+389     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} F(n);
+390     \hyperlink{Core_8h_a4e75b5863535ba1dd79942de2846eff0}{scalarVector\_Type} G(n);
+391 
+392 
+393     \textcolor{comment}{// calcolo i flussi}
+394     M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval( fl, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}, 1, 0 );
+395     M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval( fl1, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}, 2, 0 );
+396 
+397     M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval( gl, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}, 1, 1 );
+398     M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval( gl1, \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}, 2, 1 );
+399 
+400     Flux.clear();
+401     Flux.resize( n );
+402 
+403     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < n-1; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++)
+404     \{
+405         \textcolor{comment}{// flusso 1}
+406 
+407         scalar\_type \hyperlink{god__e_8m_aaa7c61c7163e7fc36352afb33ce6c3dd}{s} = (fl[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}+1 ] - fl[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] )*(\hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}+1 ] - \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+408 
+409         \textcolor{keywordflow}{if} ( s >= 0)
+410         \{
+411             F[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = fl[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ];
+412         \}
+413         \textcolor{keywordflow}{else}
+414         \{
+415             F[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = fl[ i+1 ];
+416         \}
+417 
+418         \textcolor{comment}{// entropy fix: corregge il flusso se c'è una rarefazione transonica}
+419         \textcolor{keywordflow}{if} ( fl1[ i ] < 0 && fl1[ i+1] > 0)
+420         \{
+421             scalar\_type us;
+422 
+423             \textcolor{comment}{// trova il valore di u per il quale f'(u)=0}
+424             \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i ] >= \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ] )
+425             \{
+426                 us = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().fzero
+427                                                     ( M\_fractures->getFracture ( 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getFlux1( 0 ), \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ], \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+428             \}
+429             \textcolor{keywordflow}{else}
+430             \{
+431                 us = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().fzero
+432                                                     ( M\_fractures->getFracture ( 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getFlux1( 0 ), \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ], \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ] );
+433 
+434             \}
+435 
+436             F[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( us );
+437         \}
+438 
+439         \textcolor{comment}{// flusso 2}
+440 
+441         s = (gl[ i+1 ] - gl[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] )*(\hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ] - \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i ] );
+442 
+443         \textcolor{keywordflow}{if} ( s >= 0)
+444         \{
+445             G[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = gl[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ];
+446         \}
+447         \textcolor{keywordflow}{else}
+448         \{
+449             G[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = gl[ i+1 ];
+450         \}
+451 
+452         \textcolor{comment}{// entropy fix: corregge il flusso se c'è una rarefazione transonica}
+453         \textcolor{keywordflow}{if} ( gl1[ i ] < 0 && gl1[ i+1] > 0)
+454         \{
+455             scalar\_type us;
+456 
+457             \textcolor{comment}{// trova il valore di u per il quale f'(u)=0}
+458             \textcolor{keywordflow}{if} ( \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i ] >= \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ] )
+459             \{
+460                 us = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().fzero
+461                                                     ( M\_fractures->getFracture ( 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getFlux1( 1 ), \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ], \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] );
+462             \}
+463             \textcolor{keywordflow}{else}
+464             \{
+465                 us = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().fzero
+466                                                     ( M\_fractures->getFracture ( 
+      \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().getFlux1( 1 ), \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ], \hyperlink{god__e_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0} [ i+1 ] );
+467             \}
+468 
+469             G[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getData().feval\_scal( us );
+470         \}
+471 
+472     \}
+473 
+474     F[ n-1 ]= fl[ n-1 ];
+475     G[ n-1 ]= gl[ n-1 ];
+476 
+477     \textcolor{keywordflow}{for} ( size\_type i = 0; i < n-1; i++)
+478     \{
+479         bgeot::basic\_mesh::ref\_mesh\_pt\_ct nodes = M\_fractures->getFracture ( \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} )->getMeshFlat().
+      points\_of\_convex ( i );
+480 
+481         scalar\_type x1 = \hyperlink{UsefulFunctions_8h_a9700932e89ccb7eeacaee21db125b0c4}{std::min}(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
+482         scalar\_type x2 = \hyperlink{UsefulFunctions_8h_a41a4284c74a9bcf6e35509f5eec72a55}{std::max}(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
+483 
+484         \textcolor{keywordflow}{if} ( x1 < x\_d &&  x2 != x\_d )
+485         \{
+486             \textcolor{comment}{//std::cout << " x1: " << x1 << "   x2: " << x2 << "    x\_d: " << x\_d << std::endl;}
+487             Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = F[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ];
+488         \}
+489         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ( x1 < x\_d && x2 == x\_d ) \textcolor{comment}{//gmm::abs( x2 - x\_d) < 1.0E-4 )}
+490         \{
+491 
+492             \textcolor{comment}{//scalar\_type s = (G[ i+1 ] - F[ i ] )*(u0 [ i+1 ] - u0 [ i ] );}
+493             scalar\_type s = (G[ i+1 ] - F[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] )*(gl [ i+1 ] - fl [ i ] );
+494             \textcolor{comment}{/*}
+495 \textcolor{comment}{            std::cout << " interfaccia " << std::endl;}
+496 \textcolor{comment}{            //std::cout << " x1: " << x1 << "    x2: " << x2 << "   x\_d: " << x\_d << std::endl;}
+497 \textcolor{comment}{}
+498 \textcolor{comment}{            std::cout << " F[ i ]:  " << F[ i ] << "   G[i+1]: " << G[ i+1 ] << std::endl;}
+499 \textcolor{comment}{            //std::cout << "uo[ i ]:  " << u0[ i ] << std::endl;}
+500 \textcolor{comment}{}
+501 \textcolor{comment}{            Flux[ i ] = fmin( F[ i ], G[ i+1 ] );}
+502 \textcolor{comment}{            */}
+503 
+504             \textcolor{keywordflow}{if} ( s >= 0)
+505             \{
+506                 Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = fl[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ];
+507 
+508             \}
+509             \textcolor{keywordflow}{else}
+510             \{
+511                 Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = gl[ i+1 ];
+512             \}
+513 
+514 
+515             \textcolor{comment}{/*}
+516 \textcolor{comment}{            scalar\_type s = (gl[ i+1 ] - fl[ i ] )*(u0 [ i+1 ] - u0 [ i ] );}
+517 \textcolor{comment}{}
+518 \textcolor{comment}{            if ( s >= 0)}
+519 \textcolor{comment}{            \{}
+520 \textcolor{comment}{                Flux[ i ] = fl[ i ];}
+521 \textcolor{comment}{                std::cout << "Flux[ i ]:  " << Flux[ i ] << std::endl;}
+522 \textcolor{comment}{            \}}
+523 \textcolor{comment}{            else}
+524 \textcolor{comment}{            \{}
+525 \textcolor{comment}{                Flux[ i ] = gl[ i + 1 ];}
+526 \textcolor{comment}{                std::cout << "Flux[ i ]:  " << Flux[ i ] << std::endl;}
+527 \textcolor{comment}{            \}}
+528 \textcolor{comment}{            */}
+529         \}
+530         \textcolor{keywordflow}{else}
+531         \{
+532             Flux[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = G[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ];
+533         \}
+534 
+535 
+536     \}
+537 
+538     Flux[ n-1 ] = G[ n-1 ];
+539 
+540 
+541 
+542     \textcolor{keywordflow}{return};
+543 \}\textcolor{comment}{// solve\_discontinuity}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classSaturationFractured_ad1eb498b01ebc0826fd4bfe9da6b6a59_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{classSaturationFractured_ad1eb498b01ebc0826fd4bfe9da6b6a59_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{SaturationFractured_8h}{Saturation\-Fractured.\-h}\item 
+src/\hyperlink{SaturationFractured_8cc}{Saturation\-Fractured.\-cc}\end{DoxyCompactItemize}

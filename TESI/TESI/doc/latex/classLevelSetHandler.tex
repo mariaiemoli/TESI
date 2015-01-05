@@ -1,0 +1,55 @@
+\hypertarget{classLevelSetHandler}{\section{Riferimenti per la classe Level\-Set\-Handler}
+\label{classLevelSetHandler}\index{Level\-Set\-Handler@{Level\-Set\-Handler}}
+}
+
+
+{\ttfamily \#include $<$Level\-Set\-Handler.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classLevelSetHandler_a9dbe142d7d4f677abe8c204714c004ed}{Level\-Set\-Handler} (const Get\-Pot \&data\-File, const std\-::string \&section=\char`\"{}fracture\-Data/\char`\"{}, const std\-::string \&section\-Level\-Set=\char`\"{}level\-Set/\char`\"{})
+\item 
+\hyperlink{LevelSetData_8h_a7750f14ec1c622b3c69aa0c5c2894972}{Level\-Set\-Data\-Ptr\-\_\-\-Type} \& \hyperlink{classLevelSetHandler_ab24897cb969210d278f54d94fd8f8977}{get\-Data} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classLevelSetHandler_a9dbe142d7d4f677abe8c204714c004ed}{\index{Level\-Set\-Handler@{Level\-Set\-Handler}!Level\-Set\-Handler@{Level\-Set\-Handler}}
+\index{Level\-Set\-Handler@{Level\-Set\-Handler}!LevelSetHandler@{Level\-Set\-Handler}}
+\subsubsection[{Level\-Set\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}Level\-Set\-Handler\-::\-Level\-Set\-Handler (
+\begin{DoxyParamCaption}
+\item[{const Get\-Pot \&}]{data\-File, }
+\item[{const std\-::string \&}]{section = {\ttfamily \char`\"{}fractureData/\char`\"{}}, }
+\item[{const std\-::string \&}]{section\-Level\-Set = {\ttfamily \char`\"{}levelSet/\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classLevelSetHandler_a9dbe142d7d4f677abe8c204714c004ed}
+
+\begin{DoxyCode}
+11                                                                      :
+12                                    M\_Data ( \textcolor{keyword}{new} \hyperlink{classLevelSetData}{LevelSetData\_Type} ( dataFile, section, 
+      sectionLevelSet ) )
+13 \{\}
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle funzioni membro}
+\hypertarget{classLevelSetHandler_ab24897cb969210d278f54d94fd8f8977}{\index{Level\-Set\-Handler@{Level\-Set\-Handler}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!LevelSetHandler@{Level\-Set\-Handler}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Level\-Set\-Data\-Ptr\-\_\-\-Type}\& Level\-Set\-Handler\-::get\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classLevelSetHandler_ab24897cb969210d278f54d94fd8f8977}
+
+\begin{DoxyCode}
+30     \{
+31         \textcolor{keywordflow}{return} M\_Data;
+32     \}
+\end{DoxyCode}
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{LevelSetHandler_8h}{Level\-Set\-Handler.\-h}\item 
+src/\hyperlink{LevelSetHandler_8cc}{Level\-Set\-Handler.\-cc}\end{DoxyCompactItemize}

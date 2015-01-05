@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>Progetto PACS:  File sorgente include/FractureData.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Progetto PACS
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.8.6 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Pagina&#160;Principale</span></a></li>
+      <li><a href="namespaces.html"><span>Namespace</span></a></li>
+      <li><a href="annotated.html"><span>Classi</span></a></li>
+      <li class="current"><a href="files.html"><span>File</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Cerca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Elenco&#160;dei&#160;file</span></a></li>
+      <li><a href="globals.html"><span>Elementi&#160;dei&#160;file</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Tutto</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classi</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespace</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>File</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funzioni</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variabili</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Ridefinizioni di tipo (typedef)</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Tipi enumerati (enum)</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Valori del tipo enumerato</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">FractureData.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="FractureData_8h.html">Vai alla documentazione di questo file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Progetto di tesi</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Politecnico di Milano</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * \author Iemoli Maria</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * \date 2015</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * Problema di saturazione per un fluido bifase in un network di fratture</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#ifndef _FRACTUREDATA_H_</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _FRACTUREDATA_H_ 1</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">/**************************************************************************/</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">/*  FractureData.h                                                        */</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">/*  Classe che contiene i dati per il problema di saturazione             */</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">/**************************************************************************/</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="StringUtility_8h.html">StringUtility.h</a>&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="Core_8h.html">Core.h</a>&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="Parser_8h.html">Parser.h</a>&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="FluxHandler_8h.html">FluxHandler.h</a>&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classFractureData.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classFractureData.html">FractureData</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classFractureData.html#a321da1e480bfd583c6a2c561ba1e0cf8">FractureData</a> ( <span class="keyword">const</span> GetPot&amp; dataFile,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                   <span class="keyword">const</span> std::string&amp; section = <span class="stringliteral">&quot;fractureData/&quot;</span>,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                   <span class="keyword">const</span> std::string&amp; sectionDomain = <span class="stringliteral">&quot;domain/&quot;</span>,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                   <span class="keyword">const</span> std::string&amp; sectionSaturation = <span class="stringliteral">&quot;saturation/&quot;</span> );</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classFractureData.html#a49671c83ba3f6501803913c224177a72">feval</a>( <a class="code" href="Core_8h.html#a4e75b5863535ba1dd79942de2846eff0">scalarVector_Type</a>&amp; fl, <span class="keyword">const</span> <a class="code" href="Core_8h.html#a4e75b5863535ba1dd79942de2846eff0">scalarVector_Type</a>&amp; <a class="code" href="god__e_8m.html#ae060ce5868d35ef17bcb6e832da03be9">u0</a>, <span class="keyword">const</span> size_type <a class="code" href="god__e_8m.html#a8604be5925f4266ab5ccc69675329c80">i</a>, <span class="keyword">const</span> size_type <a class="code" href="god__e_8m.html#a68f477f9b30a6300d5af9b02eac82f35">f</a> );</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    scalar_type <a class="code" href="classFractureData.html#a8f6e19cc2575dd30498eb144d1d17554">feval_scal</a>( <span class="keyword">const</span> scalar_type&amp; us, <span class="keyword">const</span> size_type f = 0 );</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    scalar_type <a class="code" href="classFractureData.html#ae9fcfaedfb880fe7ef5bfe9eaffe0e50">fzero</a>( <span class="keyword">const</span> std::string&amp; f, <span class="keyword">const</span> scalar_type&amp; <a class="code" href="init_8m.html#ab6991d210d93a78cdbdf6de1889c1259">a</a>, <span class="keyword">const</span> scalar_type&amp; <a class="code" href="init_8m.html#a21ad0bd836b90d08f4cf640b4c298e7c">b</a>, size_type count = 0 );</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::string <a class="code" href="classFractureData.html#abc0da4d74175c7530375ad9368efb5f1">getFlux</a>( <span class="keyword">const</span> size_type&amp; i );</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::string <a class="code" href="classFractureData.html#aa30d8efee63dc3173cdd9864c9549ccf">getFlux1</a>( <span class="keyword">const</span> size_type&amp; i );</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    scalar_type <a class="code" href="classFractureData.html#ab79d66dd830b6e1c55ade0d940c5c8cf">meshSpacing</a> ( <span class="keyword">const</span> scalar_type&amp; <a class="code" href="confronto_8m.html#ad2e52d4a42a755ccd73c8de47175afa3">x</a> );</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    scalar_type <a class="code" href="classFractureData.html#a9598cf66a822a593e819df754420a2c2">velocity</a>( <span class="keyword">const</span> scalar_type&amp; <a class="code" href="confronto_8m.html#a6277e2a7446059985dc9bcf0a4ac1a8f">u</a> );</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    scalar_type <a class="code" href="classFractureData.html#aab77ec8a8d3e878b5dfb72deb48841e7">porosity</a>( <span class="keyword">const</span> scalar_type&amp; u );</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    scalar_type <a class="code" href="classFractureData.html#a142a1bb428365b60ed002362ca566517">getCi</a> ( <span class="keyword">const</span> scalar_type&amp; x );</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classFractureData.html#a3ecc0d132f9cc105af6b24d676a7b9c5">   51</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a3ecc0d132f9cc105af6b24d676a7b9c5">getThickness</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> M_thickness;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classFractureData.html#abaebcf16d83713858e25837939ad3161">   56</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#abaebcf16d83713858e25837939ad3161">getLengthAbscissa</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> M_lengthAbscissa;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classFractureData.html#a905e953f685b1329ddcc7ee56f8302b1">   61</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a905e953f685b1329ddcc7ee56f8302b1">getLengthOrdinate</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> M_lengthOrdinate;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classFractureData.html#a79747fff53da9d858950d83ad0114288">   66</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a79747fff53da9d858950d83ad0114288">getLengthQuota</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">return</span> M_lengthQuota;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classFractureData.html#aea2090efbba4e6aaa89e90864a1d46f6">   71</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#aea2090efbba4e6aaa89e90864a1d46f6">getA</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> M_a;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classFractureData.html#ad8a5510e522711cc9f2430a0b9fadc70">   76</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#ad8a5510e522711cc9f2430a0b9fadc70">getB</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> M_b;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classFractureData.html#a7ef5fdbdc462f4135d44102d2017c63b">   81</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a7ef5fdbdc462f4135d44102d2017c63b">getH</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">return</span> M_h;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classFractureData.html#aeb3c6a78af1e2746bf5ce69c9ae8945d">   86</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#aeb3c6a78af1e2746bf5ce69c9ae8945d">getSpatialDiscretization</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">return</span> M_spatialDiscretization;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classFractureData.html#a4b310767d1a91b0cef404093aacfab82">   91</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a4b310767d1a91b0cef404093aacfab82">getSpaceDimension</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">return</span> M_spaceDimension;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classFractureData.html#aaded6c0452470489beb4ab95b5f4158f">   96</a></span>&#160;    <span class="keyword">inline</span> std::string <a class="code" href="classFractureData.html#aaded6c0452470489beb4ab95b5f4158f">getMeshType</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">return</span> M_meshType;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="classFractureData.html#a2df7c1f0a0722878d4ccdca537605dac">  101</a></span>&#160;    <span class="keyword">inline</span> std::string <a class="code" href="classFractureData.html#a2df7c1f0a0722878d4ccdca537605dac">getBc</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">return</span> M_bc;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="classFractureData.html#ab6b8416e26e0b37b9789d83336d37fef">  106</a></span>&#160;    <span class="keyword">inline</span> size_type <a class="code" href="classFractureData.html#ab6b8416e26e0b37b9789d83336d37fef">getNumberFlux</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">return</span> M_numberFlux;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classFractureData.html#a875649432017de65d85176395e42376c">  111</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a875649432017de65d85176395e42376c">getXd</a> ()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">return</span> M_x;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="classFractureData.html#a2695260e58e519fc0fa1c79a475d776d">  116</a></span>&#160;    <span class="keyword">inline</span> scalar_type <a class="code" href="classFractureData.html#a2695260e58e519fc0fa1c79a475d776d">getCfl</a>()</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">return</span> M_cfl;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    std::string M_section;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    std::string M_sectionDomain;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    std::string M_sectionSaturation;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">// domain</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    scalar_type M_thickness; <span class="comment">// thickness of the fracture</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    scalar_type M_lengthAbscissa;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    scalar_type M_lengthOrdinate;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    scalar_type M_lengthQuota;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    scalar_type M_a;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    scalar_type M_b;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    scalar_type M_h;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    size_type M_spatialDiscretization;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    scalar_type M_translateAbscissa;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    bgeot::dim_type M_spaceDimension;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    std::string M_meshType;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    std::string M_meshSpacing;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">// saturation</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    std::string M_bc;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    std::string M_u0;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    size_type M_numberFlux;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">// punto in cui c&#39;è l&#39;eventuale discontinuità nella funzione flusso</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    scalar_type M_x;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="FluxHandler_8h.html#a4b184b525dcca3b0d82a625ad8ff7c05">FluxPtrContainer_Type</a> M_flux;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    scalar_type M_cfl;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    std::string M_U;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    std::string M_invP;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">mutable</span> <a class="code" href="classLifeV_1_1Parser.html">LifeV::Parser</a> M_parser;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;};</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _FRACTUREDATA_H_ */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="classFractureData_html_ae9fcfaedfb880fe7ef5bfe9eaffe0e50"><div class="ttname"><a href="classFractureData.html#ae9fcfaedfb880fe7ef5bfe9eaffe0e50">FractureData::fzero</a></div><div class="ttdeci">scalar_type fzero(const std::string &amp;f, const scalar_type &amp;a, const scalar_type &amp;b, size_type count=0)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:116</div></div>
+<div class="ttc" id="init_8m_html_a21ad0bd836b90d08f4cf640b4c298e7c"><div class="ttname"><a href="init_8m.html#a21ad0bd836b90d08f4cf640b4c298e7c">b</a></div><div class="ttdeci">b</div><div class="ttdef"><b>Definition:</b> init.m:13</div></div>
+<div class="ttc" id="classFractureData_html"><div class="ttname"><a href="classFractureData.html">FractureData</a></div><div class="ttdef"><b>Definition:</b> FractureData.h:24</div></div>
+<div class="ttc" id="FluxHandler_8h_html_a4b184b525dcca3b0d82a625ad8ff7c05"><div class="ttname"><a href="FluxHandler_8h.html#a4b184b525dcca3b0d82a625ad8ff7c05">FluxPtrContainer_Type</a></div><div class="ttdeci">std::vector&lt; FluxHandlerPtr_Type &gt; FluxPtrContainer_Type</div><div class="ttdef"><b>Definition:</b> FluxHandler.h:67</div></div>
+<div class="ttc" id="classFractureData_html_a321da1e480bfd583c6a2c561ba1e0cf8"><div class="ttname"><a href="classFractureData.html#a321da1e480bfd583c6a2c561ba1e0cf8">FractureData::FractureData</a></div><div class="ttdeci">FractureData(const GetPot &amp;dataFile, const std::string &amp;section=&quot;fractureData/&quot;, const std::string &amp;sectionDomain=&quot;domain/&quot;, const std::string &amp;sectionSaturation=&quot;saturation/&quot;)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:9</div></div>
+<div class="ttc" id="god__e_8m_html_a8604be5925f4266ab5ccc69675329c80"><div class="ttname"><a href="god__e_8m.html#a8604be5925f4266ab5ccc69675329c80">i</a></div><div class="ttdeci">for i</div><div class="ttdef"><b>Definition:</b> god_e.m:34</div></div>
+<div class="ttc" id="Core_8h_html_a4e75b5863535ba1dd79942de2846eff0"><div class="ttname"><a href="Core_8h.html#a4e75b5863535ba1dd79942de2846eff0">scalarVector_Type</a></div><div class="ttdeci">std::vector&lt; scalar_type &gt; scalarVector_Type</div><div class="ttdef"><b>Definition:</b> Core.h:89</div></div>
+<div class="ttc" id="god__e_8m_html_ae060ce5868d35ef17bcb6e832da03be9"><div class="ttname"><a href="god__e_8m.html#ae060ce5868d35ef17bcb6e832da03be9">u0</a></div><div class="ttdeci">end entropy u0</div><div class="ttdef"><b>Definition:</b> god_e.m:43</div></div>
+<div class="ttc" id="classFractureData_html_a142a1bb428365b60ed002362ca566517"><div class="ttname"><a href="classFractureData.html#a142a1bb428365b60ed002362ca566517">FractureData::getCi</a></div><div class="ttdeci">scalar_type getCi(const scalar_type &amp;x)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:212</div></div>
+<div class="ttc" id="classFractureData_html_a4b310767d1a91b0cef404093aacfab82"><div class="ttname"><a href="classFractureData.html#a4b310767d1a91b0cef404093aacfab82">FractureData::getSpaceDimension</a></div><div class="ttdeci">scalar_type getSpaceDimension() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:91</div></div>
+<div class="ttc" id="classFractureData_html_aab77ec8a8d3e878b5dfb72deb48841e7"><div class="ttname"><a href="classFractureData.html#aab77ec8a8d3e878b5dfb72deb48841e7">FractureData::porosity</a></div><div class="ttdeci">scalar_type porosity(const scalar_type &amp;u)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:203</div></div>
+<div class="ttc" id="confronto_8m_html_ad2e52d4a42a755ccd73c8de47175afa3"><div class="ttname"><a href="confronto_8m.html#ad2e52d4a42a755ccd73c8de47175afa3">x</a></div><div class="ttdeci">x</div><div class="ttdef"><b>Definition:</b> confronto.m:40</div></div>
+<div class="ttc" id="Parser_8h_html"><div class="ttname"><a href="Parser_8h.html">Parser.h</a></div><div class="ttdoc">File containing the Parser interface. </div></div>
+<div class="ttc" id="classFractureData_html_a905e953f685b1329ddcc7ee56f8302b1"><div class="ttname"><a href="classFractureData.html#a905e953f685b1329ddcc7ee56f8302b1">FractureData::getLengthOrdinate</a></div><div class="ttdeci">scalar_type getLengthOrdinate() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:61</div></div>
+<div class="ttc" id="Core_8h_html"><div class="ttname"><a href="Core_8h.html">Core.h</a></div></div>
+<div class="ttc" id="FluxHandler_8h_html"><div class="ttname"><a href="FluxHandler_8h.html">FluxHandler.h</a></div></div>
+<div class="ttc" id="classFractureData_html_abc0da4d74175c7530375ad9368efb5f1"><div class="ttname"><a href="classFractureData.html#abc0da4d74175c7530375ad9368efb5f1">FractureData::getFlux</a></div><div class="ttdeci">std::string getFlux(const size_type &amp;i)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:173</div></div>
+<div class="ttc" id="classFractureData_html_a8f6e19cc2575dd30498eb144d1d17554"><div class="ttname"><a href="classFractureData.html#a8f6e19cc2575dd30498eb144d1d17554">FractureData::feval_scal</a></div><div class="ttdeci">scalar_type feval_scal(const scalar_type &amp;us, const size_type f=0)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:84</div></div>
+<div class="ttc" id="classFractureData_html_abaebcf16d83713858e25837939ad3161"><div class="ttname"><a href="classFractureData.html#abaebcf16d83713858e25837939ad3161">FractureData::getLengthAbscissa</a></div><div class="ttdeci">scalar_type getLengthAbscissa() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:56</div></div>
+<div class="ttc" id="classFractureData_html_aeb3c6a78af1e2746bf5ce69c9ae8945d"><div class="ttname"><a href="classFractureData.html#aeb3c6a78af1e2746bf5ce69c9ae8945d">FractureData::getSpatialDiscretization</a></div><div class="ttdeci">scalar_type getSpatialDiscretization() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:86</div></div>
+<div class="ttc" id="classLifeV_1_1Parser_html"><div class="ttname"><a href="classLifeV_1_1Parser.html">LifeV::Parser</a></div><div class="ttdoc">Parser - A string parser for algebraic expressions. </div><div class="ttdef"><b>Definition:</b> Parser.h:55</div></div>
+<div class="ttc" id="classFractureData_html_a79747fff53da9d858950d83ad0114288"><div class="ttname"><a href="classFractureData.html#a79747fff53da9d858950d83ad0114288">FractureData::getLengthQuota</a></div><div class="ttdeci">scalar_type getLengthQuota() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:66</div></div>
+<div class="ttc" id="classFractureData_html_aea2090efbba4e6aaa89e90864a1d46f6"><div class="ttname"><a href="classFractureData.html#aea2090efbba4e6aaa89e90864a1d46f6">FractureData::getA</a></div><div class="ttdeci">scalar_type getA() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:71</div></div>
+<div class="ttc" id="classFractureData_html_aa30d8efee63dc3173cdd9864c9549ccf"><div class="ttname"><a href="classFractureData.html#aa30d8efee63dc3173cdd9864c9549ccf">FractureData::getFlux1</a></div><div class="ttdeci">std::string getFlux1(const size_type &amp;i)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:179</div></div>
+<div class="ttc" id="classFractureData_html_ab79d66dd830b6e1c55ade0d940c5c8cf"><div class="ttname"><a href="classFractureData.html#ab79d66dd830b6e1c55ade0d940c5c8cf">FractureData::meshSpacing</a></div><div class="ttdeci">scalar_type meshSpacing(const scalar_type &amp;x)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:185</div></div>
+<div class="ttc" id="god__e_8m_html_a68f477f9b30a6300d5af9b02eac82f35"><div class="ttname"><a href="god__e_8m.html#a68f477f9b30a6300d5af9b02eac82f35">f</a></div><div class="ttdeci">T e l istante CFL e una stima di max f(u)|%[u</div></div>
+<div class="ttc" id="StringUtility_8h_html"><div class="ttname"><a href="StringUtility_8h.html">StringUtility.h</a></div><div class="ttdoc">String utilities. </div></div>
+<div class="ttc" id="classFractureData_html_a3ecc0d132f9cc105af6b24d676a7b9c5"><div class="ttname"><a href="classFractureData.html#a3ecc0d132f9cc105af6b24d676a7b9c5">FractureData::getThickness</a></div><div class="ttdeci">scalar_type getThickness() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:51</div></div>
+<div class="ttc" id="init_8m_html_ab6991d210d93a78cdbdf6de1889c1259"><div class="ttname"><a href="init_8m.html#ab6991d210d93a78cdbdf6de1889c1259">a</a></div><div class="ttdeci">end a</div><div class="ttdef"><b>Definition:</b> init.m:13</div></div>
+<div class="ttc" id="classFractureData_html_ad8a5510e522711cc9f2430a0b9fadc70"><div class="ttname"><a href="classFractureData.html#ad8a5510e522711cc9f2430a0b9fadc70">FractureData::getB</a></div><div class="ttdeci">scalar_type getB() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:76</div></div>
+<div class="ttc" id="classFractureData_html_a49671c83ba3f6501803913c224177a72"><div class="ttname"><a href="classFractureData.html#a49671c83ba3f6501803913c224177a72">FractureData::feval</a></div><div class="ttdeci">void feval(scalarVector_Type &amp;fl, const scalarVector_Type &amp;u0, const size_type i, const size_type f)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:54</div></div>
+<div class="ttc" id="confronto_8m_html_a6277e2a7446059985dc9bcf0a4ac1a8f"><div class="ttname"><a href="confronto_8m.html#a6277e2a7446059985dc9bcf0a4ac1a8f">u</a></div><div class="ttdeci">hold on u</div><div class="ttdef"><b>Definition:</b> confronto.m:73</div></div>
+<div class="ttc" id="classFractureData_html_a875649432017de65d85176395e42376c"><div class="ttname"><a href="classFractureData.html#a875649432017de65d85176395e42376c">FractureData::getXd</a></div><div class="ttdeci">scalar_type getXd() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:111</div></div>
+<div class="ttc" id="classFractureData_html_ab6b8416e26e0b37b9789d83336d37fef"><div class="ttname"><a href="classFractureData.html#ab6b8416e26e0b37b9789d83336d37fef">FractureData::getNumberFlux</a></div><div class="ttdeci">size_type getNumberFlux() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:106</div></div>
+<div class="ttc" id="classFractureData_html_aaded6c0452470489beb4ab95b5f4158f"><div class="ttname"><a href="classFractureData.html#aaded6c0452470489beb4ab95b5f4158f">FractureData::getMeshType</a></div><div class="ttdeci">std::string getMeshType() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:96</div></div>
+<div class="ttc" id="classFractureData_html_a9598cf66a822a593e819df754420a2c2"><div class="ttname"><a href="classFractureData.html#a9598cf66a822a593e819df754420a2c2">FractureData::velocity</a></div><div class="ttdeci">scalar_type velocity(const scalar_type &amp;u)</div><div class="ttdef"><b>Definition:</b> FractureData.cc:194</div></div>
+<div class="ttc" id="classFractureData_html_a2695260e58e519fc0fa1c79a475d776d"><div class="ttname"><a href="classFractureData.html#a2695260e58e519fc0fa1c79a475d776d">FractureData::getCfl</a></div><div class="ttdeci">scalar_type getCfl()</div><div class="ttdef"><b>Definition:</b> FractureData.h:116</div></div>
+<div class="ttc" id="classFractureData_html_a7ef5fdbdc462f4135d44102d2017c63b"><div class="ttname"><a href="classFractureData.html#a7ef5fdbdc462f4135d44102d2017c63b">FractureData::getH</a></div><div class="ttdeci">scalar_type getH() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:81</div></div>
+<div class="ttc" id="classFractureData_html_a2df7c1f0a0722878d4ccdca537605dac"><div class="ttname"><a href="classFractureData.html#a2df7c1f0a0722878d4ccdca537605dac">FractureData::getBc</a></div><div class="ttdeci">std::string getBc() const </div><div class="ttdef"><b>Definition:</b> FractureData.h:101</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato Mer 24 Dic 2014 16:05:41 per Progetto PACS da &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

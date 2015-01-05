@@ -1,0 +1,86 @@
+\hypertarget{init_8m}{\section{Riferimenti per il file matlab/init.m}
+\label{init_8m}\index{matlab/init.\-m@{matlab/init.\-m}}
+}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{god__e_8m_a26899847b746fbda83c26fa3c0b32470}{function} applicando le \\*
+condizioni al contorno della \\*
+variabile globale \hyperlink{classBC}{B\-C} Usa N \\*
+intervalli con \hyperlink{init_8m_a394ca1e6ac509b4e6a234c2945ff6133}{U0} (I)
+\item 
+\hyperlink{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{u0} (n+2)
+\end{DoxyCompactItemize}
+\subsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{god__e_8m_a26899847b746fbda83c26fa3c0b32470}{function} \hyperlink{init_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}
+\item 
+\hyperlink{god__e_8m_a26899847b746fbda83c26fa3c0b32470}{function} applicando le \\*
+condizioni al contorno della \\*
+variabile globale \hyperlink{classBC}{B\-C} Usa N \\*
+intervalli \hyperlink{init_8m_a15b42424dc5a043fe01015a4752f1dc2}{su} \mbox{[}-\/1, 1\mbox{]}
+\item 
+end \hyperlink{init_8m_ab6991d210d93a78cdbdf6de1889c1259}{a} =ab(1)
+\item 
+\hyperlink{init_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{b} =ab(2)
+\item 
+\hyperlink{init_8m_a5e36941b3d856737e81516acd45edc50}{h} =(\hyperlink{rieman_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{b}-\/\hyperlink{init_8m_ab6991d210d93a78cdbdf6de1889c1259}{a})/(n)
+\item 
+\hyperlink{init_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x} =\hyperlink{init_8m_ab6991d210d93a78cdbdf6de1889c1259}{a}-\/\hyperlink{rieman_8m_a5e36941b3d856737e81516acd45edc50}{h}/2\-:h\-:b+\hyperlink{rieman_8m_a5e36941b3d856737e81516acd45edc50}{h}/2
+\item 
+Aggiunge le condizioni al \\*
+contorno if \hyperlink{init_8m_a6de4d0417b218e6ba0620572cac14dfe}{bc}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{init_8m_a394ca1e6ac509b4e6a234c2945ff6133}{\index{init.\-m@{init.\-m}!U0@{U0}}
+\index{U0@{U0}!init.m@{init.\-m}}
+\subsubsection[{U0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} applicando le condizioni al contorno della variabile globale {\bf B\-C} Usa N intervalli con U0 (
+\begin{DoxyParamCaption}
+\item[{I}]{}
+\end{DoxyParamCaption}
+)}}\label{init_8m_a394ca1e6ac509b4e6a234c2945ff6133}
+\hypertarget{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}{\index{init.\-m@{init.\-m}!u0@{u0}}
+\index{u0@{u0}!init.m@{init.\-m}}
+\subsubsection[{u0}]{\setlength{\rightskip}{0pt plus 5cm}u0 (
+\begin{DoxyParamCaption}
+\item[{n+}]{2}
+\end{DoxyParamCaption}
+)}}\label{init_8m_aada26031cbb47e8d74da9873f5c1e3e1}
+
+
+\subsection{Documentazione delle variabili}
+\hypertarget{init_8m_ab6991d210d93a78cdbdf6de1889c1259}{\index{init.\-m@{init.\-m}!a@{a}}
+\index{a@{a}!init.m@{init.\-m}}
+\subsubsection[{a}]{\setlength{\rightskip}{0pt plus 5cm}end a =ab(1)}}\label{init_8m_ab6991d210d93a78cdbdf6de1889c1259}
+\hypertarget{init_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{\index{init.\-m@{init.\-m}!b@{b}}
+\index{b@{b}!init.m@{init.\-m}}
+\subsubsection[{b}]{\setlength{\rightskip}{0pt plus 5cm}b =ab(2)}}\label{init_8m_a21ad0bd836b90d08f4cf640b4c298e7c}
+\hypertarget{init_8m_a6de4d0417b218e6ba0620572cac14dfe}{\index{init.\-m@{init.\-m}!bc@{bc}}
+\index{bc@{bc}!init.m@{init.\-m}}
+\subsubsection[{bc}]{\setlength{\rightskip}{0pt plus 5cm}elseif bc}}\label{init_8m_a6de4d0417b218e6ba0620572cac14dfe}
+{\bfseries Valore iniziale\-:}
+\begin{DoxyCode}
+==\textcolor{charliteral}{'f'}
+   \hyperlink{init_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}(1)=\hyperlink{init_8m_ae060ce5868d35ef17bcb6e832da03be9}{u0}(2)
+\end{DoxyCode}
+\hypertarget{init_8m_a5e36941b3d856737e81516acd45edc50}{\index{init.\-m@{init.\-m}!h@{h}}
+\index{h@{h}!init.m@{init.\-m}}
+\subsubsection[{h}]{\setlength{\rightskip}{0pt plus 5cm}h =({\bf b}-\/{\bf a})/(n)}}\label{init_8m_a5e36941b3d856737e81516acd45edc50}
+\hypertarget{init_8m_a15b42424dc5a043fe01015a4752f1dc2}{\index{init.\-m@{init.\-m}!su@{su}}
+\index{su@{su}!init.m@{init.\-m}}
+\subsubsection[{su}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} applicando le condizioni al contorno della variabile globale {\bf B\-C} Usa N intervalli su\mbox{[}-\/1, 1\mbox{]}}}\label{init_8m_a15b42424dc5a043fe01015a4752f1dc2}
+\hypertarget{init_8m_ae060ce5868d35ef17bcb6e832da03be9}{\index{init.\-m@{init.\-m}!u0@{u0}}
+\index{u0@{u0}!init.m@{init.\-m}}
+\subsubsection[{u0}]{\setlength{\rightskip}{0pt plus 5cm}u0}}\label{init_8m_ae060ce5868d35ef17bcb6e832da03be9}
+{\bfseries Valore iniziale\-:}
+\begin{DoxyCode}
+=init(ux,n,ab)
+% \hyperlink{init_8m_a394ca1e6ac509b4e6a234c2945ff6133}{U0}=INIT(UX,N) calcola la condizione iniziale per
+%       \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} metodi per le equazioni iperboliche
+\end{DoxyCode}
+\hypertarget{init_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{\index{init.\-m@{init.\-m}!x@{x}}
+\index{x@{x}!init.m@{init.\-m}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}x ={\bf a}-\/{\bf h}/2\-:h\-:b+{\bf h}/2}}\label{init_8m_a9336ebf25087d91c818ee6e9ec29f8c1}

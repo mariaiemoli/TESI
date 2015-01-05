@@ -1,0 +1,56 @@
+\hypertarget{rieman_8m}{\section{Riferimenti per il file matlab/rieman.m}
+\label{rieman_8m}\index{matlab/rieman.\-m@{matlab/rieman.\-m}}
+}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{god__e_8m_a26899847b746fbda83c26fa3c0b32470}{function} applicando le \\*
+condizioni al contorno della \\*
+variabile globale \hyperlink{classBC}{B\-C} Usa N \\*
+intervalli con \hyperlink{rieman_8m_a394ca1e6ac509b4e6a234c2945ff6133}{U0} (I)
+\end{DoxyCompactItemize}
+\subsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{god__e_8m_a26899847b746fbda83c26fa3c0b32470}{function} \hyperlink{rieman_8m_a80bfa5802f21cb872f6391fd808a500f}{u0}
+\item 
+\hyperlink{god__e_8m_a26899847b746fbda83c26fa3c0b32470}{function} applicando le \\*
+condizioni al contorno della \\*
+variabile globale \hyperlink{classBC}{B\-C} Usa N \\*
+intervalli \hyperlink{rieman_8m_a15b42424dc5a043fe01015a4752f1dc2}{su} \mbox{[}-\/1, 1\mbox{]}
+\item 
+\hyperlink{rieman_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{b} =\hyperlink{risultati__bastian_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}(\hyperlink{risultati__bastian_8m_a2c922f7f535918f30cd11355c35da00f}{nx})
+\item 
+\hyperlink{rieman_8m_a5e36941b3d856737e81516acd45edc50}{h} =(\hyperlink{rieman_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{b}-\/\hyperlink{init_8m_ab6991d210d93a78cdbdf6de1889c1259}{a})/(\hyperlink{risultati__bastian_8m_a2c922f7f535918f30cd11355c35da00f}{nx})
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{rieman_8m_a394ca1e6ac509b4e6a234c2945ff6133}{\index{rieman.\-m@{rieman.\-m}!U0@{U0}}
+\index{U0@{U0}!rieman.m@{rieman.\-m}}
+\subsubsection[{U0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} applicando le condizioni al contorno della variabile globale {\bf B\-C} Usa N intervalli con U0 (
+\begin{DoxyParamCaption}
+\item[{I}]{}
+\end{DoxyParamCaption}
+)}}\label{rieman_8m_a394ca1e6ac509b4e6a234c2945ff6133}
+
+
+\subsection{Documentazione delle variabili}
+\hypertarget{rieman_8m_a21ad0bd836b90d08f4cf640b4c298e7c}{\index{rieman.\-m@{rieman.\-m}!b@{b}}
+\index{b@{b}!rieman.m@{rieman.\-m}}
+\subsubsection[{b}]{\setlength{\rightskip}{0pt plus 5cm}b ={\bf x}({\bf nx})}}\label{rieman_8m_a21ad0bd836b90d08f4cf640b4c298e7c}
+\hypertarget{rieman_8m_a5e36941b3d856737e81516acd45edc50}{\index{rieman.\-m@{rieman.\-m}!h@{h}}
+\index{h@{h}!rieman.m@{rieman.\-m}}
+\subsubsection[{h}]{\setlength{\rightskip}{0pt plus 5cm}h =({\bf b}-\/{\bf a})/({\bf nx})}}\label{rieman_8m_a5e36941b3d856737e81516acd45edc50}
+\hypertarget{rieman_8m_a15b42424dc5a043fe01015a4752f1dc2}{\index{rieman.\-m@{rieman.\-m}!su@{su}}
+\index{su@{su}!rieman.m@{rieman.\-m}}
+\subsubsection[{su}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} applicando le condizioni al contorno della variabile globale {\bf B\-C} Usa N intervalli su\mbox{[}-\/1, 1\mbox{]}}}\label{rieman_8m_a15b42424dc5a043fe01015a4752f1dc2}
+\hypertarget{rieman_8m_a80bfa5802f21cb872f6391fd808a500f}{\index{rieman.\-m@{rieman.\-m}!u0@{u0}}
+\index{u0@{u0}!rieman.m@{rieman.\-m}}
+\subsubsection[{u0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} u0}}\label{rieman_8m_a80bfa5802f21cb872f6391fd808a500f}
+{\bfseries Valore iniziale\-:}
+\begin{DoxyCode}
+=rieman(ul,ur,\hyperlink{confronto_8m_a2c922f7f535918f30cd11355c35da00f}{nx},\hyperlink{confronto_8m_ad2e52d4a42a755ccd73c8de47175afa3}{x},x\_r)
+% \hyperlink{rieman_8m_a394ca1e6ac509b4e6a234c2945ff6133}{U0}=INIT(UX,N) calcola la condizione iniziale per
+%       \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} metodi per le equazioni iperboliche
+\end{DoxyCode}

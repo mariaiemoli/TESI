@@ -1,0 +1,357 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parametri per il problema di saturazione                                %
+%    fractureData0  a=0.5, onda di rarefazione							  %
+%    fractureData1  a=2, shock											  %
+%    fractureData2  a=1													  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 1
+
+[dataTime]
+
+        endTime = 0.2
+        
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 300.
+                lengthOrdinate = 300.
+                lengthQuota = 300.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+
+[../]
+
+[fractureData0]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x+1.-4.*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = -1.+4.*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x-1
+			
+	        a = -1.
+	        b = 3.
+			spatialDiscretization = 500
+	        translateAbscissa = -1.
+	        lengthAbscissa = 4. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+            bc = f
+			u0 = 1.*(x>0.)  # 1.+0.5*sin(3.14*x)  # 2.-3.*(x<0.)-3.*(x>1.)     # 1-1.*(x<0.)-1.*(x>1.)   # 1.-1.*(x>0.)  #1.*(x>0.)  	
+			cfl = 1.5
+			U = 1.
+			invPorosity = 1.
+
+
+			[./fluxData0]
+								
+				f = 0.5*x^2
+				f1 = x   
+			
+        [../]
+
+
+[../]
+
+[fractureData10]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x+1.-4.*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = -1.+4.*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x-1
+			
+	        a = -1.
+	        b = 3.
+			spatialDiscretization = 500
+	        translateAbscissa = -1.
+	        lengthAbscissa = 4. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+            bc = p
+			u0 = 2.-1.8*(x<0.)-1.8*(x>1.)   # 2.-3.0*(x<0.)-3.0*(x>1.)     # 1-1.*(x<0.)-1.*(x>1.)   # 1.-1.*(x>0.)  #1.*(x>0.)  	
+			cfl = 2
+			U = 1.
+			invPorosity = 1.
+
+
+			[./fluxData0]
+								
+				f = 0.5*x^2
+				f1 = x   
+			
+        [../]
+
+
+[../]
+
+[fractureData1]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x+1.-4.*t   #-300*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = -1.+4.*t   # 300*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = -1  # 0.
+	        b = 3   # 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 4.  # 300 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+            bc = g
+			u0 = 1.-1.*(x<1.)  #1.*(x>0.)  	
+			cfl = 1.8
+			U = 1.
+			invPorosity = 1.
+
+
+			[./fluxData0]
+								
+				f = x*1./(x+0.5*(1-x))
+				f1 = 0.5./((x+0.5*(1-x)).^2)   
+			
+        [../]
+
+
+[../]
+
+[fractureData6]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-0.5
+			ylevelSet = y-0.5
+			xlevelSet = x+1.-4*t
+			levelSetCut = -1
+			yMap = 0.5
+			xMap = -1+4*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x-1.
+			
+	        a = -1.
+	        b = 3.
+			spatialDiscretization = 100
+	        translateAbscissa = -1.
+	        lengthAbscissa = 4. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+            bc = g  #p
+			u0 = 0.2+sin(3.14*x)	
+			cfl = 1.2
+			U = 1.
+			invPorosity = 1.
+
+
+			[./fluxData0]
+								
+				f = 0.5*x.^2;
+				f1 = x   
+			
+        [../]
+
+
+[../]
+
+
+
+[fractureData2]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-3*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 3*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 300. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+            bc = f
+			u0 = 1.-1.*(x<10.)
+			f = x*1./(x+2.*(1-x))
+			f1 = 2./((x+2.*(1-x)).^2)   
+			cfl = 1.8
+			U = 1.
+			invPorosity = 1.
+			
+
+        [../]
+
+
+[../]
+
+
+[fractureData4]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-3*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 3*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 300. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+            bc = f
+			u0 = 1.-1.*(x>1.)
+			f = x
+			f1 = 1.
+			cfl = 1.8
+			U = 1.
+			invPorosity = 1.
+			
+			    
+
+        [../]
+
+
+[../]
+

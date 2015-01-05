@@ -1,0 +1,146 @@
+\hypertarget{classFracturesSet}{\section{Riferimenti per la classe Fractures\-Set}
+\label{classFracturesSet}\index{Fractures\-Set@{Fractures\-Set}}
+}
+
+
+{\ttfamily \#include $<$Fractures\-Set.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFracturesSet_a01682537586e273be19fd789c99cfa87}{Fractures\-Set} ()
+\item 
+void \hyperlink{classFracturesSet_afdaec960c5e2bca4e999e692675895d7}{init} (const Get\-Pot \&data\-File, const std\-::string \&section, const size\-\_\-type \&num\-Fractures, const \hyperlink{Exporter_8h_ac9d7f94fea8b91459a536bfaa2f3910c}{Exporter\-Ptr\-\_\-\-Type} \&exporter)
+\item 
+const \hyperlink{FractureHandler_8h_af23fb7a30aaff864bd42587af4f1e78a}{Fracture\-Handler\-Ptr\-\_\-\-Type} \& \hyperlink{classFracturesSet_afa7100ac44d32e51e193380bf6d9d5f9}{get\-Fracture} (const size\-\_\-type \&\hyperlink{god__e_8m_a8ea372f7ee3c01d11fc4b4d13b8e6a75}{f}) const 
+\item 
+size\-\_\-type \hyperlink{classFracturesSet_ad0d608408d6b65c83c2eb013d4daacdf}{get\-Number\-Fractures} () const 
+\item 
+const \hyperlink{FractureIntersect_8h_a5486417d11465ffafe3034ce22c1c85b}{Fracture\-Intersect\-Ptr\-\_\-\-Type} \& \hyperlink{classFracturesSet_ae1d7e53adc5d8acaad0a37dd227aee03}{get\-Intersections} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classFracturesSet_a01682537586e273be19fd789c99cfa87}{\index{Fractures\-Set@{Fractures\-Set}!Fractures\-Set@{Fractures\-Set}}
+\index{Fractures\-Set@{Fractures\-Set}!FracturesSet@{Fractures\-Set}}
+\subsubsection[{Fractures\-Set}]{\setlength{\rightskip}{0pt plus 5cm}Fractures\-Set\-::\-Fractures\-Set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classFracturesSet_a01682537586e273be19fd789c99cfa87}
+
+\begin{DoxyCode}
+9                           :
+10                 M\_intersections(\textcolor{keyword}{new} \hyperlink{classFractureIntersect}{FractureIntersect\_Type})
+11 \{\}\textcolor{comment}{// costruttore nullo}
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle funzioni membro}
+\hypertarget{classFracturesSet_afa7100ac44d32e51e193380bf6d9d5f9}{\index{Fractures\-Set@{Fractures\-Set}!get\-Fracture@{get\-Fracture}}
+\index{get\-Fracture@{get\-Fracture}!FracturesSet@{Fractures\-Set}}
+\subsubsection[{get\-Fracture}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Fracture\-Handler\-Ptr\-\_\-\-Type}\& Fractures\-Set\-::get\-Fracture (
+\begin{DoxyParamCaption}
+\item[{const size\-\_\-type \&}]{f}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFracturesSet_afa7100ac44d32e51e193380bf6d9d5f9}
+
+\begin{DoxyCode}
+33     \{
+34             \textcolor{keywordflow}{return} M\_fractures[\hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}];
+35     \}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{classFracturesSet_afa7100ac44d32e51e193380bf6d9d5f9_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFracturesSet_ae1d7e53adc5d8acaad0a37dd227aee03}{\index{Fractures\-Set@{Fractures\-Set}!get\-Intersections@{get\-Intersections}}
+\index{get\-Intersections@{get\-Intersections}!FracturesSet@{Fractures\-Set}}
+\subsubsection[{get\-Intersections}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Fracture\-Intersect\-Ptr\-\_\-\-Type}\& Fractures\-Set\-::get\-Intersections (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFracturesSet_ae1d7e53adc5d8acaad0a37dd227aee03}
+
+\begin{DoxyCode}
+43     \{
+44         \textcolor{keywordflow}{return} M\_intersections;
+45     \}
+\end{DoxyCode}
+\hypertarget{classFracturesSet_ad0d608408d6b65c83c2eb013d4daacdf}{\index{Fractures\-Set@{Fractures\-Set}!get\-Number\-Fractures@{get\-Number\-Fractures}}
+\index{get\-Number\-Fractures@{get\-Number\-Fractures}!FracturesSet@{Fractures\-Set}}
+\subsubsection[{get\-Number\-Fractures}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-type Fractures\-Set\-::get\-Number\-Fractures (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFracturesSet_ad0d608408d6b65c83c2eb013d4daacdf}
+
+\begin{DoxyCode}
+38     \{
+39         \textcolor{keywordflow}{return} M\_fractures.size();
+40     \}
+\end{DoxyCode}
+\hypertarget{classFracturesSet_afdaec960c5e2bca4e999e692675895d7}{\index{Fractures\-Set@{Fractures\-Set}!init@{init}}
+\index{init@{init}!FracturesSet@{Fractures\-Set}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void Fractures\-Set\-::init (
+\begin{DoxyParamCaption}
+\item[{const Get\-Pot \&}]{data\-File, }
+\item[{const std\-::string \&}]{section, }
+\item[{const size\-\_\-type \&}]{num\-Fractures, }
+\item[{const {\bf Exporter\-Ptr\-\_\-\-Type} \&}]{exporter}
+\end{DoxyParamCaption}
+)}}\label{classFracturesSet_afdaec960c5e2bca4e999e692675895d7}
+
+\begin{DoxyCode}
+15 \{
+16     M\_fractures.resize( numFractures );
+17 
+18     std::ostringstream sectionFracture;
+19 
+20     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} = 0; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} < numFractures; \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f}++ )
+21     \{
+22         sectionFracture << section << \textcolor{stringliteral}{"fractureData"} << \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} << \textcolor{stringliteral}{"/"};
+23 
+24         M\_fractures [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ].reset ( \textcolor{keyword}{new} \hyperlink{classFractureHandler}{FractureHandler\_Type} ( dataFile, f, exporter, 
+      sectionFracture.str() ));
+25 
+26         M\_fractures [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ]->init();
+27 
+28         M\_fractures [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ]->numFractures ( numFractures );
+29 
+30         sectionFracture.str(\textcolor{stringliteral}{""});
+31     \}
+32 
+33     std::cout << \textcolor{stringliteral}{"costruisco l'intersezione "} << std::endl;
+34     \textcolor{comment}{// costruisco l'intersezione}
+35     M\_intersections->constructIntesection ( M\_fractures );
+36 
+37     \textcolor{keywordflow}{return};
+38 \}\textcolor{comment}{// init}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{classFracturesSet_afdaec960c5e2bca4e999e692675895d7_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{FracturesSet_8h}{Fractures\-Set.\-h}\item 
+src/\hyperlink{FracturesSet_8cc}{Fractures\-Set.\-cc}\end{DoxyCompactItemize}

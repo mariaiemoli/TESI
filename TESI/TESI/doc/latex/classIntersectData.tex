@@ -1,0 +1,296 @@
+\hypertarget{classIntersectData}{\section{Riferimenti per la classe Intersect\-Data}
+\label{classIntersectData}\index{Intersect\-Data@{Intersect\-Data}}
+}
+
+
+{\ttfamily \#include $<$Intersect\-Data.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classIntersectData_ac86ac869672ccd193327ce246e7969d6}{Intersect\-Data} ()
+\item 
+\hyperlink{classIntersectData_a731a27ad828cdc8146679a292cbd4582}{Intersect\-Data} (const \hyperlink{classIntersectData}{Intersect\-Data} \&in)
+\item 
+void \hyperlink{classIntersectData_a4dbe681fa68704c9e2bf3f8e290b55f7}{set\-Intersection} (const \hyperlink{Core_8h_a83c51913d041a5001e8683434c09857f}{size\-Vector\-\_\-\-Type} \&nodes, const \hyperlink{FractureHandler_8h_a2f0b57e18ecf89912d7de0c87158009e}{Fracture\-Ptr\-Container\-\_\-\-Type} \&fractures)
+\begin{DoxyCompactList}\small\item\em Funzione che definisce l'intersezione\-: definisce le fratture coinvolte e assegna al vettore dei nodi la dimensione corretta, ossia pari al numero di fratture. \end{DoxyCompactList}\item 
+bool \hyperlink{classIntersectData_acbb362d913af755b71fa801e3a507a63}{is\-Equal} (const \hyperlink{classIntersectData}{Intersect\-Data} \&intersection)
+\begin{DoxyCompactList}\small\item\em Funzione che verifica se due intersezioni sono uguali a meno dei nodi, ossia se le fratture coinvolte sono le stesse. \end{DoxyCompactList}\item 
+void \hyperlink{classIntersectData_a6bcd52066286893ea1f7c36ea841da82}{update\-Nodes} (const \hyperlink{classIntersectData}{Intersect\-Data} \&intersection)
+\begin{DoxyCompactList}\small\item\em Funzione che aggiunge uno degli indici dei nodi di intersezione mancanti. \end{DoxyCompactList}\item 
+const \hyperlink{FractureHandler_8h_a2f0b57e18ecf89912d7de0c87158009e}{Fracture\-Ptr\-Container\-\_\-\-Type} \& \hyperlink{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606}{get\-Fractures} () const 
+\item 
+const \hyperlink{FractureHandler_8h_af23fb7a30aaff864bd42587af4f1e78a}{Fracture\-Handler\-Ptr\-\_\-\-Type} \& \hyperlink{classIntersectData_afef7730d6a494464350ebce088e488ee}{get\-Fracture} (const size\-\_\-type \&\hyperlink{god__e_8m_a8ea372f7ee3c01d11fc4b4d13b8e6a75}{f}) const 
+\item 
+size\-\_\-type \hyperlink{classIntersectData_a25def82d58f9508d33ab1a43b2b03ceb}{get\-Num\-Fractures} () const 
+\item 
+\hyperlink{Core_8h_a83c51913d041a5001e8683434c09857f}{size\-Vector\-\_\-\-Type} \hyperlink{classIntersectData_aed138ba9b2e3e33d55999db110871406}{get\-Intersection\-Point} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classIntersectData_ac86ac869672ccd193327ce246e7969d6}{\index{Intersect\-Data@{Intersect\-Data}!Intersect\-Data@{Intersect\-Data}}
+\index{Intersect\-Data@{Intersect\-Data}!IntersectData@{Intersect\-Data}}
+\subsubsection[{Intersect\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Intersect\-Data\-::\-Intersect\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classIntersectData_ac86ac869672ccd193327ce246e7969d6}
+
+\begin{DoxyCode}
+29     \{\};
+\end{DoxyCode}
+\hypertarget{classIntersectData_a731a27ad828cdc8146679a292cbd4582}{\index{Intersect\-Data@{Intersect\-Data}!Intersect\-Data@{Intersect\-Data}}
+\index{Intersect\-Data@{Intersect\-Data}!IntersectData@{Intersect\-Data}}
+\subsubsection[{Intersect\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Intersect\-Data\-::\-Intersect\-Data (
+\begin{DoxyParamCaption}
+\item[{const {\bf Intersect\-Data} \&}]{in}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classIntersectData_a731a27ad828cdc8146679a292cbd4582}
+
+\begin{DoxyCode}
+33     \{
+34         copy ( in );
+35     \} \textcolor{comment}{// costruttore di copia}
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle funzioni membro}
+\hypertarget{classIntersectData_afef7730d6a494464350ebce088e488ee}{\index{Intersect\-Data@{Intersect\-Data}!get\-Fracture@{get\-Fracture}}
+\index{get\-Fracture@{get\-Fracture}!IntersectData@{Intersect\-Data}}
+\subsubsection[{get\-Fracture}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Fracture\-Handler\-Ptr\-\_\-\-Type}\& Intersect\-Data\-::get\-Fracture (
+\begin{DoxyParamCaption}
+\item[{const size\-\_\-type \&}]{f}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classIntersectData_afef7730d6a494464350ebce088e488ee}
+
+\begin{DoxyCode}
+63     \{
+64         \textcolor{keywordflow}{return} M\_fractures [ \hyperlink{god__e_8m_a68f477f9b30a6300d5af9b02eac82f35}{f} ];
+65     \} \textcolor{comment}{// getFracture}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=278pt]{classIntersectData_afef7730d6a494464350ebce088e488ee_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIntersectData_afef7730d6a494464350ebce088e488ee_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606}{\index{Intersect\-Data@{Intersect\-Data}!get\-Fractures@{get\-Fractures}}
+\index{get\-Fractures@{get\-Fractures}!IntersectData@{Intersect\-Data}}
+\subsubsection[{get\-Fractures}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Fracture\-Ptr\-Container\-\_\-\-Type}\& Intersect\-Data\-::get\-Fractures (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606}
+
+\begin{DoxyCode}
+58     \{
+59         \textcolor{keywordflow}{return} M\_fractures;
+60     \} \textcolor{comment}{// getFractures}
+\end{DoxyCode}
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classIntersectData_aed138ba9b2e3e33d55999db110871406}{\index{Intersect\-Data@{Intersect\-Data}!get\-Intersection\-Point@{get\-Intersection\-Point}}
+\index{get\-Intersection\-Point@{get\-Intersection\-Point}!IntersectData@{Intersect\-Data}}
+\subsubsection[{get\-Intersection\-Point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf size\-Vector\-\_\-\-Type} Intersect\-Data\-::get\-Intersection\-Point (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classIntersectData_aed138ba9b2e3e33d55999db110871406}
+
+\begin{DoxyCode}
+74     \{
+75         \textcolor{keywordflow}{return} M\_intersectionPoint;
+76     \}
+\end{DoxyCode}
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIntersectData_aed138ba9b2e3e33d55999db110871406_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classIntersectData_a25def82d58f9508d33ab1a43b2b03ceb}{\index{Intersect\-Data@{Intersect\-Data}!get\-Num\-Fractures@{get\-Num\-Fractures}}
+\index{get\-Num\-Fractures@{get\-Num\-Fractures}!IntersectData@{Intersect\-Data}}
+\subsubsection[{get\-Num\-Fractures}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-type Intersect\-Data\-::get\-Num\-Fractures (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classIntersectData_a25def82d58f9508d33ab1a43b2b03ceb}
+
+\begin{DoxyCode}
+69     \{
+70         \textcolor{keywordflow}{return} M\_fractures.size();
+71     \} \textcolor{comment}{// getNumFractures}
+\end{DoxyCode}
+\hypertarget{classIntersectData_acbb362d913af755b71fa801e3a507a63}{\index{Intersect\-Data@{Intersect\-Data}!is\-Equal@{is\-Equal}}
+\index{is\-Equal@{is\-Equal}!IntersectData@{Intersect\-Data}}
+\subsubsection[{is\-Equal}]{\setlength{\rightskip}{0pt plus 5cm}bool Intersect\-Data\-::is\-Equal (
+\begin{DoxyParamCaption}
+\item[{const {\bf Intersect\-Data} \&}]{intersection}
+\end{DoxyParamCaption}
+)}}\label{classIntersectData_acbb362d913af755b71fa801e3a507a63}
+
+
+Funzione che verifica se due intersezioni sono uguali a meno dei nodi, ossia se le fratture coinvolte sono le stesse. 
+
+
+\begin{DoxyCode}
+43 \{
+44     size\_type count = 0;
+45 
+46     \textcolor{keywordflow}{if} ( M\_fractures.size() != intersection.\hyperlink{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606}{getFractures} ().size() )
+47     \{
+48         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+49     \}
+50     \textcolor{keywordflow}{else}
+51     \{
+52         \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < M\_fractures.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+53         \{
+54             \textcolor{keywordflow}{for} ( size\_type j = 0; j < intersection.\hyperlink{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606}{getFractures} ().size(); j++ )
+55             \{
+56                 \textcolor{keywordflow}{if} ( M\_fractures[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ]->getID() == intersection.\hyperlink{classIntersectData_afef7730d6a494464350ebce088e488ee}{getFracture} ( j )->getID () )
+57                 \{
+58                     count ++;
+59                 \}
+60             \}
+61         \}
+62 
+63         \textcolor{keywordflow}{return} ( count == M\_fractures.size() );
+64     \}
+65 \}\textcolor{comment}{// isEqual}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIntersectData_acbb362d913af755b71fa801e3a507a63_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classIntersectData_a4dbe681fa68704c9e2bf3f8e290b55f7}{\index{Intersect\-Data@{Intersect\-Data}!set\-Intersection@{set\-Intersection}}
+\index{set\-Intersection@{set\-Intersection}!IntersectData@{Intersect\-Data}}
+\subsubsection[{set\-Intersection}]{\setlength{\rightskip}{0pt plus 5cm}void Intersect\-Data\-::set\-Intersection (
+\begin{DoxyParamCaption}
+\item[{const {\bf size\-Vector\-\_\-\-Type} \&}]{nodes, }
+\item[{const {\bf Fracture\-Ptr\-Container\-\_\-\-Type} \&}]{fractures}
+\end{DoxyParamCaption}
+)}}\label{classIntersectData_a4dbe681fa68704c9e2bf3f8e290b55f7}
+
+
+Funzione che definisce l'intersezione\-: definisce le fratture coinvolte e assegna al vettore dei nodi la dimensione corretta, ossia pari al numero di fratture. 
+
+Questo perchè per ogni frattura coinvolta nell'intersezione voglio salvare il corrispondente grado di libertà dove avviene l'incontro. 
+\begin{DoxyCode}
+28 \{
+29     M\_fractures = fractures;
+30     M\_intersectionPoint.clear();
+31     M\_intersectionPoint.resize( fractures.size() );
+32 
+33     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < nodes.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+34     \{
+35         M\_intersectionPoint[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = nodes[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ];
+36     \}
+37 
+38     \textcolor{keywordflow}{return};
+39 \}\textcolor{comment}{// setIntersection}
+\end{DoxyCode}
+
+
+Questo è il grafo dei chiamanti di questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIntersectData_a4dbe681fa68704c9e2bf3f8e290b55f7_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classIntersectData_a6bcd52066286893ea1f7c36ea841da82}{\index{Intersect\-Data@{Intersect\-Data}!update\-Nodes@{update\-Nodes}}
+\index{update\-Nodes@{update\-Nodes}!IntersectData@{Intersect\-Data}}
+\subsubsection[{update\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}void Intersect\-Data\-::update\-Nodes (
+\begin{DoxyParamCaption}
+\item[{const {\bf Intersect\-Data} \&}]{intersection}
+\end{DoxyParamCaption}
+)}}\label{classIntersectData_a6bcd52066286893ea1f7c36ea841da82}
+
+
+Funzione che aggiunge uno degli indici dei nodi di intersezione mancanti. 
+
+
+\begin{DoxyCode}
+69 \{
+70     \textcolor{keywordflow}{for} ( size\_type \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} = 0; \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} < M\_fractures.size(); \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i}++ )
+71     \{
+72         \textcolor{keywordflow}{for} ( size\_type j = 0; j < intersection.\hyperlink{classIntersectData_a1c43bd327ed8dedaa89870f60cdb4606}{getFractures} ().size(); j++ )
+73         \{
+74             \textcolor{keywordflow}{if} ( M\_fractures[ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ]->getID() == intersection.\hyperlink{classIntersectData_afef7730d6a494464350ebce088e488ee}{getFracture} ( j )->getID () )
+75             \{
+76                 \textcolor{keywordflow}{if} ( intersection.\hyperlink{classIntersectData_aed138ba9b2e3e33d55999db110871406}{getIntersectionPoint} ().size() != 0 )
+77                 \{
+78                     M\_intersectionPoint [ \hyperlink{god__e_8m_a8604be5925f4266ab5ccc69675329c80}{i} ] = intersection.
+      \hyperlink{classIntersectData_aed138ba9b2e3e33d55999db110871406}{getIntersectionPoint} () [ j ];
+79                 \}
+80             \}
+81         \}
+82     \}
+83 
+84     \textcolor{keywordflow}{return};
+85 \}\textcolor{comment}{// updateNodes}
+\end{DoxyCode}
+
+
+Questo è il grafo delle chiamate per questa funzione\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIntersectData_a6bcd52066286893ea1f7c36ea841da82_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{IntersectData_8h}{Intersect\-Data.\-h}\item 
+src/\hyperlink{IntersectData_8cc}{Intersect\-Data.\-cc}\end{DoxyCompactItemize}

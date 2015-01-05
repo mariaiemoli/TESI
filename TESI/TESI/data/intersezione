@@ -1,0 +1,143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parametri per il problema di saturazione                                %
+% caso con intersezione													  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 2
+
+[dataTime]
+
+        endTime = 0.5
+        
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 300.
+                lengthOrdinate = 300.
+                lengthQuota = 300.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+
+[../]
+
+
+[fractureData0]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-x
+			ylevelSet = y-t*0.5
+			xlevelSet = x-t*0.5
+			levelSetCut = -1
+			yMap = t*0.5
+			xMap = t*0.5
+			normalMap = [1.,-1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 0.5
+			spatialDiscretization = 100
+	        translateAbscissa = -1.
+	        lengthAbscissa = 0.5 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+            bc = f
+			u0 = 1.-1.*(x>0.)	
+			cfl = 1.8
+			U = 0.1
+			invPorosity = 1.
+
+
+			[./fluxData0]
+								
+				f = x*1./(x+0.5*(1-x))
+				f1 = 0.5./((x+0.5*(1-x)).^2)   
+			
+        [../]
+
+
+[../]
+
+[fractureData1]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y+x-1.
+			ylevelSet = y-0.5+0.5*t
+			xlevelSet = x-0.5-0.5*t
+			levelSetCut = -1
+			yMap = 0.5-0.5*t
+			xMap = 0.5+0.5*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x+0.5
+			
+	        a = 0.5
+	        b = 1.0
+			spatialDiscretization = 100
+	        translateAbscissa = 0.5
+	        lengthAbscissa = 0.5 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+            bc = f
+			u0 = 1.-1.*(x<0.9)	
+			cfl = 1.8
+			U = 0.1
+			invPorosity = 1.
+
+
+			[./fluxData0]
+								
+				f = x*1./(x+0.5*(1-x))
+				f1 = 0.5./((x+0.5*(1-x)).^2)   
+			
+        [../]
+
+
+[../]

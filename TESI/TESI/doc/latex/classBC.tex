@@ -1,0 +1,40 @@
+\hypertarget{classBC}{\section{Riferimenti per la classe B\-C}
+\label{classBC}\index{B\-C@{B\-C}}
+}
+
+
+{\ttfamily \#include $<$B\-C.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classBC_a67ec843bf00c68c63aa5f701d0c0119b}{B\-C} (const Get\-Pot \&data\-File, const std\-::string \&section, getfem\-::mesh \&mesh, const std\-::string \&Mesh\-Type, const std\-::string \&section\-Saturation=\char`\"{}saturation/\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classBC_a67ec843bf00c68c63aa5f701d0c0119b}{\index{B\-C@{B\-C}!B\-C@{B\-C}}
+\index{B\-C@{B\-C}!BC@{B\-C}}
+\subsubsection[{B\-C}]{\setlength{\rightskip}{0pt plus 5cm}B\-C\-::\-B\-C (
+\begin{DoxyParamCaption}
+\item[{const Get\-Pot \&}]{data\-File, }
+\item[{const std\-::string \&}]{section, }
+\item[{getfem\-::mesh \&}]{mesh, }
+\item[{const std\-::string \&}]{Mesh\-Type, }
+\item[{const std\-::string \&}]{section\-Saturation = {\ttfamily \char`\"{}saturation/\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classBC_a67ec843bf00c68c63aa5f701d0c0119b}
+
+\begin{DoxyCode}
+14                                              :
+15          M\_meshFEM(mesh),
+16          M\_section ( section ),
+17          M\_sectionSaturation ( M\_section + sectionSaturation )
+18 \{\};
+\end{DoxyCode}
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{BC_8h}{B\-C.\-h}\item 
+src/\hyperlink{BC_8cc}{B\-C.\-cc}\end{DoxyCompactItemize}

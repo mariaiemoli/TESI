@@ -1,0 +1,86 @@
+\hypertarget{classFluxHandler}{\section{Riferimenti per la classe Flux\-Handler}
+\label{classFluxHandler}\index{Flux\-Handler@{Flux\-Handler}}
+}
+
+
+{\ttfamily \#include $<$Flux\-Handler.\-h$>$}
+
+\subsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFluxHandler_a2dfd526283bcbbd9b085086483da6f1f}{Flux\-Handler} (const Get\-Pot \&data\-File, const std\-::string \&section\-Flux)
+\item 
+std\-::string \hyperlink{classFluxHandler_a14ae8f3fdcb387025bacbad018e87f21}{get\-Flux} () const 
+\item 
+std\-::string \hyperlink{classFluxHandler_a5bbc2d196b5ff3d10e0b48b7024bbf85}{get\-Flux1} () const 
+\item 
+scalar\-\_\-type \hyperlink{classFluxHandler_a30989bb4704c83aa4ac88e6630eadb68}{get\-Us} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentazione dei costruttori e dei distruttori}
+\hypertarget{classFluxHandler_a2dfd526283bcbbd9b085086483da6f1f}{\index{Flux\-Handler@{Flux\-Handler}!Flux\-Handler@{Flux\-Handler}}
+\index{Flux\-Handler@{Flux\-Handler}!FluxHandler@{Flux\-Handler}}
+\subsubsection[{Flux\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}Flux\-Handler\-::\-Flux\-Handler (
+\begin{DoxyParamCaption}
+\item[{const Get\-Pot \&}]{data\-File, }
+\item[{const std\-::string \&}]{section\-Flux}
+\end{DoxyParamCaption}
+)}}\label{classFluxHandler_a2dfd526283bcbbd9b085086483da6f1f}
+
+\begin{DoxyCode}
+10                                                                                :
+11                          M\_sectionFlux ( sectionFlux ),
+12                          M\_flux ( dataFile ( ( M\_sectionFlux + \textcolor{stringliteral}{"f"} ).data (), \textcolor{stringliteral}{"x*x./2"} ) ),
+13                          M\_flux1 ( dataFile ( ( M\_sectionFlux + \textcolor{stringliteral}{"f1"} ).data (), \textcolor{stringliteral}{"x"} ) ),
+14                          M\_Us ( dataFile ( ( M\_sectionFlux + \textcolor{stringliteral}{"us"} ).data (), 0.5 ) )
+15 \{\}
+\end{DoxyCode}
+
+
+\subsection{Documentazione delle funzioni membro}
+\hypertarget{classFluxHandler_a14ae8f3fdcb387025bacbad018e87f21}{\index{Flux\-Handler@{Flux\-Handler}!get\-Flux@{get\-Flux}}
+\index{get\-Flux@{get\-Flux}!FluxHandler@{Flux\-Handler}}
+\subsubsection[{get\-Flux}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Flux\-Handler\-::get\-Flux (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFluxHandler_a14ae8f3fdcb387025bacbad018e87f21}
+
+\begin{DoxyCode}
+34     \{
+35         \textcolor{keywordflow}{return} M\_flux;
+36     \}
+\end{DoxyCode}
+\hypertarget{classFluxHandler_a5bbc2d196b5ff3d10e0b48b7024bbf85}{\index{Flux\-Handler@{Flux\-Handler}!get\-Flux1@{get\-Flux1}}
+\index{get\-Flux1@{get\-Flux1}!FluxHandler@{Flux\-Handler}}
+\subsubsection[{get\-Flux1}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Flux\-Handler\-::get\-Flux1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFluxHandler_a5bbc2d196b5ff3d10e0b48b7024bbf85}
+
+\begin{DoxyCode}
+39     \{
+40         \textcolor{keywordflow}{return} M\_flux1;
+41     \}
+\end{DoxyCode}
+\hypertarget{classFluxHandler_a30989bb4704c83aa4ac88e6630eadb68}{\index{Flux\-Handler@{Flux\-Handler}!get\-Us@{get\-Us}}
+\index{get\-Us@{get\-Us}!FluxHandler@{Flux\-Handler}}
+\subsubsection[{get\-Us}]{\setlength{\rightskip}{0pt plus 5cm}scalar\-\_\-type Flux\-Handler\-::get\-Us (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFluxHandler_a30989bb4704c83aa4ac88e6630eadb68}
+
+\begin{DoxyCode}
+44     \{
+45         \textcolor{keywordflow}{return} M\_Us;
+46     \}
+\end{DoxyCode}
+
+
+La documentazione per questa classe è stata generata a partire dai seguenti file\-:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{FluxHandler_8h}{Flux\-Handler.\-h}\item 
+src/\hyperlink{FluxHandler_8cc}{Flux\-Handler.\-cc}\end{DoxyCompactItemize}
