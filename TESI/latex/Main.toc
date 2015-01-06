@@ -1,0 +1,24 @@
+\select@language {italian}
+\select@language {italian}
+\contentsline {chapter}{\numberline {1}Mezzi porosi e legge di Darcy}{2}{chapter.1}
+\contentsline {section}{\numberline {1.1}Legge di Darcy}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Formulazione debole del problema}{3}{section.1.2}
+\contentsline {chapter}{\numberline {2}Considerazioni preliminari}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Strumenti di sviluppo}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}\texttt {Git}}{5}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}\texttt {CMake}}{5}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}\texttt {Doxygen}}{8}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}Dati del problema}{9}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Intersezioni}{9}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}File data}{10}{subsection.2.2.2}
+\contentsline {chapter}{\numberline {3}Implementazione delle fratture}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}La Classe \texttt {FracturesSet}}{14}{section.3.1}
+\contentsline {section}{\numberline {3.2}La Classe \texttt {FractureHandler}}{15}{section.3.2}
+\contentsline {section}{\numberline {3.3}Le Classi \texttt {LevelSetHandler} e \texttt {LevelSetData}}{17}{section.3.3}
+\contentsline {section}{\numberline {3.4}Le Classi \texttt {FractureIntersect} e \texttt {IntersectData}}{18}{section.3.4}
+\contentsline {section}{\numberline {3.5}Le Classi \texttt {BC} e \texttt {BCHandler}}{20}{section.3.5}
+\contentsline {chapter}{\numberline {4}Risultati numerici e validazione del modello}{21}{chapter.4}
+\contentsline {section}{\numberline {4.1}Biforcazione semplice, 3 fratture}{21}{section.4.1}
+\contentsline {section}{\numberline {4.2}Doppia biforcazione verticale, 5 fratture}{22}{section.4.2}
+\contentsline {section}{\numberline {4.3}Doppia biforcazione e cross, 6 fratture}{23}{section.4.3}
+\contentsline {section}{\numberline {4.4}Caso particolare: biforcazione con due fratture}{26}{section.4.4}

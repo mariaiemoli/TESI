@@ -1,0 +1,117 @@
+\documentclass[a4paper,11pt,openright,oneside]{book}
+\frenchspacing
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[dvips]{graphicx}
+\usepackage{url}
+\usepackage{rotating}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage[boxed]{algorithm2e}
+\usepackage{amsmath}
+
+\usepackage{amssymb} %simboli matematici
+\usepackage{latexsym} %?
+\usepackage{mathrsfs} %?
+\usepackage{amsfonts}
+
+\usepackage{hyperref}
+
+\usepackage{frontespizio}
+\usepackage{listings} %Per inserire codice
+\usepackage[usenames]{color}%Per permettere la colorazione dei caratteri 
+\usepackage{fancyhdr} 
+
+
+\usepackage{listings} %Per inserire codice
+\usepackage[usenames]{color}%Per permettere la colorazione dei caratteri 
+
+\usepackage{titlesec,blindtext}
+\usepackage[Lenny]{fncychap}
+
+\usepackage{eso-pic}
+\newcommand\BackgroundPicture{
+   \put(0,0){
+     \parbox[b][\paperheight]{\paperwidth}{
+       \vfill
+       \centering
+       \includegraphics[width=\textwidth]{img/fratture.eps}
+       \vfill
+     }}}
+
+
+
+%\usepackage[Sonny]{fncychap}
+%\usepackage[toc]{glossaries}
+%\makeglossaries
+%\usepackage{lscape}
+
+\ChNameVar{\fontsize{14}{16}\usefont{T1}{phv}{m}{n}\selectfont}
+\ChNumVar{\fontsize{60}{62}\usefont{T1}{ptm}{m}{n}\selectfont}
+
+ 
+\begin{document}
+
+\begin{frontespizio}
+
+\Istituzione{POLITECNICO DI MILANO}
+\Logo{logo_polimi}
+\Facolta{Ingegneria Industriale e dell'informazione}
+\Corso[Laurea]{di Laurea Magistrale in INGEGNERIA MATEMATICA}
+\Annoaccademico{2013-2014}
+\Sottotitolo{Imposizione delle condizioni d'interfaccia per intersezioni di tipo Biforcazione}
+\Titolo{\color[rgb]{.6,0,0} Soluzione del problema di Saturazione in un network di fratture}
+\Candidato[]{Maria Iemoli matr. 800499}
+\Titoletto{Tesi di Laurea Magistrale}
+\Relatore{ Luca Formaggia}
+\Relatore{ Anna Scotti}
+\Rientro{1cm}
+\Margini{1.5cm}{2cm}{1.5cm}{3cm}
+\end{frontespizio} 
+
+
+\hypersetup{
+    %colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\emptypage
+\include{Abstract1}
+\newpage 
+\include{Abstract2}
+\newpage 
+
+\include{introduzione}
+
+\pagestyle{plain}
+\pagenumbering{Roman}
+\include{prefazione}
+
+\pagenumbering{arabic}
+\tableofcontents
+
+\include{cap1}
+\include{cap2}
+\include{cap3}
+\include{cap4}
+\include{cap5}
+
+%\include{bibliografia.bib}
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+\include{appendice}
+
+\end{document}
+
+
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [opacity=0.2,scale=0.2] at (current page.center) {\includegraphics{img/fratture.eps}};
+\end{tikzpicture}
