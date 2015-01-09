@@ -45,6 +45,11 @@ public:
 		return M_Monotone;
 	}
 
+	inline scalar_type getH() const
+	{
+		return M_H;
+	}
+
 	inline scalar_type getUs() const
 	{
 		return M_Us;
@@ -60,6 +65,16 @@ public:
 		return M_second;
 	}
 
+	inline scalar_type getUin() const
+	{
+		return M_Uin;
+	}
+
+	inline scalar_type getUout() const
+	{
+		return M_Uout;
+	}
+
 
 private:
 
@@ -70,9 +85,13 @@ private:
 
 	std::string M_Monotone;
 
+	size_type M_H;
 	scalar_type M_Us;
 	scalar_type M_first;
 	scalar_type M_second;
+
+	scalar_type M_Uin;
+	scalar_type M_Uout;
 
 	mutable LifeV::Parser M_parser;
 };

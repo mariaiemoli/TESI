@@ -85,9 +85,12 @@ spaceDimension = 1.
 				f = x*(1.-x)
 				f1 = 1.-2.*x  
 				monotone = false
+				h = 3
 				us = 0.5 
 				us_meno = -0.7712
 				us_piu = 1.7712
+				uin = 0.66
+				u0ut = 0.66
 				
 			[../]
 			
@@ -96,9 +99,12 @@ spaceDimension = 1.
 				f = (2./3)*x*(1.-x)
 				f1 = 2/3-4/3*x  
 				monotone = false
+				h = 3
 				us = 0.3333333333
 				us_meno = 0.2659
 				us_piu =  0.7341
+				uin = 0.66
+				u0ut = 0.66
 				
 			[../]
 			
