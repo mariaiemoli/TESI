@@ -9,11 +9,17 @@
 FractureHandler::FractureHandler ( const GetPot& dataFile,
 								   const size_type ID,
 								   const ExporterPtr_Type& exporter,
-								   const std::string& section,
-								   const std::string& sectionSaturation):
+								   const std::string& section ):
 								   M_ID( ID ),
 								   M_data( dataFile, section ),
-								   M_exporter ( exporter )
+								   M_exporter ( exporter ),
+                                   M_meshFEM( M_meshFlat ),
+                                   M_meshFEM2( M_meshFlat ),
+                                   M_meshFEMVisualization( M_mesh ),
+                                   M_integrationMethod( M_mesh ),
+                                   M_integrationMethodVisualization( M_mesh ),
+                                   M_integrationMethod2( M_meshFlat )
+
 {
 	M_levelSet.reset( new LevelSetHandler_Type ( dataFile, section ) );
 
@@ -92,8 +98,6 @@ void FractureHandler::init ()
     // inizializzo M_ci, condizione iniziale
 	M_ci.resize( M_data.getSpatialDiscretization() - 1 );
 
-
-
 	for ( size_type i = 0; i < M_data.getSpatialDiscretization() - 1; i++ )
 	{
 		bgeot::basic_mesh::ref_mesh_pt_ct nodes = M_meshFlat.points_of_convex ( i );
@@ -102,6 +106,42 @@ void FractureHandler::init ()
 
 		M_ci [ i ] = M_data.getCi( x );
 	}
+
+    // Definisco gli elementi finiti
+
+    // Definisco gli elementi finiti per la velocità nella frattura
+    getfem::pfem fractureFEType2 = getfem::fem_descriptor( M_data.getFEMType2() );
+
+    // Definisco il tipo di integrazione per la velocità nella frattura
+    getfem::pintegration_method fractureIntegrationType2 = getfem::int_method_descriptor( M_data.getIntegrationType2() );
+
+    // Definisco il metodo di integrazione per la velocità nella frattura
+    M_integrationMethod2.set_integration_method( M_meshFlat.convex_index(), fractureIntegrationType2 );
+
+    // Definisco lo spazio degli elementi finiti per la velocità nella frattura
+    M_meshFEM2.set_qdim( M_data.getSpaceDimension() );
+    M_meshFEM2.set_finite_element( M_meshFlat.convex_index(), fractureFEType2 );
+
+
+    // P(K-1) discontinuous FE
+    // Definisco gli elementi finiti nella frattura
+    getfem::pfem fractureFEType = getfem::fem_descriptor( M_data.getFEMType () );
+
+    // Definisco il tipo di integrazione nella frattura
+    getfem::pintegration_method fractureIntegrationType = getfem::int_method_descriptor( M_data.getIntegrationType() );
+
+    // Definisco il metodo di integrazione nella frattura
+    M_integrationMethod.set_integration_method( M_meshFlat.convex_index(), fractureIntegrationType );
+
+    // Definisco lo spazio degli elementi finiti per i coefficienti nella frattura
+    M_meshFEM.set_finite_element(M_meshFlat.convex_index(), fractureFEType );
+
+    // Metodo di integrazione per la pressione nella frattura per la visualizzazione
+    M_integrationMethodVisualization.set_integration_method( M_mesh.convex_index(), fractureIntegrationType );
+
+    // Elementi finiti per la pressione nella frattura per la visualizzazione
+    M_meshFEMVisualization.set_finite_element( M_mesh.convex_index(), fractureFEType );
+
 
 	std::ostringstream ss;
 	ss << "./matlab/risultati/inizialSaturation_" << M_ID << ".txt";
@@ -124,4 +164,3 @@ void FractureHandler::setFractureIntersection ( const sizeVector_Type& nodes, co
 
 	return;
 }// setFractureIntersection
-

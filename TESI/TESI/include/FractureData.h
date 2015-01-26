@@ -48,6 +48,8 @@ public:
 
     scalar_type getCi ( const scalar_type& x );
 
+    void update_Bc ( const size_type& pos, const scalar_type& u );
+
     inline scalar_type getThickness () const
     {
         return M_thickness;
@@ -98,6 +100,27 @@ public:
         return M_meshType;
     }
 
+    inline std::string getFEMType () const
+    {
+        return M_fEMType;
+    }
+
+    inline std::string getFEMType2 () const
+    {
+        return M_fEMType2;
+    }
+
+
+    inline std::string getIntegrationType () const
+    {
+        return M_integrationType;
+    }
+
+    inline std::string getIntegrationType2 () const
+    {
+        return M_integrationType2;
+    }
+
 	inline std::string getBc () const
 	{
 		return M_bc;
@@ -146,6 +169,12 @@ private:
 
 	std::string M_meshType;
     std::string M_meshSpacing;
+
+    std::string M_fEMType;
+    std::string M_fEMType2;
+
+    std::string M_integrationType;
+    std::string M_integrationType2;
 
     // saturation
 	std::string M_bc;

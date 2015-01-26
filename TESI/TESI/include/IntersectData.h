@@ -15,6 +15,7 @@
 #define _INTERSECTDATA_ 1
 
 #include "FractureHandler.h"
+#include "Geometry.h"
 
 /**************************************************************************/
 /*  IntersectData.h														  */
@@ -40,7 +41,7 @@ public:
      * corretta, ossia pari al numero di fratture. Questo perchè per ogni frattura coinvolta nell'intersezione voglio salvare il
      * corrispondente grado di libertà dove avviene l'incontro.
      */
-    void setIntersection ( const sizeVector_Type& nodes,
+    void setIntersection ( //const sizeVector_Type& nodes,
                            const FracturePtrContainer_Type& fractures );
 
     /**
@@ -51,8 +52,18 @@ public:
     /**
      * Funzione che aggiunge uno degli indici dei nodi di intersezione mancanti
      */
-    void updateNodes ( const IntersectData& intersection );
+    void updateNodes (); //( const IntersectData& intersection );
 
+    /**
+     * Funzione che aggiorna le bc per le fratture che si intersecano
+     */
+    void update_Bc ( const size_type& i );
+
+
+    /**
+     * Funzione che aggiorna il valore della saturazione all'intersezione
+     */
+    void update_Ui ( const scalar_type& landa);
 
     const FracturePtrContainer_Type& getFractures () const
     {
@@ -65,6 +76,11 @@ public:
     } // getFracture
 
 
+    scalar_type measure () const
+    {
+        return M_measure;
+    } // measure
+
     size_type getNumFractures () const
     {
         return M_fractures.size();
@@ -75,16 +91,26 @@ public:
     	return M_intersectionPoint;
     }
 
+    const Intersection_Type& getIntersect () const
+    {
+    	return M_intersection;
+    }
+
 
 private:
 
     void copy ( const IntersectData& in );
 
-
     sizeVector_Type M_intersectionPoint;
 
     // Insieme delle fratture che si intersecano
     FracturePtrContainer_Type M_fractures;
+
+    scalar_type M_u0;
+
+    scalar_type M_measure;
+
+	Intersection_Type M_intersection;
 
 };
 

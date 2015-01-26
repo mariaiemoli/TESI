@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Parametri per il problema di saturazione                                %
 % caso con funzione flusso discontinua									  %
+% risultati BOTTLENECK													  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 meshFile = meshes/mesh
@@ -10,7 +11,7 @@ numberFractures = 1
 
 [dataTime]
 
-        endTime = 4.
+        endTime = 10.
         
 [../]
 
@@ -75,6 +76,163 @@ spaceDimension = 1.
 			numberFlux = 2
 			x0 = 1.
             bc = g
+            u0 = 0.  # 1.-1.*(x<0.)  #1.*(x>0.)  
+			cfl = 1.5
+			U = 1.
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = x*(1.-x)
+				f1 = 1.-2.*x  
+				monotone = false
+				h = 3
+				us = 0.5 
+				us_meno = -0.7712
+				us_piu = 1.7712
+				uin = 0.4
+				uout = 0.0
+				
+			[../]
+			
+			[./fluxData1] # destra
+			
+				f = x*(1.-x*3./2.)
+				f1 = 1.-3.*x  
+				monotone = false
+				h = 3
+				us = 0.3333333333
+				us_meno = 0.2659
+				us_piu =  0.7341
+				uin = 0.4
+				uout = 0.0
+				
+			[../]
+			
+        [../]
+
+
+[../]
+
+
+
+[fractureData1]														
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-2.*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 2.*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 2.
+			spatialDiscretization = 160
+	        translateAbscissa = 0.
+	        lengthAbscissa = 2 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 2
+			x0 = 1.
+            bc = g
+            u0 = 0.66  # 1.-1.*(x<0.)  #1.*(x>0.)  
+			cfl = 1.5
+			U = 1.
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = x*(1.-x)
+				f1 = 1.-2.*x  
+				monotone = false
+				h = 3
+				us = 0.5 
+				us_meno = -0.7712
+				us_piu = 1.7712
+				uin = 0.25
+				uout = 0.66
+				
+			[../]
+			
+			[./fluxData1] # destra
+			
+				f = x*(1.-x*3./2.)
+				f1 = 1.-3.*x  
+				monotone = false
+				h = 3
+				us = 0.3333333333
+				us_meno = 0.2659
+				us_piu =  0.7341
+				uin = 0.25
+				uout = 0.66
+				
+			[../]
+			
+        [../]
+
+
+[../]
+
+
+[fractureData2]														
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-2.*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 2.*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 2.
+			spatialDiscretization = 160
+	        translateAbscissa = 0.
+	        lengthAbscissa = 2 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 2
+			x0 = 1.
+            bc = g
             u0 = 0.66  # 1.-1.*(x<0.)  #1.*(x>0.)  
 			cfl = 1.5
 			U = 1.
@@ -90,7 +248,7 @@ spaceDimension = 1.
 				us_meno = -0.7712
 				us_piu = 1.7712
 				uin = 0.66
-				u0ut = 0.66
+				uout = 0.66
 				
 			[../]
 			
@@ -104,7 +262,7 @@ spaceDimension = 1.
 				us_meno = 0.2659
 				us_piu =  0.7341
 				uin = 0.66
-				u0ut = 0.66
+				uout = 0.66
 				
 			[../]
 			

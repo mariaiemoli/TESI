@@ -38,6 +38,7 @@ int main ( int argc, char* argv [ ] )
 	//	std::string s = "mkdir "+vtkFolder;
 	//	system (s.c_str());
 
+
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
@@ -60,7 +61,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "Create the set of fractures for " << std::flush;
 	const size_type numberFractures = dataFile(
 			(section + "numberFractures").data(), 0);
-	std::cout << numberFractures << " fracture(s)..." << std::endl << std::flush;
+	std::cout << numberFractures << " fracture(s)..."  << std::flush;
 
 
 	// Inizializzo le fratture

@@ -29,7 +29,7 @@ public:
 
 	// Costruttore
     LevelSetData ( const GetPot& dataFile,
-                   const std::string& section = "fractureData/",
+                   const std::string& section, // = "fractureData/",
                    const std::string& sectionLevelSet = "levelSet/" );
 
     /**

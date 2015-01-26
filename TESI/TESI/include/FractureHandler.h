@@ -30,8 +30,8 @@ public:
 
     FractureHandler ( const GetPot& dataFile, const size_type ID,
     				  const ExporterPtr_Type& exporter,
-    				  const std::string& section = "fractureData/",
-    				  const std::string& sectionSaturation = "saturation/" );
+    				  const std::string& section = "fractureData/" );//,
+    				  //const std::string& sectionSaturation = "saturation/" );
 
     void init ();
 
@@ -39,7 +39,6 @@ public:
      * Funzione che definisce il nodo in cui la frattura corrente ha un'intersezione, e la frattura coinvolta
      */
     void setFractureIntersection ( const sizeVector_Type& nodes, const FractureHandler& fractureInvolved );
-
 
     inline const size_type& getID() const
 	{
@@ -78,6 +77,37 @@ public:
         return M_meshFlat;
     }
 
+    inline const getfem::mesh_fem& getMeshFEM ( ) const
+    {
+        return M_meshFEM;
+    }
+
+    inline const getfem::mesh_fem& getMeshFEM2 ( ) const
+    {
+        return M_meshFEM2;
+    }
+
+    inline const getfem::mesh_im& getIntegrationMethodVisualization ( ) const
+    {
+        return M_integrationMethodVisualization;
+    }
+
+    inline const getfem::mesh_im& getIntegrationMethod ( ) const
+    {
+        return M_integrationMethod;
+    }
+
+    inline const getfem::mesh_im& getIntegrationMethod2 ( ) const
+    {
+        return M_integrationMethod2;
+    }
+
+    inline const getfem::mesh_fem& getMeshFEMVisualization ( ) const
+    {
+        return M_meshFEMVisualization;
+    }
+
+
     inline scalarVector_Type getCi () const
     {
     	return M_ci;
@@ -103,6 +133,18 @@ private:
 
     getfem::mesh M_mesh;
     getfem::mesh M_meshFlat;
+
+    getfem::mesh_fem M_meshFEM;
+    getfem::mesh_fem M_meshFEM2;
+
+    getfem::mesh_fem M_meshFEMVisualization;
+
+    // integration method
+    getfem::mesh_im M_integrationMethod;
+    // integration method
+    getfem::mesh_im M_integrationMethodVisualization;
+    getfem::mesh_im M_integrationMethod2;
+
 
     scalarVector_Type M_ci;
 

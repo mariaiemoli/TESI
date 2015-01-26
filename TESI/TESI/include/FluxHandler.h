@@ -30,6 +30,9 @@ public:
 	FluxHandler ( const GetPot& dataFile, const std::string& sectionFlux );
 
 
+	void update_Bc ( const size_type& pos, const scalar_type& u );
+
+
 	inline std::string getFlux() const
 	{
 		return M_flux;

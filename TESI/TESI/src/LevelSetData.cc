@@ -11,7 +11,7 @@ LevelSetData::LevelSetData ( const GetPot& dataFile,
 							 const std::string& section,
 							 const std::string& sectionLevelSet ):
 							 M_section ( section ),
-							 M_sectionLevelSet ( sectionLevelSet ),
+							 M_sectionLevelSet ( M_section + sectionLevelSet ),
 							 M_spaceDimension ( dataFile ( ( M_section + "spaceDimension" ).data (), 1. ) ),
 							 // level set
 							 M_function ( dataFile ( ( M_sectionLevelSet + "levelSet" ).data (), "x" ) ),
@@ -22,7 +22,8 @@ LevelSetData::LevelSetData ( const GetPot& dataFile,
 							 M_y_map ( dataFile ( ( M_sectionLevelSet + "yMap" ).data (), "1" ) ),
 					         M_map_jac ( dataFile ( ( M_sectionLevelSet + "jacMap" ).data (), "1" ) ),
 							 M_normal_map ( dataFile ( ( M_sectionLevelSet + "normalMap" ).data (), "1" ) )
-{}
+{
+}
 
 
 

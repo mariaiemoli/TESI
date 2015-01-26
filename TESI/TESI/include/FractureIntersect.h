@@ -44,7 +44,7 @@ public:
 	 * e, in particolare, sarà il primo o l'ultimo) e la lista degli indice delle fratture con cui ha intersezione
 	 */
 	void findIntersection ( const FractureHandlerPtr_Type& f, const FracturePtrContainer_Type& fractures,
-							sizeVector_Type& nodes, sizeVector_Type& listOfFractures );
+							/*sizeVector_Type& nodes,*/ sizeVector_Type& listOfFractures );
 
 
 	/**
@@ -52,6 +52,18 @@ public:
 	 * In tal caso non inserisco le fratture coinvolte, ma solo gli indici dei nodi corrispondenti non ancora inseriti
 	 */
 	void push_back( const IntersectData& intersection );
+
+	/**
+	 * Funzione che elimina dalla lista delle fratture con intersezioni quelle già analizzate
+	 */
+	void clear ( sizeVectorContainer_Type& listOfFractures, const FracturePtrContainer_Type& fracturesInvolved );
+
+
+    /**
+     * Funzione che restituisce tutte le intersezioni.
+     * \return IntersectDataContainer_Type: restituisce il vettore di tutte le intersezioni
+     */
+    IntersectDataContainer_Type getIntersections () const;
 
 
     /**
@@ -67,6 +79,7 @@ public:
      */
     IntersectDataContainer_Type getBifurcationIntersections () const;
 
+	size_type getNumberIntersection () const;
 
 	size_type getNumberCross () const;
 

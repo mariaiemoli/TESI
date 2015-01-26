@@ -24,6 +24,7 @@
 class FracturesSet
 {
 public:
+
 	// Costruttore nullo
 	FracturesSet ();
 

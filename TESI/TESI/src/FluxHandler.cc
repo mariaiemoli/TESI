@@ -20,3 +20,17 @@ FluxHandler::FluxHandler ( const GetPot& dataFile, const std::string& sectionFlu
 						 M_Uout ( dataFile ( ( M_sectionFlux + "uout" ).data (), 0. ) )
 {}
 
+
+void FluxHandler::update_Bc ( const size_type& pos, const scalar_type& u )
+{
+	if ( pos == 0 )
+	{
+		M_Uin = u;
+	}
+	else
+	{
+		M_Uout = u;
+	}
+
+	return;
+}// update_Bc

@@ -6,7 +6,7 @@
 meshFile = meshes/mesh
 folderVTK = ./vtk/
 
-numberFractures = 2
+numberFractures = 3
 
 [dataTime]
 
