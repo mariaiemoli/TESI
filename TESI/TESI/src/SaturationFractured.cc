@@ -95,6 +95,8 @@ void SaturationFractured::assembly( const scalar_type& landa, const scalarVector
 		 */
 		Intersection [ i ].update_Ui( landa );
 
+
+
 	}
 
 	for ( size_type f = 0; f < numberFracture; f++ )
@@ -110,16 +112,32 @@ void SaturationFractured::assembly( const scalar_type& landa, const scalarVector
 			scalar_type m1 = std::max( u0[ f ][ 0 ], Us );
 			scalar_type m2 = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUin();
 
+			/*
+			std::cout << "###########" << std::endl;
+			std::cout << " frattura  " << f << std::endl;
+			std::cout << "  u_in " << m2 << std::endl;
+			*/
 			scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( m2, 0 );
 			scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( m1, 0 );
-
+			/*
+			std::cout << "  F_ul " << F_ul << std::endl;
+			std::cout << "  F_ur " << F_ur << std::endl;
+			*/
 			flux_in = std::max( F_ul, F_ur );
 
 			m1 = std::max( u0[ f ][ fractureNumberDOF [ f ] - 1 ], Us );
 			m2 = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUout();
 
+
 			F_ul = M_fractures->getFracture ( f )->getData().feval_scal( m1, 0 );
 			F_ur = M_fractures->getFracture ( f )->getData().feval_scal( m2, 0 );
+
+			/*
+			std::cout << "  u_out  " << m2 << std::endl;
+			std::cout << "  F_ul " << F_ul << std::endl;
+			std::cout << "  F_ur " << F_ur << std::endl;
+			std::cout << "###########" << std::endl;
+			*/
 
 			flux_out = std::max( F_ul, F_ur );
 
@@ -147,7 +165,10 @@ void SaturationFractured::assembly( const scalar_type& landa, const scalarVector
 
 
 		( *M_globalRightHandSide ) [ fractureShift ]  = u0 [ f ][ 0 ] - landa*(flux [ f ] [ 0 ] - flux_in );
-		( *M_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ f ] - 1 ]  = u0 [ f ][ 0 ] - landa*(flux_out - flux [ f ] [ fractureNumberDOF [ f ] - 1 ] );
+
+		( *M_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ f ]-1 ]  = u0 [ f ][ fractureNumberDOF [ f ] -1 ] - landa*(flux_out - flux [ f ] [ fractureNumberDOF [ f ] - 2 ] );
+
+		//std::cout << "  frattura  " << f << "  flux_in  " << flux_in << "   flux_out " << flux_out << std::endl;
 
 		// Impongo i flussi
 		for ( size_type i = 1; i < fractureNumberDOF [ f ] - 1; i++ )
@@ -242,7 +263,7 @@ void SaturationFractured::solve()
 
 	std::cout << std::endl << "Solving problem in Omega..." << std::flush;
 
-	for( size_type k = 0; k < 1; k++ )
+	for( size_type k = 0; k < nt; k++ )
 	{
 		fractureShift = 0;
 

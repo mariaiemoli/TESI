@@ -17,14 +17,19 @@ void IntersectData::copy ( const IntersectData& in )
         }
 
         M_intersectionPoint = in.M_intersectionPoint;
+
+        M_measure = in.M_measure;
+
+        M_u0 = in.M_u0;
+
+        M_intersection = in.M_intersection;
     }
 
     return;
 } // copy
 
 
-void IntersectData::setIntersection ( //const sizeVector_Type& nodes,
-					   	   	   	   	  const FracturePtrContainer_Type& fractures )
+void IntersectData::setIntersection ( const FracturePtrContainer_Type& fractures )
 {
 	M_fractures = fractures;
 	M_intersectionPoint.clear();
@@ -41,16 +46,16 @@ void IntersectData::setIntersection ( //const sizeVector_Type& nodes,
 
 	for ( size_type i = 0; i < fractures.size(); i++ )
 	{
-		//M_intersectionPoint[ i ] = nodes[ i ];
-
 		t = fractures [ i ]->getMeshFEM().point_of_basic_dof( M_intersectionPoint [ i ] )[ 0 ];
-		s = s + 1./( fractures [ i ]->getData ().getCi ( t )  );
+		//s = s + 1./( fractures [ i ]->getData ().getCi ( t )  );
+		s = s + ( fractures [ i ]->getData ().getCi ( t )  );
 	}
 
 	// per la condizione iniziale nel punto di intersezione prendo la media armonica del valore della ci
 	// nei punti più prossimi all'intersezione delle fratture
 
-	M_u0 = fractures.size()/s;
+	//M_u0 = fractures.size()/s;
+	M_u0 = s/fractures.size();
 
 	// aggiorno il dato al bordo per le fratture che si intersecano
 	for ( size_type i = 0; i < M_fractures.size(); i++ )
@@ -60,6 +65,7 @@ void IntersectData::setIntersection ( //const sizeVector_Type& nodes,
 
 	M_measure = M_intersection.measure();
 
+
 	return;
 }// setIntersection
 
@@ -67,8 +73,6 @@ void IntersectData::setIntersection ( //const sizeVector_Type& nodes,
 bool IntersectData::isEqual ( const IntersectData& intersection )
 {
 	size_type count = 0;
-
-	std::cout << " dentro isEqual " << std::endl;
 
 	if ( M_fractures.size() != intersection.getFractures ().size() )
 	{
@@ -92,7 +96,7 @@ bool IntersectData::isEqual ( const IntersectData& intersection )
 }// isEqual
 
 
-void IntersectData::updateNodes () //( const IntersectData& intersection )
+void IntersectData::updateNodes ()
 {
 	size_type nbDof0 = M_fractures [ 0 ]->getData().getSpatialDiscretization ()-1;
 	size_type nbDof1 = M_fractures [ 1 ]->getData().getSpatialDiscretization ()-1;
@@ -130,19 +134,19 @@ void IntersectData::updateNodes () //( const IntersectData& intersection )
 	}
 	else if( node_0 [ 1 ][ 0 ] == node_1 [ 0 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_1 [ 0 ][ 1 ] )
 	{
-		M_intersectionPoint [ 0 ] = nbDof0-1;
+		M_intersectionPoint [ 0 ] = nbDof0;
 		M_intersectionPoint [ 1 ] = 0;
 	}
 	else if( node_0 [ 0 ][ 0 ] == node_1 [ 1 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_1 [ 1 ][ 1 ] )
 	{
-		M_intersectionPoint [ 1 ] = nbDof1-1;
+		M_intersectionPoint [ 1 ] = nbDof1;
 		M_intersectionPoint [ 0 ] = 0;
 
 	}
 	else if( node_0 [ 1 ][ 0 ] == node_1 [ 1 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_1 [ 1 ][ 1 ] )
 	{
-		M_intersectionPoint [ 1 ] = nbDof1-1;
-		M_intersectionPoint [ 0 ] = nbDof0-1;
+		M_intersectionPoint [ 1 ] = nbDof1;
+		M_intersectionPoint [ 0 ] = nbDof0;
 
 	}
 
@@ -153,19 +157,19 @@ void IntersectData::updateNodes () //( const IntersectData& intersection )
 	}
 	else if( node_0 [ 1 ][ 0 ] == node_2 [ 0 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_2 [ 0 ][ 1 ] )
 	{
-		M_intersectionPoint [ 0 ] = nbDof0-1;
+		M_intersectionPoint [ 0 ] = nbDof0;
 		M_intersectionPoint [ 2 ] = 0;
 	}
 	else if( node_0 [ 0 ][ 0 ] == node_2 [ 1 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_2 [ 1 ][ 1 ] )
 	{
-		M_intersectionPoint [ 2 ] = nbDof2-1;
+		M_intersectionPoint [ 2 ] = nbDof2;
 		M_intersectionPoint [ 0 ] = 0;
 
 	}
 	else if( node_0 [ 1 ][ 0 ] == node_2 [ 1 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_2 [ 1 ][ 1 ] )
 	{
-		M_intersectionPoint [ 2 ] = nbDof2-1;
-		M_intersectionPoint [ 0 ] = nbDof0-1;
+		M_intersectionPoint [ 2 ] = nbDof2;
+		M_intersectionPoint [ 0 ] = nbDof0;
 
 	}
 	return;
@@ -187,8 +191,6 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 
 	for ( size_type i = 0; i < M_fractures.size(); i++ )
 	{
-		std::cout << " frattura: " << i << "    nodo: " <<  M_intersectionPoint [ i ] << std::endl;
-
 		if ( M_intersectionPoint [ i ] == 0 )
 		{
 			u0 = M_fractures [ i ]->getData().getFluxHandler ( 0 )->getUin();
@@ -264,16 +266,22 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 
 	// a questo punto calcolo la nuova U_I
 	scalar_type U0_old = M_u0;
+	/*
+	size_type H0 = M_fractures[ 0 ]->getData().getFluxHandler( 0 )->getH();
+	size_type H1 = M_fractures[ 1 ]->getData().getFluxHandler( 0 )->getH();
+	size_type H2 = M_fractures[ 2 ]->getData().getFluxHandler( 0 )->getH();
+	*/
 
-	std::cout << " M_measure  " << M_measure << std::endl;	// SBAGLIATA!!!
 
-	std::cout << " U0_old  " << U0_old << std::endl;
-	std::cout << " landa  " << landa << std::endl;
-	std::cout << " Flux [ 0 ]  " << Flux [ 0 ] << std::endl;
-	std::cout << " Flux [ 1 ]  " << Flux [ 1 ] << std::endl;
-	std::cout << " Flux [ 2 ]  " << Flux [ 2 ] << std::endl;
+	size_type H0 = M_fractures[ 0 ]->getData().getThickness ();
+	size_type H1 = M_fractures[ 1 ]->getData().getThickness ();
+	size_type H2 = M_fractures[ 2 ]->getData().getThickness ();
 
-	M_u0 = U0_old - ( landa )/( M_measure ) *( Flux [ 0 ] + Flux [ 1 ] + Flux [ 2 ] );
+
+	//M_u0 = U0_old - ( landa )/( M_measure ) *( Flux [ 0 ] + Flux [ 1 ] + Flux [ 2 ] );
+
+	M_u0 = U0_old - ( 1 )/( M_measure ) *( Flux [ 0 ]*H0 + H1*Flux [ 1 ] + H2*Flux [ 2 ] );
+	//M_u0 = U0_old - ( landa )*( Flux [ 0 ] + Flux [ 1 ] + Flux [ 2 ] );
 
 	for ( size_type i = 0; i < M_fractures.size(); i++ )
 	{
@@ -288,9 +296,9 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 
 void IntersectData::update_Bc ( const size_type& i )
 {
-	size_type nbDof = M_fractures [ i ]->getData ().getSpatialDiscretization ();
+	size_type nbDof = M_fractures [ i ]->getData ().getSpatialDiscretization ()-1;
 
-	if ( M_intersectionPoint [ i ] == nbDof - 1 )
+	if ( M_intersectionPoint [ i ] == nbDof  )
 	{
 		M_fractures [ i ] -> getData().update_Bc ( nbDof -1, M_u0);
 	}
@@ -300,4 +308,20 @@ void IntersectData::update_Bc ( const size_type& i )
 	}
 
 	return;
-}
+}// update_Bc
+
+
+
+
+IntersectData & IntersectData::operator =(const IntersectData& t)
+{
+	M_intersectionPoint = t.M_intersectionPoint;
+	M_fractures = t.M_fractures;
+	M_u0 = t.M_u0;
+	M_measure = t.M_measure;
+
+	M_intersection = t.M_intersection;
+
+	return *this;
+
+}// operator =

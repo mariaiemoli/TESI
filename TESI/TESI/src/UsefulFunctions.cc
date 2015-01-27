@@ -100,3 +100,9 @@ scalar_type max ( const std::string& flusso, const scalar_type ul, const scalar_
 	return tmp;
 
 }// max
+
+
+VectorIntersection::VectorIntersection ()
+{}
+
+

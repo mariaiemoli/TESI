@@ -41,8 +41,7 @@ public:
      * corretta, ossia pari al numero di fratture. Questo perchè per ogni frattura coinvolta nell'intersezione voglio salvare il
      * corrispondente grado di libertà dove avviene l'incontro.
      */
-    void setIntersection ( //const sizeVector_Type& nodes,
-                           const FracturePtrContainer_Type& fractures );
+    void setIntersection ( const FracturePtrContainer_Type& fractures );
 
     /**
      * Funzione che verifica se due intersezioni sono uguali a meno dei nodi, ossia se le fratture coinvolte sono le stesse
@@ -52,7 +51,7 @@ public:
     /**
      * Funzione che aggiunge uno degli indici dei nodi di intersezione mancanti
      */
-    void updateNodes (); //( const IntersectData& intersection );
+    void updateNodes ();
 
     /**
      * Funzione che aggiorna le bc per le fratture che si intersecano
@@ -91,10 +90,20 @@ public:
     	return M_intersectionPoint;
     }
 
+
+    scalar_type getU0 () const
+    {
+    	return M_u0;
+    }
+
+
     const Intersection_Type& getIntersect () const
     {
     	return M_intersection;
     }
+
+	//Operatori
+    IntersectData& operator=(const IntersectData& t);
 
 
 private:

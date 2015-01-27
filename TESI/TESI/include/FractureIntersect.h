@@ -43,20 +43,26 @@ public:
 	 * Quello che ottengo è un vettore di nodi che indica dove la frattura ha intersezione (per ora sarà un nodo solo
 	 * e, in particolare, sarà il primo o l'ultimo) e la lista degli indice delle fratture con cui ha intersezione
 	 */
+//	void findIntersection ( const FractureHandlerPtr_Type& f, const FracturePtrContainer_Type& fractures,
+	//						/*sizeVector_Type& nodes,*/ sizeVector_Type& listOfFractures );
 	void findIntersection ( const FractureHandlerPtr_Type& f, const FracturePtrContainer_Type& fractures,
-							/*sizeVector_Type& nodes,*/ sizeVector_Type& listOfFractures );
+							VectorIntersection_Type& listOfFractures );
 
 
 	/**
 	 * Dopo aver costruito una nuova intersezione, prima di inserirla nel vettore delle intersezioni, verifico che non vi sia già.
 	 * In tal caso non inserisco le fratture coinvolte, ma solo gli indici dei nodi corrispondenti non ancora inseriti
 	 */
-	void push_back( const IntersectData& intersection );
+	void Push_Back( const IntersectData& intersection );
 
 	/**
 	 * Funzione che elimina dalla lista delle fratture con intersezioni quelle già analizzate
 	 */
-	void clear ( sizeVectorContainer_Type& listOfFractures, const FracturePtrContainer_Type& fracturesInvolved );
+//	void clear ( sizeVectorContainer_Type& listOfFractures, const FracturePtrContainer_Type& fracturesInvolved );
+	void clear ( VectorIntersectionContainer_Type& listOfFractures, const size_type& i, const size_type& j );
+
+
+	bool isIn ( const size_type& i, const sizeVector_Type& fractures) const;
 
 
     /**

@@ -35,4 +35,52 @@ scalar_type min ( const std::string& flusso, const scalar_type ul, const scalar_
 
 scalar_type max ( const std::string& flusso, const scalar_type ul, const scalar_type ur );
 
+
+
+class VectorIntersection
+{
+public:
+
+	VectorIntersection ();
+
+
+	sizeVector_Type const & operator[]( size_type i ) const
+	{
+		if ( i == 0 )
+		{
+			return Vector_0;
+		}
+		else
+		{
+			return Vector_1;
+		}
+	}
+
+
+	sizeVector_Type & operator[]( size_type i )
+	{
+		if ( i == 0 )
+		{
+			return Vector_0;
+		}
+		else
+		{
+			return Vector_1;
+		}
+	}
+
+
+
+private:
+
+	sizeVector_Type Vector_0;
+
+	sizeVector_Type Vector_1;
+};
+
+typedef VectorIntersection VectorIntersection_Type;									/*!< classe VectorIntersection */
+typedef std::vector < VectorIntersection_Type > VectorIntersectionContainer_Type;				/*!< Vettore di classi IntersectData */
+typedef boost::shared_ptr < VectorIntersection > VectorIntersectionPtr_Type;			/*!< puntatore alla classe VectorIntersection */
+
+
 #endif /* _USEFULFUNCTION_H_ */
