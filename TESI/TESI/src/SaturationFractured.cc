@@ -164,9 +164,9 @@ void SaturationFractured::assembly( const scalar_type& landa, const scalarVector
 
 
 
-		( *M_globalRightHandSide ) [ fractureShift ]  = u0 [ f ][ 0 ] - landa*(flux [ f ] [ 0 ] - flux_in );
+		//( *M_globalRightHandSide ) [ fractureShift ]  = u0 [ f ][ 0 ] - landa*(flux [ f ] [ 0 ] - flux_in );
 
-		( *M_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ f ]-1 ]  = u0 [ f ][ fractureNumberDOF [ f ] -1 ] - landa*(flux_out - flux [ f ] [ fractureNumberDOF [ f ] - 2 ] );
+		//( *M_globalRightHandSide ) [ fractureShift + fractureNumberDOF [ f ]-1 ]  = u0 [ f ][ fractureNumberDOF [ f ] -1 ] - landa*(flux_out - flux [ f ] [ fractureNumberDOF [ f ] - 2 ] );
 
 		//std::cout << "  frattura  " << f << "  flux_in  " << flux_in << "   flux_out " << flux_out << std::endl;
 
@@ -258,6 +258,12 @@ void SaturationFractured::solve()
 	scalar_type landa = dt/h;
 
 
+	nt = 50;
+	dt = 0.002;
+
+	landa = dt/h;
+
+
 	scalarVectorContainer_Type flux( numberFracture );
 
 
@@ -341,7 +347,7 @@ void SaturationFractured::solve()
 
 void SaturationFractured::solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux, const size_type k )
 {
-	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization() - 1;
+	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization()-1;
 
 	Flux.clear();
 	Flux.resize( n );
@@ -413,7 +419,68 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 		}
 		else
 		{
-			if ( i != n-1 )
+			// implemento il metodo di anna
+
+			scalar_type Sl = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUin();
+
+			if ( f== 1 )
+				std::cout << "U_in frattura 1  " << Sl << std::endl;
+
+			scalar_type Sr;
+
+			for ( size_type i = 0; i < n; i++ )
+			{
+				Sr = u0[ i ];
+
+				scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( Sr, 0 );
+				scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( Sl, 0 );
+
+				std::cout << " Sl  "  << Sl << " F_ul  " << F_ul << "   Sr  " << Sr << "   F_ur  " <<   F_ur  << std::endl;
+
+				if ( f == 1 ) //( s >= 0)
+				{
+					std::cout << " frattura uno " << std::endl;
+					Flux[ i ] = F_ul;
+				}
+				else
+				{
+					Flux[ i ] = F_ur;
+				}
+				Sl = Sr;
+
+			}
+
+			if ( f == 1 )
+			{
+				M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->update_Bc( n, Sr );
+			}
+			else
+			{
+				M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->update_Bc( 0, Sr );
+			}
+
+
+			/*
+			if ( i == 0 )
+			{
+				scalar_type m = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUin();
+
+				scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( u0[ i ], 0 );
+				scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( m, 0 );
+
+				scalar_type s = (F_ul - F_ur )*(m - u0[ i ] );
+
+
+				if ( f == 1 ) //( s >= 0)
+				{
+					Flux[ i ] = F_ul;
+				}
+				else
+				{
+					Flux[ i ] = F_ur;
+				}
+			}
+			else if ( i != n-1 )
 			{
 				scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( u0[ i ], k );
 				scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( u0[ i+1 ], k );
@@ -421,7 +488,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 				scalar_type s = (F_ur - F_ul )*(u0[ i+1 ] - u0[ i ] );
 
 
-				if ( s >= 0)
+				if ( f == 1 ) //( s >= 0)
 				{
 					Flux[ i ] = F_ul;
 				}
@@ -430,11 +497,13 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 					Flux[ i ] = F_ur;
 				}
 
+				/*
 				// entropy fix: corregge il flusso se c'e' una rarefazione transonica
 
 				scalarVector_Type fl1;
 
 				M_fractures->getFracture ( f )->getData().feval( fl1, u0, 0, 0 );
+
 
 				if ( fl1[ i ] < 0 && fl1[ i+1 ] > 0)
 				{
@@ -453,7 +522,8 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 
 					Flux[ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us, 0, 0 );
 				}
-			}
+				*/
+			/*}
 			else
 			{
 				scalar_type m = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUout();
@@ -464,7 +534,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 				scalar_type s = (F_ur - F_ul )*(m - u0[ i ] );
 
 
-				if ( s >= 0)
+				if ( f == 1 ) //( s >= 0)
 				{
 					Flux[ i ] = F_ul;
 				}
@@ -473,6 +543,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 					Flux[ i ] = F_ur;
 				}
 
+				/*
 				// entropy fix: corregge il flusso se c'e' una rarefazione transonica
 
 				scalarVector_Type fl1;
@@ -496,8 +567,9 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 
 					Flux[ i ] = M_fractures->getFracture ( f )->getData().feval_scal( us, 0, 0 );
 				}
-			}
-
+				*/
+			/*}
+			*/
 		}
 	}
 
