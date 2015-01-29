@@ -60,71 +60,7 @@ void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& 
 	return;
 }// constructIntesection
 
-/*
 
-
-void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& fractures )
-{
-	//sizeVectorContainer_Type listOfFractures ( fractures. size() );
-
-	VectorIntersectionContainer_Type listOfFractures ( fractures. size() );
-
-	for ( size_type f = 0; f < fractures.size(); f++ )
-	{
-		listOfFractures [ f ].clear();
-
-		// cerco tutte le possibili intersezioni tra la frattura corrente e le altre fratture
-		findIntersection ( fractures [ f ], fractures, listOfFractures [ f ] );
-
-		// ACTUNG!!! MANCA LA PARTE DI CHIAMATA ALLA FUNZIONE setFractureIntersection
-
-	}
-
-	std::vector<FracturePtrContainer_Type> fracturesInvolved ( fractures.size() );
-
-	for ( size_type i = 0; i < fractures.size(); i++ )
-	{
-		// Prendo i puntatori alle fratture coinvolte
-
-		if ( listOfFractures [ i ].size () != 0 )	// cioè se la frattura i-esima ha un'intersezione
-		{
-			fracturesInvolved [ i ].clear();
-			fracturesInvolved [ i ].resize( listOfFractures[ i ].size() +1 );
-
-			fracturesInvolved [ i ][ 0 ] = fractures[ i ];
-
-			for ( size_type f = 1; f < fracturesInvolved.size(); ++f )
-			{
-				 fracturesInvolved [ i ][ f ] = fractures [ listOfFractures [ i ] [ f-1 ] ];
-			}
-		}
-	}
-
-	for ( size_type i = 0; i < fractures.size(); i++ )
-	{
-		if ( fracturesInvolved [ i ].size() != 0 )
-		{
-			std::cout << " i " << i << "   fracturesInvolved [ i ].size() " << fracturesInvolved [ i ].size() << std::endl;
-			// Costruisco la classe IntersectData per la nuova intersezione
-			IntersectData intersection;
-
-			// Qui faccio costruire anche il volume di intersezione
-			intersection.setIntersection ( fracturesInvolved [ i ] );
-
-			push_back ( intersection );
-
-			// tolgo le fratture già analizzate dagli altri vettori
-			clear ( listOfFractures, fracturesInvolved [ i ] );
-		}
-	}
-
-
-
-	return;
-}// constructIntesection
-
-
- */
 
 void FractureIntersect::findIntersection ( const FractureHandlerPtr_Type& f,
 										   const FracturePtrContainer_Type& fractures,
@@ -239,38 +175,6 @@ void FractureIntersect::clear ( VectorIntersectionContainer_Type& listOfFracture
 
 
 
-/*
-
- void FractureIntersect::clear ( sizeVectorContainer_Type& listOfFractures, const FracturePtrContainer_Type& fracturesInvolved )
-{
-	sizeVector_Type fractures_id;
-
-	for ( size_type i = 0; i < fracturesInvolved.size(); i++ )
-	{
-		fractures_id.push_back( fracturesInvolved [ i ]->getID () );
-	}
-
-	for( size_type f = 0; f < listOfFractures.size(); f++ )
-	{
-		for ( size_type i = 0; i < fractures_id.size(); i++ )
-		{
-			for ( size_type j = 0; j < listOfFractures [ f ].size(); j++ )
-			{
-				if ( listOfFractures [ f ][ j ] == fractures_id [ i ] )
-				{
-					listOfFractures [ f ].erase ( listOfFractures [ f ].begin() + j );
-				}
-			}
-		}
-	}
-
-	return;
-}// clear
-
- */
-
-
-
 bool FractureIntersect::isIn ( const size_type& i, const sizeVector_Type& fractures) const
 {
 	for ( size_type j = 0; j < fractures.size(); j++ )
@@ -282,7 +186,7 @@ bool FractureIntersect::isIn ( const size_type& i, const sizeVector_Type& fractu
 	}
 
 	return false;
-}
+}// isIn
 
 
 

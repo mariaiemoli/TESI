@@ -37,7 +37,7 @@ FractureData::FractureData ( const GetPot& dataFile,
 				   	   	   	 M_numberFlux( dataFile ( ( M_sectionSaturation + "numberFlux").data (), 1 ) ),
 				   	   	   	 M_x( dataFile ( ( M_sectionSaturation + "x0").data (), 0. ) ),
 				             M_cfl ( dataFile ( ( M_sectionSaturation + "cfl" ).data (), 1.8 ) ),
-				             M_U ( dataFile ( (M_sectionSaturation + "U" ).data (), "1." ) ),
+				             M_U ( dataFile ( (M_sectionSaturation + "U" ).data (), "pos" ) ),
 				             M_invP ( dataFile ( (M_sectionSaturation + "invPorosity" ).data (), "1." ) )
 {
 	M_h = ( M_b-M_a )/( M_spatialDiscretization-1 );
@@ -92,10 +92,10 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 
 scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, const size_type f )
 {
-	scalar_type U = velocity ( us );
-	scalar_type P = porosity ( us );
+	//	scalar_type P = porosity ( us );
 
 	std::string Flux;
+
 
 	if ( f == 0 )
 	{
@@ -105,7 +105,8 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, 
 
 		M_parser.setVariable ( "x", us );
 
-		return U*P*M_parser.evaluate ();
+		//return P*M_parser.evaluate ();
+		return M_parser.evaluate ();
 	}
 	else
 	{
@@ -115,8 +116,8 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, 
 
 		M_parser.setVariable ( "x", us );
 
-		return U*P*M_parser.evaluate ();
-
+		//return P*M_parser.evaluate ();
+		return M_parser.evaluate ();
 	}
 
 }// feval_scal
@@ -238,3 +239,17 @@ void FractureData::update_Bc ( const size_type& pos, const scalar_type& u )
 
 	return;
 }// update_Bc
+
+
+int FractureData::getVelocity ()
+{
+	if ( M_U == "pos" )
+	{
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+
+}// getVelocity

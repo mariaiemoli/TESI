@@ -44,6 +44,7 @@ void IntersectData::setIntersection ( const FracturePtrContainer_Type& fractures
 
 	M_intersection.setIntersection ( fractures_copy );
 
+	/*
 	for ( size_type i = 0; i < fractures.size(); i++ )
 	{
 		t = fractures [ i ]->getMeshFEM().point_of_basic_dof( M_intersectionPoint [ i ] )[ 0 ];
@@ -56,8 +57,10 @@ void IntersectData::setIntersection ( const FracturePtrContainer_Type& fractures
 
 	//M_u0 = fractures.size()/s;
 	M_u0 = s/fractures.size();
+	*/
 
-	M_u0 = 1.;
+	M_u0 = 0.;
+//	M_u0 = 1.;
 
 	// aggiorno il dato al bordo per le fratture che si intersecano
 	for ( size_type i = 0; i < M_fractures.size(); i++ )
@@ -66,7 +69,6 @@ void IntersectData::setIntersection ( const FracturePtrContainer_Type& fractures
 	}
 
 	M_measure = M_intersection.measure();
-
 
 	return;
 }// setIntersection
@@ -377,7 +379,6 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 				scalar_type F_ul = M_fractures [ i ]->getData().feval_scal( m1, k );
 				scalar_type F_ur = M_fractures [ i ]->getData().feval_scal( m2, k );
 
-				std::cout << " frattura  " << i << " F_ul  " << F_ul << "   F_ur  " << F_ur << std::endl;
 				Flux[ i ] = std::max( F_ul, F_ur );
 			}
 
@@ -394,13 +395,15 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 		}
 		else
 		{
+			int U = M_fractures[ i ]->getData().getVelocity();
+
 			scalar_type F_ul = M_fractures [ i ] ->getData().feval_scal( u0, k );
 			scalar_type F_ur = M_fractures [ i ] ->getData().feval_scal( M_u0, k );
 
 			scalar_type s = (F_ur - F_ul )*(M_u0 - u0 );
 
 
-			if ( i == 1 ) //( s >= 0)
+			if ( U > 0 )
 			{
 				Flux[ i ] = F_ul;
 			}
@@ -415,11 +418,6 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 
 	// a questo punto calcolo la nuova U_I
 	scalar_type U0_old = M_u0;
-	/*
-	size_type H0 = M_fractures[ 0 ]->getData().getFluxHandler( 0 )->getH();
-	size_type H1 = M_fractures[ 1 ]->getData().getFluxHandler( 0 )->getH();
-	size_type H2 = M_fractures[ 2 ]->getData().getFluxHandler( 0 )->getH();
-	*/
 
 
 	scalar_type H0 = M_fractures[ 0 ]->getData().getThickness ();
@@ -428,17 +426,17 @@ void IntersectData::update_Ui ( const scalar_type& landa )
 
 	//M_measure = - M_measure;
 
-	/*
+
 	std::cout << " Flux [ 0 ] " << Flux [ 0 ] << std::endl;
 	std::cout << " Flux [ 1 ] " << Flux [ 1 ] << std::endl;
 	std::cout << " Flux [ 2 ] " << Flux [ 0 ] << std::endl;
-	*/
+
 
 	//std::cout << "  ( landa )/( M_measure ) *(  - Flux [ 0 ] - Flux [ 1 ] - Flux [ 2 ] ) " << ( landa )/( M_measure ) *(  - Flux [ 0 ] - Flux [ 1 ] - Flux [ 2 ] ) << std::endl;
 
 	M_u0 = U0_old - ( landa )/( M_measure ) *(  - Flux [ 0 ] - Flux [ 1 ] - Flux [ 2 ] );
 
-	//M_u0 = U0_old - ( landa )/( M_measure ) *( - Flux [ 0 ]*H0 + Flux [ 1 ]*H1 - Flux [ 2 ]*H2 );
+	//M_u0 = U0_old - ( landa )/( M_measure ) *( - Flux [ 0 ]/H0 - Flux [ 1 ]/H1 - Flux [ 2 ]/H2 );
 
 	//std::cout << " M_u0: " << M_u0 << std::endl;
 
@@ -460,9 +458,10 @@ void IntersectData::update_Bc ( const size_type& i )
 {
 	size_type nbDof = M_fractures [ i ]->getData ().getSpatialDiscretization ()-1;
 
+	std::cout << " frattura  " << i << "  punto intersezione  " << M_intersectionPoint [ i ] << std::endl;
 	if ( M_intersectionPoint [ i ] == nbDof  )
 	{
-		M_fractures [ i ] -> getData().update_Bc ( nbDof -1, M_u0);
+		M_fractures [ i ] -> getData().update_Bc ( nbDof , M_u0);
 	}
 	else
 	{

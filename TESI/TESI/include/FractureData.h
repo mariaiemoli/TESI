@@ -48,6 +48,8 @@ public:
 
     scalar_type getCi ( const scalar_type& x );
 
+    int getVelocity ();
+
     void update_Bc ( const size_type& pos, const scalar_type& u );
 
     inline scalar_type getThickness () const
