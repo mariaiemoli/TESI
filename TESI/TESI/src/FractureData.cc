@@ -32,7 +32,6 @@ FractureData::FractureData ( const GetPot& dataFile,
 							 M_integrationType2 ( dataFile ( ( M_sectionDomain + "integrationType2" ).data (),
 																    "IM_GAUSS1D(3)" ) ),
 				             // saturation
-				   	   	   	 M_bc ( dataFile ( ( M_sectionSaturation + "bc").data (), "p" ) ),
 				   	   	   	 M_u0 ( dataFile ( ( M_sectionSaturation + "u0").data (), "1." ) ),
 				   	   	   	 M_numberFlux( dataFile ( ( M_sectionSaturation + "numberFlux").data (), 1 ) ),
 				   	   	   	 M_x( dataFile ( ( M_sectionSaturation + "x0").data (), 0. ) ),
@@ -40,8 +39,6 @@ FractureData::FractureData ( const GetPot& dataFile,
 				             M_U ( dataFile ( (M_sectionSaturation + "U" ).data (), "pos" ) ),
 				             M_invP ( dataFile ( (M_sectionSaturation + "invPorosity" ).data (), "1." ) )
 {
-	M_h = ( M_b-M_a )/( M_spatialDiscretization-1 );
-
 	M_flux.resize( M_numberFlux );
 
 	std::ostringstream sectionFlux;
@@ -53,7 +50,6 @@ FractureData::FractureData ( const GetPot& dataFile,
 		M_flux [ i ].reset( new FluxHandler_Type( dataFile, sectionFlux.str() ));
 
 		sectionFlux.str("");
-
 	}
 
 }// costruttore
@@ -123,63 +119,6 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, 
 }// feval_scal
 
 
-scalar_type FractureData::fzero( const std::string& f, const scalar_type& a, const scalar_type& b, size_type count )
-{
-	scalar_type toll = 1.0E-7;
-	size_type itermax = 100;
-	scalar_type x0 = a;
-
-	M_parser.setString ( f );
-
-    M_parser.setVariable ( "x", a );
-
-	scalar_type f_a = M_parser.evaluate ();
-
-	if ( f_a < toll )
-	{
-		return a;
-	}
-
-	M_parser.setVariable ( "x", b );
-
-	scalar_type f_b = M_parser.evaluate ();
-
-	if ( f_b < toll )
-	{
-		return b;
-	}
-
-	scalar_type c = ( a + b )/2;
-
-	M_parser.setVariable ( "x", c );
-
-	scalar_type f_c = M_parser.evaluate ();
-
-	if ( f_c < toll )
-	{
-		return c;
-	}
-
-	if ( count < itermax )
-	{
-		if ( f_a * f_c <0 )
-		{
-			x0 = fzero( f, a, c, count+1 );
-		}
-		else
-		{
-			x0 = fzero( f, c, b, count+1 );
-		}
-	}
-	else
-	{
-		return x0;
-	}
-
-	return x0;
-}// fzero
-
-
 std::string FractureData::getFlux( const size_type& i )
 {
 	return M_flux [ i ]->getFlux();
@@ -230,15 +169,23 @@ scalar_type FractureData::getCi ( const scalar_type& x )
 
 
 
-void FractureData::update_Bc ( const size_type& pos, const scalar_type& u )
+void FractureData::update_UI ( const scalar_type& u )
 {
 	for ( size_type i = 0; i < M_flux.size(); i++ )
 	{
-		M_flux [ i ]-> update_Bc ( pos, u);
+		M_flux [ i ]-> update_UI ( u );
 	}
 
 	return;
-}// update_Bc
+}// update_UI
+
+
+void FractureData::updateSI ( const scalar_type& f )
+{
+	M_SI = f;
+
+	return;
+}// updateSI
 
 
 int FractureData::getVelocity ()

@@ -13,6 +13,7 @@ FractureHandler::FractureHandler ( const GetPot& dataFile,
 								   M_ID( ID ),
 								   M_data( dataFile, section ),
 								   M_exporter ( exporter ),
+
                                    M_meshFEM( M_meshFlat ),
                                    M_meshFEM2( M_meshFlat ),
                                    M_meshFEMVisualization( M_mesh ),
@@ -22,6 +23,20 @@ FractureHandler::FractureHandler ( const GetPot& dataFile,
 
 {
 	M_levelSet.reset( new LevelSetHandler_Type ( dataFile, section ) );
+
+	base_node t0(1);
+	base_node t1(1);
+	t0[ 0 ] = 0;
+	t1[ 0 ] = 1;
+
+	scalar_type ax = M_data.getA();
+	scalar_type ay = M_levelSet->getData ( )->y_map( t0 );
+	scalar_type bx = M_data.getB();
+	scalar_type by = M_levelSet->getData ( )->y_map( t1 );
+
+	scalar_type spatialDiscretization = M_data.getSpatialDiscretization ();
+
+	M_h = sqrt( (ax-bx)*(ax-bx) + (ay-by)*(ay-by) )/( spatialDiscretization-1 );
 
 }// costruttore
 

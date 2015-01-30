@@ -9,17 +9,12 @@
 
 void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& fractures )
 {
-	//sizeVectorContainer_Type listOfFractures ( fractures. size() );
-
 	VectorIntersectionContainer_Type listOfFractures ( fractures. size() );
 
 	for ( size_type f = 0; f < fractures.size(); f++ )
 	{
 		// cerco tutte le possibili intersezioni tra la frattura corrente e le altre fratture
 		findIntersection ( fractures [ f ], fractures, listOfFractures [ f ] );
-
-		// ACTUNG!!! MANCA LA PARTE DI CHIAMATA ALLA FUNZIONE setFractureIntersection
-
 	}
 
 	std::vector<FracturePtrContainer_Type> fracturesInvolved ( fractures.size() );
@@ -28,7 +23,7 @@ void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& 
 	{
 		// Prendo i puntatori alle fratture coinvolte
 
-		for ( size_type j = 0; j < 1; j++ )
+		for ( size_type j = 0; j < 2; j++ )
 		{
 			if ( listOfFractures [ i ] [ j ].size () != 0 )	// cioè se la frattura i-esima ha un'intersezione nel nodo j
 			{
@@ -68,7 +63,6 @@ void FractureIntersect::findIntersection ( const FractureHandlerPtr_Type& f,
 {
 	size_type numberFracture = fractures.size();
 	size_type ID = f->getID();
-	size_type nbDof = f->getData().getSpatialDiscretization ()-1;
 
 	scalarVectorContainer_Type node_f( 2 );
 	scalarVectorContainer_Type node_of( 2 );
@@ -190,13 +184,6 @@ bool FractureIntersect::isIn ( const size_type& i, const sizeVector_Type& fractu
 
 
 
-IntersectDataContainer_Type FractureIntersect::getIntersections () const
-{
-    return M_intersections;
-
-} // getIntersections
-
-
 IntersectDataContainer_Type FractureIntersect::getCrossIntersections () const
 {
 	IntersectDataContainer_Type tmp;
@@ -238,13 +225,6 @@ IntersectDataContainer_Type FractureIntersect::getBifurcationIntersections () co
     return tmp;
 
 } // getBifurcationIntersections
-
-
-size_type FractureIntersect::getNumberIntersection() const
-{
-	return M_intersections.size();
-}// getNumberIntersection
-
 
 
 size_type FractureIntersect::getNumberCross() const

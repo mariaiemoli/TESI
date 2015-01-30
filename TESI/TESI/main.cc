@@ -74,6 +74,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << std::endl;
 
 
+	/*
 	// Impongo le condizioni al contorno per le fratture
 	std::cout << "Create fracture boundary conditions..." << std::flush;
 	BCPtrContainer_Type bcFracture(numberFractures);
@@ -101,9 +102,9 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
-
+	*/
 	// Risolvo il problema in saturazione
-	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, bcHandler, exporter ) );
+	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, /*bcHandler,*/ exporter ) );
 
 	saturation->init();
 

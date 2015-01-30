@@ -1,5 +1,5 @@
 %%MatrixMarket matrix coordinate real general
-34 34 34
+37 37 37
 1 1                    1
 2 2                    1
 3 3                    1
@@ -34,3 +34,6 @@
 32 32                    1
 33 33                    1
 34 34                    1
+35 35                    1
+36 36                    1
+37 37                    1

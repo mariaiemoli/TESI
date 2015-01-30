@@ -55,6 +55,11 @@ public:
     	return M_levelSet;
     }
 
+    inline scalar_type getH () const
+    {
+    	return M_h;
+    }
+
     inline const getfem::mesh& getMesh ( ) const
     {
         return M_mesh;
@@ -128,6 +133,8 @@ private:
     FractureData M_data;
 
     LevelSetHandlerPtr_Type M_levelSet;
+
+	scalar_type M_h;
 
     ExporterPtr_Type M_exporter;
 

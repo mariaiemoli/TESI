@@ -33,7 +33,6 @@ class SaturationFractured
 public:
 	SaturationFractured( const GetPot& dataFile,
 						 FracturesSetPtr_Type& fractures,
-						 const BCHandlerPtr_Type& bcHandler,
 						 const ExporterPtr_Type& exporter,
 					     const std::string time = "dataTime/" );
 
@@ -46,7 +45,7 @@ public:
 	/**
 	 * Funzione che assembla il sistema algebrico
 	 */
-	void assembly( const scalar_type& landa, const scalarVectorContainer_Type& u0, const scalarVectorContainer_Type& flux );
+	void assembly( const scalarVector_Type& landa, const scalarVectorContainer_Type& u0, const scalarVectorContainer_Type& flux );
 
 
 	void solve();
@@ -80,13 +79,11 @@ private:
 
 	FracturesSetPtr_Type M_fractures;
 
-    // BC Handler
-    BCHandlerPtr_Type M_bcHandler;
-
     // Exporter
     ExporterPtr_Type M_exporter;
 
 	scalar_type M_t;
+	scalar_type M_dt;
 
     // Global matrix, saturation
     sparseMatrixPtr_Type M_globalMatrix;

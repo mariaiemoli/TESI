@@ -34,8 +34,6 @@ public:
 
 	scalar_type feval_scal( const scalar_type& us, const size_type i, const size_type f = 0 );
 
-	scalar_type fzero( const std::string& f, const scalar_type& a, const scalar_type& b, size_type count = 0 );
-
 	std::string getFlux( const size_type& i );
 
 	std::string getFlux1( const size_type& i );
@@ -50,7 +48,9 @@ public:
 
     int getVelocity ();
 
-    void update_Bc ( const size_type& pos, const scalar_type& u );
+    void update_UI ( const scalar_type& u );
+
+    void updateSI ( const scalar_type& f );
 
     inline scalar_type getThickness () const
     {
@@ -82,11 +82,6 @@ public:
     	return M_b;
     }
 
-    inline scalar_type getH () const
-    {
-    	return M_h;
-    }
-
 	inline scalar_type getSpatialDiscretization () const
 	{
 		return M_spatialDiscretization;
@@ -112,6 +107,11 @@ public:
         return M_fEMType2;
     }
 
+    inline std::string getMeshSpacing () const
+    {
+        return M_meshSpacing;
+    }
+
 
     inline std::string getIntegrationType () const
     {
@@ -122,11 +122,6 @@ public:
     {
         return M_integrationType2;
     }
-
-	inline std::string getBc () const
-	{
-		return M_bc;
-	}
 
 	inline size_type getNumberFlux () const
 	{
@@ -142,6 +137,12 @@ public:
 	{
 		return M_x;
 	}
+
+	inline scalar_type getSI()
+	{
+		return M_SI;
+	}
+
 
 	inline scalar_type getCfl()
 	{
@@ -165,7 +166,8 @@ private:
 	scalar_type M_b;
 	scalar_type M_h;
 
-    size_type M_spatialDiscretization;
+	scalar_type M_spatialDiscretization;
+
     scalar_type M_translateAbscissa;
     bgeot::dim_type M_spaceDimension;
 
@@ -179,8 +181,6 @@ private:
     std::string M_integrationType2;
 
     // saturation
-	std::string M_bc;
-
 	std::string M_u0;
 
 	size_type M_numberFlux;
@@ -189,6 +189,7 @@ private:
 	scalar_type M_x;
 
 	FluxPtrContainer_Type M_flux;
+	scalar_type M_SI;
 
 	scalar_type M_cfl;
 

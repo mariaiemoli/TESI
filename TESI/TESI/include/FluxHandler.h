@@ -30,7 +30,7 @@ public:
 	FluxHandler ( const GetPot& dataFile, const std::string& sectionFlux );
 
 
-	void update_Bc ( const size_type& pos, const scalar_type& u );
+	void update_UI ( const scalar_type& u );
 
 
 	inline std::string getFlux() const
@@ -68,14 +68,14 @@ public:
 		return M_second;
 	}
 
-	inline scalar_type getUin() const
+	inline scalar_type getBC() const
 	{
-		return M_Uin;
+		return M_BC;
 	}
 
-	inline scalar_type getUout() const
+	inline scalar_type getUI() const
 	{
-		return M_Uout;
+		return M_UI;
 	}
 
 
@@ -93,8 +93,8 @@ private:
 	scalar_type M_first;
 	scalar_type M_second;
 
-	scalar_type M_Uin;
-	scalar_type M_Uout;
+	scalar_type M_BC;
+	scalar_type M_UI;
 
 	mutable LifeV::Parser M_parser;
 };

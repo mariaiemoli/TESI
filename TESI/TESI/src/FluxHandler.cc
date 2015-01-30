@@ -16,21 +16,14 @@ FluxHandler::FluxHandler ( const GetPot& dataFile, const std::string& sectionFlu
 						 M_Us ( dataFile ( ( M_sectionFlux + "us" ).data (), 0.5 ) ),
 						 M_first ( dataFile ( ( M_sectionFlux + "us_meno" ).data (), 0.5 ) ),
 						 M_second ( dataFile ( ( M_sectionFlux + "us_piu" ).data (), 0.5 ) ),
-						 M_Uin ( dataFile ( ( M_sectionFlux + "uin" ).data (), 0. ) ),
-						 M_Uout ( dataFile ( ( M_sectionFlux + "uout" ).data (), 0. ) )
+						 M_BC ( dataFile ( ( M_sectionFlux + "bc" ).data (), 1. ) ),
+						 M_UI ( dataFile ( ( M_sectionFlux + "bc" ).data (), 0. ) )
 {}
 
 
-void FluxHandler::update_Bc ( const size_type& pos, const scalar_type& u )
+void FluxHandler::update_UI ( const scalar_type& u )
 {
-	if ( pos == 0 )
-	{
-		M_Uin = u;
-	}
-	else
-	{
-		M_Uout = u;
-	}
+	M_UI = u;
 
 	return;
 }// update_Bc

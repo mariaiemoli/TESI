@@ -56,7 +56,7 @@ public:
     /**
      * Funzione che aggiorna le bc per le fratture che si intersecano
      */
-    void update_Bc ( const size_type& i );
+    void update_UI ( const size_type& i );
 
 
     /**

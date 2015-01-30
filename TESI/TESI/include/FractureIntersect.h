@@ -43,8 +43,6 @@ public:
 	 * Quello che ottengo è un vettore di nodi che indica dove la frattura ha intersezione (per ora sarà un nodo solo
 	 * e, in particolare, sarà il primo o l'ultimo) e la lista degli indice delle fratture con cui ha intersezione
 	 */
-//	void findIntersection ( const FractureHandlerPtr_Type& f, const FracturePtrContainer_Type& fractures,
-	//						/*sizeVector_Type& nodes,*/ sizeVector_Type& listOfFractures );
 	void findIntersection ( const FractureHandlerPtr_Type& f, const FracturePtrContainer_Type& fractures,
 							VectorIntersection_Type& listOfFractures );
 
@@ -58,7 +56,6 @@ public:
 	/**
 	 * Funzione che elimina dalla lista delle fratture con intersezioni quelle già analizzate
 	 */
-//	void clear ( sizeVectorContainer_Type& listOfFractures, const FracturePtrContainer_Type& fracturesInvolved );
 	void clear ( VectorIntersectionContainer_Type& listOfFractures, const size_type& i, const size_type& j );
 
 
@@ -69,7 +66,10 @@ public:
      * Funzione che restituisce tutte le intersezioni.
      * \return IntersectDataContainer_Type: restituisce il vettore di tutte le intersezioni
      */
-    IntersectDataContainer_Type getIntersections () const;
+    IntersectDataContainer_Type getIntersections () const
+    {
+        return M_intersections;
+    }
 
 
     /**
@@ -85,7 +85,10 @@ public:
      */
     IntersectDataContainer_Type getBifurcationIntersections () const;
 
-	size_type getNumberIntersection () const;
+	size_type getNumberIntersection () const
+	{
+		return M_intersections.size();
+	}
 
 	size_type getNumberCross () const;
 
