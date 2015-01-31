@@ -81,9 +81,8 @@ void FractureHandler::init ()
     //-------------------- M_mesh, mesh reale nel piano 2d --------------------//
     //costruisco la M_mediumMesh n.2 quella di servizio, quella della frattura mappata
 
-
-
     sizeVector_Type ind( M_meshFlat.points().size() );
+
     for ( size_type i = 0; i < M_meshFlat.points().size(); ++i )
     {
         bgeot::base_node P(M_data.getSpaceDimension() + 2);
@@ -97,8 +96,6 @@ void FractureHandler::init ()
         P [ 1 ] =  M_levelSet->getData()->y_map( P1 );
         ind [ i ] = M_mesh.add_point( P );
     }
-
-
 
     for ( size_type i = 0; i < M_meshFlat.convex_index().size(); ++i )
     {
@@ -169,13 +166,3 @@ void FractureHandler::init ()
 
 	return;
 }// init
-
-
-void FractureHandler::setFractureIntersection ( const sizeVector_Type& nodes, const FractureHandler& fractureInvolved )
-{
-	size_type otherFractureID = fractureInvolved.getID();
-
-	M_fractureIntersectElements[ otherFractureID ].push_back( nodes[ 0 ] );
-
-	return;
-}// setFractureIntersection

@@ -35,11 +35,6 @@ public:
 
     void init ();
 
-    /**
-     * Funzione che definisce il nodo in cui la frattura corrente ha un'intersezione, e la frattura coinvolta
-     */
-    void setFractureIntersection ( const sizeVector_Type& nodes, const FractureHandler& fractureInvolved );
-
     inline const size_type& getID() const
 	{
 		return M_ID;
@@ -118,14 +113,6 @@ public:
     	return M_ci;
     }
 
-    void numFractures ( const size_type& numFractures )
-    {
-        M_fractureIntersectElements.resize ( numFractures );
-        M_fractureIntersectElementsGlobalIndex.resize ( numFractures );
-    }
-
-
-
 private:
 
     size_type M_ID;
@@ -157,9 +144,6 @@ private:
 
     // Geometric transformation usign pressure finite elements type
     bgeot::pgeometric_trans M_geometricTransformation;
-
-    sizeVectorContainer_Type M_fractureIntersectElements;
-    pairSizeVectorContainer_Type M_fractureIntersectElementsGlobalIndex;  // vettore di vettori di coppie
 
 };
 

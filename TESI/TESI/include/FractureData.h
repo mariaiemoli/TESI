@@ -40,17 +40,15 @@ public:
 
     scalar_type meshSpacing ( const scalar_type& x );
 
-    scalar_type velocity( const scalar_type& u );
-
     scalar_type porosity( const scalar_type& u );
 
     scalar_type getCi ( const scalar_type& x );
 
-    int getVelocity ();
+    void update_UI ( const size_type& i, const scalar_type& u );
 
-    void update_UI ( const scalar_type& u );
+    void updateSI ( const scalarVector_Type& f );
 
-    void updateSI ( const scalar_type& f );
+    void imposeIntersection ( const size_type& i );
 
     inline scalar_type getThickness () const
     {
@@ -189,11 +187,11 @@ private:
 	scalar_type M_x;
 
 	FluxPtrContainer_Type M_flux;
+	size_type M_Int;
 	scalar_type M_SI;
 
 	scalar_type M_cfl;
 
-	std::string M_U;
 	std::string M_invP;
 
 	mutable LifeV::Parser M_parser;

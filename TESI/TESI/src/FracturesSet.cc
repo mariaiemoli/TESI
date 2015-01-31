@@ -25,8 +25,6 @@ void FracturesSet::init( const GetPot& dataFile, const std::string& section, con
 
 		M_fractures [ f ]->init();
 
-		M_fractures [ f ]->numFractures ( numFractures );
-
 		sectionFracture.str("");
 	}
 

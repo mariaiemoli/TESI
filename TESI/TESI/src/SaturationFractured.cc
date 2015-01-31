@@ -141,7 +141,6 @@ void SaturationFractured::solve()
 
     }
 
-
 	// Ricavo dt come il massimo valore che verifichi la condizione cfl per ogni frattura
 	for ( size_type f = 0; f < numberFracture; f++ )
 	{
@@ -151,7 +150,6 @@ void SaturationFractured::solve()
 		M_fractureSaturation [ f ].reset(new scalarVector_Type( fractureNumberDOF [ f ], 0));
 
 	}
-
 
 	scalarVectorContainer_Type flux( numberFracture );
 
@@ -277,7 +275,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 				else
 				{
 					scalar_type m1 = std::max( u0[ i ], Us );
-					scalar_type m2 = M_fractures->getFracture ( f )->getData().getFluxHandler( k )->getUI();
+					scalar_type m2 = M_fractures->getFracture ( f )->getData().getFluxHandler( k )->getb();
 
 					scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( m1, k );
 					scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( m2, k );
@@ -300,7 +298,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 				else
 				{
 					scalar_type m1 = std::min( u0[ i ], Us );
-					scalar_type m2 = M_fractures->getFracture ( f )->getData().getFluxHandler( k )->getUI();
+					scalar_type m2 = M_fractures->getFracture ( f )->getData().getFluxHandler( k )->getb();
 
 					scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( m1, k );
 					scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( m2, k );
@@ -315,9 +313,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 	{
 		// implemento il metodo di anna
 
-		scalar_type Sl = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getBC();
-
-		int U = M_fractures->getFracture ( f )->getData().getVelocity();
+		scalar_type Sl = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->geta();
 
 		scalar_type Sr;
 
@@ -328,7 +324,9 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 			scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( Sr, 0 );
 			scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( Sl, 0 );
 
-			if ( U > 0 )
+			scalar_type s = ( F_ur - F_ul )*( Sr - Sl );
+
+			if ( s > 0 )
 			{
 				Flux[ i ] = F_ul;
 			}
@@ -341,13 +339,14 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 
 		}
 
-		Sr = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUI();
-
+		Sr = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getb();
 
 		scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( Sr, 0 );
 		scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( Sl, 0 );
 
-		if ( U > 0 )
+		scalar_type s = ( F_ur - F_ul )*( Sr - Sl );
+
+		if ( s > 0 )
 		{
 			Flux[ n ] = F_ul;
 		}
@@ -356,7 +355,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 			Flux[ n ] = F_ur;
 		}
 
-		M_fractures->getFracture ( f )->getData().updateSI ( Flux [ n ] );
+		M_fractures->getFracture ( f )->getData().updateSI ( Flux );
 	}
 
 	return;
