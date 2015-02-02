@@ -51,6 +51,8 @@ FractureData::FractureData ( const GetPot& dataFile,
 		sectionFlux.str("");
 	}
 
+	M_Int = 1000000;
+
 }// costruttore
 
 
@@ -175,7 +177,14 @@ void FractureData::update_UI ( const size_type& j, const scalar_type& u )
 
 void FractureData::updateSI ( const scalarVector_Type& f )
 {
-	M_SI = f [ M_Int ];
+	if ( M_Int != 1000000 )
+	{
+		M_SI = f [ M_Int ];
+	}
+	else
+	{
+		M_SI = f [ M_spatialDiscretization ];
+	}
 
 	return;
 }// updateSI

@@ -127,7 +127,7 @@ void SaturationFractured::solve()
 	{
 		scalar_type h = M_fractures->getFracture ( i )-> getH();
 
-		landa [ i ] = M_dt/h;
+		landa [ i ] = 0.2; //M_dt/h;
 	}
 
 	// numero complessivo dei gradi di libertà
@@ -255,6 +255,7 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 		Us = M_fractures->getFracture ( f )->getData().getFluxHandler( k )->getUs();
 	}
 
+	/*
 	if ( monotone == "false" )
 	{
 		for ( size_type i = 0; i < n; i++)
@@ -308,6 +309,75 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 				}
 			}
 		}
+	}*/
+
+	if ( monotone == "false" )
+	{
+		scalar_type Sl;
+		scalar_type Sr;
+
+		if ( H == 2 )
+		{
+			Sl = std::max( M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->geta(), Us );
+		}
+		else
+		{
+			Sl = std::min( M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->geta(), Us );
+		}
+//		std::cout << " Sl " << Sl << std::endl;
+
+		for ( size_type i = 0; i < n; i++)
+		{
+
+			if( H == 2.0 )		// caso A
+			{
+
+				Sr = std::min( u0[ i ], Us );
+	//			std::cout << " Sr " << Sr << std::endl;
+				scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( Sl, k );
+				scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( Sr, k );
+
+				Flux[ i ] = std::max( F_ul, F_ur );
+
+	//			std::cout << " Flux[ i ]  " << Flux[ i ] << std::endl;
+				Sl = Sr;
+			}
+			else		// caso B
+			{
+				Sr = std::max( u0[ i ], Us );
+	//			std::cout << " Sr " << Sr << std::endl;
+				scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( Sl, k );
+				scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( Sr, k );
+
+				Flux[ i ] = std::min( F_ul, F_ur );
+	//			std::cout << " Flux[ i ]  " << Flux[ i ] << std::endl;
+				Sl = Sr;
+			}
+		}
+
+		Sr = std::min( M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getb(), Us );
+
+//		std::cout << " Sr " << Sr << std::endl;
+
+		scalar_type F_ur = M_fractures->getFracture ( f )->getData().feval_scal( Sr, 0 );
+		scalar_type F_ul = M_fractures->getFracture ( f )->getData().feval_scal( Sl, 0 );
+
+//		std::cout << " F_ul  " << F_ul << std::endl;
+//		std::cout << " F_ur  " << F_ur << std::endl;
+
+		if ( H == 2 )
+		{
+			Flux[ n ] = std::max( F_ul, F_ur );
+		}
+		else
+		{
+			Flux[ n ] = std::min( F_ul, F_ur );
+		}
+
+		M_fractures->getFracture ( f )->getData().updateSI ( Flux );
+
+//		std::cout << " Flux  " << Flux[ n ] << std::endl;
+
 	}
 	else
 	{
