@@ -30,6 +30,9 @@ public:
 	FluxHandler ( const GetPot& dataFile, const std::string& sectionFlux );
 
 
+	/**
+	 * Funzione che aggiorna il valore della condizone al bordo nel nodo di intersezione
+	 */
 	void update_UI ( const size_type& i, const scalar_type& u );
 
 

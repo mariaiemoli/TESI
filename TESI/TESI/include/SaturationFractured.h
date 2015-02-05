@@ -22,7 +22,6 @@
 #include "StringUtility.h"
 #include "Parser.h"
 #include "Exporter.h"
-#include "BCHandler.h"
 #include "UsefulFunctions.h"
 #include <algorithm>
 #include <math.h>

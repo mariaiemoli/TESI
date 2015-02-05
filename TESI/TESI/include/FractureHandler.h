@@ -30,8 +30,7 @@ public:
 
     FractureHandler ( const GetPot& dataFile, const size_type ID,
     				  const ExporterPtr_Type& exporter,
-    				  const std::string& section = "fractureData/" );//,
-    				  //const std::string& sectionSaturation = "saturation/" );
+    				  const std::string& section = "fractureData/" );
 
     void init ();
 

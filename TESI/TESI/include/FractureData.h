@@ -44,8 +44,14 @@ public:
 
     scalar_type getCi ( const scalar_type& x );
 
+    /**
+     * Funzione che aggiorna il valore della saturazione nel nodo di intersezione
+     */
     void update_UI ( const size_type& i, const scalar_type& u );
 
+    /**
+     * Funzione che agggiorna il valore della funzione flusso all'intersezione
+     */
     void updateSI ( const scalarVector_Type& f );
 
     void imposeIntersection ( const size_type& i );
@@ -141,13 +147,6 @@ public:
 		return M_SI;
 	}
 
-
-	inline scalar_type getCfl()
-	{
-		return M_cfl;
-	}
-
-
 private:
 
 	std::string M_section;
@@ -189,8 +188,6 @@ private:
 	FluxPtrContainer_Type M_flux;
 	size_type M_Int;
 	scalar_type M_SI;
-
-	scalar_type M_cfl;
 
 	std::string M_invP;
 

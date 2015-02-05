@@ -71,17 +71,6 @@ public:
 	 */
     scalar_type x_map ( const base_node& t );
 
-    /**
-     * Questa funzione serve per convertire la lunghezza/area degli elementi dalla frattura piatta a quella mappata.
-     */
-    scalarVector_Type map_jac ( const base_node& x, const size_type& num );
-
-
-    /**
-     * Funzione che calcola la normale alla frattura - può anche dipendere da x
-     */
-    scalarVector_Type normal_map ( const base_node& P, const size_type& num );
-
 
     inline bgeot::dim_type getSpaceDimension () const
     {
@@ -110,7 +99,6 @@ private:
 
     std::string M_x_map;
     std::string M_y_map;
-    std::string M_map_jac;
     std::string M_normal_map;
 
     mutable LifeV::Parser M_parser;

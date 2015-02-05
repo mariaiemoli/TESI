@@ -5,5 +5,5 @@ main.o: main.cc include/SaturationFractured.h include/Core.h \
  include/LevelSetHandler.h include/LevelSetData.h \
  include/UsefulFunctions.h include/Exporter.h include/FractureIntersect.h \
  include/IntersectData.h include/Geometry.h include/TriangleData.h \
- include/PointData.h include/QuadrilaterData.h include/BCHandler.h \
- include/BC.h include/FracturesSet.h include/Core.h
+ include/PointData.h include/QuadrilaterData.h include/FracturesSet.h \
+ include/Core.h

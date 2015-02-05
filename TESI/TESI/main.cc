@@ -12,7 +12,7 @@
 #include "include/SaturationFractured.h"
 #include "include/FracturesSet.h"
 #include "include/Core.h"
-//#include "include/MeshHandler.h"
+
 
 /**************************************************************************/
 /*  main program                                                          */
@@ -74,37 +74,8 @@ int main ( int argc, char* argv [ ] )
 	std::cout << std::endl;
 
 
-	/*
-	// Impongo le condizioni al contorno per le fratture
-	std::cout << "Create fracture boundary conditions..." << std::flush;
-	BCPtrContainer_Type bcFracture(numberFractures);
-	std::ostringstream sectionFracture;
-
-	for ( size_type f = 0; f < numberFractures; ++f )
-	{
-		sectionFracture << section << "fractureData" << f << "/";
-
-		bcFracture [ f ].reset(new BC_Type( dataFile,
-											sectionFracture.str(),
-											fractures->getFracture( f )->getMeshFlat(),
-										   	fractures->getFracture ( f )->getData().getMeshType() ));
-	}
-	std::cout << " completed!" << std::endl;
-	std::cout << std::endl;
-	std::cout << "*******************   " << std::endl;
-	std::cout << std::endl;
-
-
-	std::cout << "Create boundary conditions handler..." << std::flush;
-	BCHandlerPtr_Type bcHandler(new BCHandler_Type( bcFracture ));
-	std::cout << " completed!" << std::endl;
-	std::cout << std::endl;
-	std::cout << "*******************   " << std::endl;
-	std::cout << std::endl;
-
-	*/
 	// Risolvo il problema in saturazione
-	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, /*bcHandler,*/ exporter ) );
+	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, exporter ) );
 
 	saturation->init();
 

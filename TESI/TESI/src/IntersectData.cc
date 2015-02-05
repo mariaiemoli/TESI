@@ -11,6 +11,7 @@ void IntersectData::copy ( const IntersectData& in )
     if ( this != &in )
     {
         M_fractures.resize ( in.M_fractures.size() );
+
         for ( size_type i = 0; i < M_fractures.size(); ++i )
         {
             M_fractures[i] = in.M_fractures[i];
@@ -403,32 +404,6 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 			Us = M_fractures [ i ]->getData().getFluxHandler( k )->getUs();
 		}
 
-		/*
-		if ( monotone == "false" )
-		{
-			if( H == 2.0 )		// caso A
-			{
-				scalar_type m1 = std::max( u0, Us );
-				scalar_type m2 = std::min( M_u0, Us );
-
-				scalar_type F_ul = M_fractures [ i ]->getData().feval_scal( m1, k );
-				scalar_type F_ur = M_fractures [ i ]->getData().feval_scal( m2, k );
-
-				Flux[ i ] = std::max( F_ul, F_ur );
-			}
-
-			else		// caso B
-			{
-				scalar_type m1 = std::min( u0, Us );
-				scalar_type m2 = std::max( M_u0, Us );
-
-				scalar_type F_ul = M_fractures [ i ] ->getData().feval_scal( m1, k );
-				scalar_type F_ur = M_fractures [ i ] ->getData().feval_scal( m2, k );
-
-				Flux[ i ] = std::min( F_ul, F_ur );
-			}
-		}*/
-
 		if ( monotone == "false" )
 		{
 			scalar_type Sl;
@@ -503,7 +478,6 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 			}
 
 		}
-		/***/
 	}
 
 	// a questo punto calcolo la nuova U_I

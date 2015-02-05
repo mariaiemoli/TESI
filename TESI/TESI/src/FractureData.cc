@@ -35,7 +35,6 @@ FractureData::FractureData ( const GetPot& dataFile,
 				   	   	   	 M_u0 ( dataFile ( ( M_sectionSaturation + "u0").data (), "1." ) ),
 				   	   	   	 M_numberFlux( dataFile ( ( M_sectionSaturation + "numberFlux").data (), 1 ) ),
 				   	   	   	 M_x( dataFile ( ( M_sectionSaturation + "x0").data (), 0. ) ),
-				             M_cfl ( dataFile ( ( M_sectionSaturation + "cfl" ).data (), 1.8 ) ),
 				             M_invP ( dataFile ( (M_sectionSaturation + "invPorosity" ).data (), "1." ) )
 {
 	M_flux.resize( M_numberFlux );

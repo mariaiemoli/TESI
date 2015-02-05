@@ -16,8 +16,8 @@ FluxHandler::FluxHandler ( const GetPot& dataFile, const std::string& sectionFlu
 						 M_Us ( dataFile ( ( M_sectionFlux + "us" ).data (), 0.5 ) ),
 						 M_first ( dataFile ( ( M_sectionFlux + "us_meno" ).data (), 0.5 ) ),
 						 M_second ( dataFile ( ( M_sectionFlux + "us_piu" ).data (), 0.5 ) ),
-						 M_a ( dataFile ( ( M_sectionFlux + "bc" ).data (), 1. ) ),
-						 M_b ( dataFile ( ( M_sectionFlux + "bc" ).data (), 1. ) )
+						 M_a ( dataFile ( ( M_sectionFlux + "bc1" ).data (), 1. ) ),
+						 M_b ( dataFile ( ( M_sectionFlux + "bc2" ).data (), 1. ) )
 {}
 
 
