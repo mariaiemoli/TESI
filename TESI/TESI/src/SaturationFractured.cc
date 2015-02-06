@@ -152,15 +152,8 @@ void SaturationFractured::solve()
 
 		for ( size_type f = 0; f < numberFracture; f++ )
 		{
+			solve_riemann ( f, u0 [ f ], flux [ f ] );
 
-			if( M_fractures->getFracture ( f )->getData().getNumberFlux() == 1 )
-			{
-				solve_continuity ( f, u0 [ f ], flux [ f ] );
-			}
-			else
-			{
-				solve_discontinuity ( f, u0 [ f ], flux [ f ] );
-			}
 
 			std::ostringstream ss;
 			ss << "./matlab/risultati/saturation_flusso.txt";
@@ -233,14 +226,125 @@ void SaturationFractured::solve()
 
 }// solve
 
+
+void SaturationFractured::solve_riemann ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux )
+{
+	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization() - 1;
+	scalar_type x_d = M_fractures->getFracture ( f )->getData().getXd();
+
+	Flux.clear();
+	Flux.resize( n + 1 );
+
+	scalarVector_Type fl;
+	scalarVector_Type fl1;
+
+	scalarVector_Type gl;
+	scalarVector_Type gl1;
+
+	scalarVector_Type F(n);
+	scalarVector_Type G(n);
+
+	size_type H = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getH();
+
+	size_type numberFlux = M_fractures->getFracture ( f )->getData().getNumberFlux ();
+
+	size_type k = 1;
+
+	scalar_type S_Us;
+	scalar_type D_Us;
+
+	if ( numberFlux == 2 )
+	{
+		// calcolo i flussi
+		M_fractures->getFracture ( f )->getData().feval( fl, u0, 1, 0 );
+		M_fractures->getFracture ( f )->getData().feval( fl1, u0, 2, 0 );
+
+		M_fractures->getFracture ( f )->getData().feval( gl, u0, 1, 1 );
+		M_fractures->getFracture ( f )->getData().feval( gl1, u0, 2, 1 );
+
+
+		// calcolo il punto di massimo o di minimo, punto in cui si annulla la derivata
+		S_Us = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUs();
+		D_Us = M_fractures->getFracture ( f )->getData().getFluxHandler( 1 )->getUs();
+	}
+	else
+	{
+		// calcolo i flussi
+		M_fractures->getFracture ( f )->getData().feval( fl, u0, 1, 0 );
+		M_fractures->getFracture ( f )->getData().feval( fl1, u0, 2, 0 );
+
+		M_fractures->getFracture ( f )->getData().feval( gl, u0, 1, 0 );
+		M_fractures->getFracture ( f )->getData().feval( gl1, u0, 2, 0 );
+
+
+		// calcolo il punto di massimo o di minimo, punto in cui si annulla la derivata
+		S_Us = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUs();
+		D_Us = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUs();
+
+		k = 0;
+	}
+
+	// flusso 1
+	solve_continuity ( f, u0, F, 0 );
+
+	// flusso 2
+	solve_continuity ( f, u0, G, k );
+
+	for ( size_type i = 0; i < n; i++)
+	{
+		bgeot::basic_mesh::ref_mesh_pt_ct nodes = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i );
+
+		scalar_type x1 = std::min(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
+		scalar_type x2 = std::max(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
+
+		if ( x1 < x_d &&  x2 != x_d )
+		{
+			Flux[ i ] = F[ i ];
+		}
+		else if ( x1 < x_d && gmm::abs( x2-x_d ) < 1.0E-5 )
+		{
+			if ( H == 2. )
+			{
+				scalar_type m1 = std::max( u0[ i ], S_Us );
+				scalar_type m2 = std::min( u0[ i+1 ], D_Us );
+
+				scalar_type F_m1 = M_fractures->getFracture ( f )->getData().feval_scal( m1, 0 );
+				scalar_type F_m2 = M_fractures->getFracture ( f )->getData().feval_scal( m2, k );
+
+				Flux[ i ] = std::max( F_m1, F_m2 );
+			}
+			else
+			{
+				scalar_type m1 = std::min( u0[ i ], S_Us );
+				scalar_type m2 = std::max( u0[ i+1 ], D_Us );
+
+				scalar_type F_m1 = M_fractures->getFracture ( f )->getData().feval_scal( m1, 0 );
+				scalar_type F_m2 = M_fractures->getFracture ( f )->getData().feval_scal( m2, k );
+
+				Flux[ i ] = std::min( F_m1, F_m2 );
+			}
+
+		}
+		else
+		{
+			Flux[ i ] = G[ i ];
+		}
+
+	}
+
+	Flux[ n ] = G[ n ];
+
+	return;
+
+}// solve_riemann
+
+
 void SaturationFractured::solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux, const size_type k )
 {
 	scalar_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization()-1;
 
 	Flux.clear();
 	Flux.resize( n+1 );
-
-	scalarVector_Type U0 = u0;
 
 	std::string monotone = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getMonotone();
 
@@ -373,90 +477,3 @@ void SaturationFractured::solve_continuity ( const size_type f, const scalarVect
 
 	return;
 }// solve_continuity
-
-
-void SaturationFractured::solve_discontinuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux )
-{
-	size_type n = M_fractures->getFracture ( f )-> getData().getSpatialDiscretization() - 1;
-	scalar_type x_d = M_fractures->getFracture ( f )->getData().getXd();
-
-	Flux.clear();
-	Flux.resize( n + 1 );
-
-	scalarVector_Type fl;
-	scalarVector_Type fl1;
-
-	scalarVector_Type gl;
-	scalarVector_Type gl1;
-
-	scalarVector_Type F(n);
-	scalarVector_Type G(n);
-
-	size_type H = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getH();
-
-
-	// calcolo i flussi
-	M_fractures->getFracture ( f )->getData().feval( fl, u0, 1, 0 );
-	M_fractures->getFracture ( f )->getData().feval( fl1, u0, 2, 0 );
-
-	M_fractures->getFracture ( f )->getData().feval( gl, u0, 1, 1 );
-	M_fractures->getFracture ( f )->getData().feval( gl1, u0, 2, 1 );
-
-
-	// calcolo il punto di massimo o di minimo, punto in cui si annulla la derivata
-	scalar_type S_Us = M_fractures->getFracture ( f )->getData().getFluxHandler( 0 )->getUs();
-	scalar_type D_Us = M_fractures->getFracture ( f )->getData().getFluxHandler( 1 )->getUs();
-
-	// flusso 1
-	solve_continuity ( f, u0, F, 0 );
-
-	// flusso 2
-	solve_continuity ( f, u0, G, 1 );
-
-	for ( size_type i = 0; i < n; i++)
-	{
-		bgeot::basic_mesh::ref_mesh_pt_ct nodes = M_fractures->getFracture ( f )->getMeshFlat().points_of_convex ( i );
-
-		scalar_type x1 = std::min(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
-		scalar_type x2 = std::max(nodes [ 0 ] [ 0 ], nodes [ 1 ] [ 0 ]);
-
-		if ( x1 < x_d &&  x2 != x_d )
-		{
-			Flux[ i ] = F[ i ];
-		}
-		else if ( x1 < x_d && gmm::abs( x2-x_d ) < 1.0E-5 )
-		{
-			if ( H == 2. )
-			{
-				scalar_type m1 = std::max( u0[ i ], S_Us );
-				scalar_type m2 = std::min( u0[ i+1 ], D_Us );
-
-				scalar_type F_m1 = M_fractures->getFracture ( f )->getData().feval_scal( m1, 0 );
-				scalar_type F_m2 = M_fractures->getFracture ( f )->getData().feval_scal( m2, 1 );
-
-				Flux[ i ] = std::max( F_m1, F_m2 );
-			}
-			else
-			{
-				scalar_type m1 = std::min( u0[ i ], S_Us );
-				scalar_type m2 = std::max( u0[ i+1 ], D_Us );
-
-				scalar_type F_m1 = M_fractures->getFracture ( f )->getData().feval_scal( m1, 0 );
-				scalar_type F_m2 = M_fractures->getFracture ( f )->getData().feval_scal( m2, 1 );
-
-				Flux[ i ] = std::min( F_m1, F_m2 );
-			}
-
-		}
-		else
-		{
-			Flux[ i ] = G[ i ];
-		}
-
-	}
-
-	Flux[ n ] = G[ n ];
-
-	return;
-
-}// solve_discontinuity

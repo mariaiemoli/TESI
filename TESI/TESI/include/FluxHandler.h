@@ -35,6 +35,10 @@ public:
 	 */
 	void update_UI ( const size_type& i, const scalar_type& u );
 
+	void monotone ( const std::string& mono );
+
+	void H ( const size_type& hyp );
+
 
 	inline std::string getFlux() const
 	{

@@ -147,6 +147,11 @@ public:
 		return M_SI;
 	}
 
+	inline scalar_type getInt()
+	{
+		return M_Int;
+	}
+
 private:
 
 	std::string M_section;

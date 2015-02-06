@@ -6,4 +6,4 @@ main.o: main.cc include/SaturationFractured.h include/Core.h \
  include/UsefulFunctions.h include/Exporter.h include/FractureIntersect.h \
  include/IntersectData.h include/Geometry.h include/TriangleData.h \
  include/PointData.h include/QuadrilaterData.h include/FracturesSet.h \
- include/Core.h
+ include/Core.h include/MediumData.h include/MeshHandler.h

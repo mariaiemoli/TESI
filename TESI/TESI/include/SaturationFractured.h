@@ -51,16 +51,15 @@ public:
 
 
 	/**
-	 * Funzione che risolve il problema nel caso un cui nella frattura in questione non vi siano discontinuità nel materiale
+	 * Funzione che risolve il problema nel caso un cui nella frattura in questione vi siano discontinuità nel materiale
 	 */
-	void solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux, const size_type k = 0 );
+	void solve_riemann ( const size_type f,  const scalarVector_Type& u0, scalarVector_Type& Flux );
 
 
 	/**
-	 * Funzione che risolve il problema nel caso un cui nella frattura in questione vi siano discontinuità nel materiale
+	 * Funzione che assembla il sistema algebrico
 	 */
-	void solve_discontinuity ( const size_type f,  const scalarVector_Type& u0, scalarVector_Type& Flux );
-
+	void solve_continuity ( const size_type f, const scalarVector_Type& u0, scalarVector_Type& Flux, const size_type k=0 );
 
 	FracturesSetPtr_Type& get_Fracture()
 	{

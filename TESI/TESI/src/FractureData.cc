@@ -48,6 +48,25 @@ FractureData::FractureData ( const GetPot& dataFile,
 		M_flux [ i ].reset( new FluxHandler_Type( dataFile, sectionFlux.str() ));
 
 		sectionFlux.str("");
+
+		if ( feval_scal( 0., 0 ) == feval_scal( 1., 0 ) )
+		{
+			M_flux [ i ]->monotone ( "false" );
+		}
+		else
+		{
+			M_flux [ i ]->monotone ( "true" );
+		}
+
+		if ( feval_scal( 0., 0 ) < feval_scal( 0.5, 0 ) )
+		{
+			M_flux [ i ]->H ( 3 );	// c'è un massimo
+		}
+		else
+		{
+			M_flux [ i ]->H ( 2 );
+		}
+
 	}
 
 	M_Int = 1000000;

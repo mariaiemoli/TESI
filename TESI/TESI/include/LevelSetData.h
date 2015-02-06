@@ -99,7 +99,6 @@ private:
 
     std::string M_x_map;
     std::string M_y_map;
-    std::string M_normal_map;
 
     mutable LifeV::Parser M_parser;
 

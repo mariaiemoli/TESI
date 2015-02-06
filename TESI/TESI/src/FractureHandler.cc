@@ -166,3 +166,13 @@ void FractureHandler::init ()
 
 	return;
 }// init
+
+/*
+scalarVector_Type FractureHandler::getDofIntersection () const
+{
+	scalarVector_Type v;
+	v.push_back( M_data.getInt() );
+
+	return v;
+}// getDofIntersection
+*/

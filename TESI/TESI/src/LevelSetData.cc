@@ -19,8 +19,7 @@ LevelSetData::LevelSetData ( const GetPot& dataFile,
 							 M_yfunction ( dataFile ( ( M_sectionLevelSet + "ylevelSet" ).data (), "t" ) ),
 							 M_cutFunction ( dataFile ( ( M_sectionLevelSet + "levelSetCut" ).data (), "-1" ) ),
 							 M_x_map ( dataFile ( ( M_sectionLevelSet + "xMap" ).data (), "1" ) ),
-							 M_y_map ( dataFile ( ( M_sectionLevelSet + "yMap" ).data (), "1" ) ),
-							 M_normal_map ( dataFile ( ( M_sectionLevelSet + "normalMap" ).data (), "1" ) )
+							 M_y_map ( dataFile ( ( M_sectionLevelSet + "yMap" ).data (), "1" ) )
 {
 }
 
