@@ -13,7 +13,8 @@ numberFractures = 1
 
 [dataTime]
 
-        endTime = 5
+        endTime = 100 
+        dt = 0.3
         
 [../]
 
@@ -26,13 +27,23 @@ numberFractures = 1
 
                 spatialDiscretization = 21
                 spatialInclination = 0.
-                lengthAbscissa = 300.
-                lengthOrdinate = 300.
-                lengthQuota = 300.
+                lengthAbscissa = 1.
+                lengthOrdinate = 1.
+                lengthQuota = 1.
                 meshType = GT_PK(2,1)
                 spaceDimension = 2.
 
         [../]
+        
+        [./darcy]
+
+	        invK = 1.
+	        invKDist11 = 1.
+	        invKDist12 = 0.
+	        invKDist22 = 1.
+
+        [../]
+        
 
 [../]
 
@@ -49,7 +60,11 @@ spaceDimension = 1.
 			levelSetCut = -1
 			yMap = 1
 			xMap = 300*t
-			normalMap = [1.,1.]
+			
+			jacMap = [1.]
+			normalMap = [0.,1.]
+			
+	        integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
 			
 		[../]
 
@@ -61,7 +76,7 @@ spaceDimension = 1.
 			
 	        a = 0.
 	        b = 300.
-			spatialDiscretization = 500
+			spatialDiscretization = 501
 	        translateAbscissa = 0.
 	        lengthAbscissa = 300. #0.5
 	        lengthOrdinate = 0.
@@ -70,17 +85,27 @@ spaceDimension = 1.
 	        meshType = GT_PK(1,1)        
 
         [../]
-
+        
         [./saturation]
 
-            bc = f
-            u0 = 1.-1.*(x>1.)
- 			f = (x*x)*1./(x*x+0.5*(1-x)*(1-x))
-			f1 = x*(1-x)/((x*x+0.5*(1-x)*(1-x)).^2)
-			cfl = 1.8
-			U = 1.
+			numberFlux = 1
+			x0 = 0.
+            u0 = 1.-1.*(x>1.) #1.*(x<0.31)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+
 			invPorosity = 1.
 
+			[./fluxData0]	# sinistra
+			
+				f = x*x/(x*x+(1.-x)*(1.-x))  # x*x*0.00000003*5./(x*x+(1.-x)*(1.-x))
+				f1 = 2.*x*(1.-2.*x)*0.00000003*5./((x*x+(1.-x)*(1.-x))*(x*x+(1.-x)*(1.-x)))  
+				us = 0.5 
+				us_meno = -0.7712
+				us_piu = 1.7712
+				bc1 = 1.
+				bc2 = 0.
+				
+			[../]
+						
         [../]
 
 

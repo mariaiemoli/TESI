@@ -25,10 +25,37 @@ class FractureData
 {
 public:
 
+    enum
+    {
+        FRACTURE = 0
+    };
+
 	FractureData ( const GetPot& dataFile,
 				   const std::string& section = "fractureData/",
                    const std::string& sectionDomain = "domain/",
+                   const std::string& sectionDarcy = "darcy/",
 				   const std::string& sectionSaturation = "saturation/" );
+
+
+    /**
+     * Funzione che restituisce un'eventuale modulazione del coefficiente di permeabilità in direzione normale.
+     */
+    scalar_type etaNormalDistribution ( const base_node& x );
+
+    /**
+     * Funzione che restituisce un'eventuale modulazione del coefficiente di permeabilità in direzione tangenziale.
+     */
+    scalar_type etaTangentialDistribution ( const base_node& x );
+
+    // Soluzione esatta, velocità
+    scalar_type velocityExact ( const base_node& x,
+                                const base_node& n );
+
+
+    // Soluzione esatta, div(Velocity) -- SET = 0 WITH NO MASS SOURCES/SINKS !
+    scalar_type darcySource ( const base_node& x );
+
+    scalar_type pressureExact ( const base_node& x );
 
 	void feval( scalarVector_Type& fl, const scalarVector_Type& u0, const size_type i, const size_type f );
 
@@ -75,6 +102,17 @@ public:
 	{
 		return M_lengthQuota;
 	}
+
+    inline scalar_type getEtaNormal () const
+    {
+        return M_etaNormal;
+    }
+
+
+    inline scalar_type getEtaTangential () const
+    {
+        return M_etaTangential;
+    }
 
     inline scalar_type getA () const
     {
@@ -152,10 +190,16 @@ public:
 		return M_Int;
 	}
 
+	inline std::string getFEMTypeLinear () const
+    {
+        return M_fEMTypeLinear;
+    }
+
 private:
 
 	std::string M_section;
     std::string M_sectionDomain;
+    std::string M_sectionDarcy;
 	std::string M_sectionSaturation;
 
 	// domain
@@ -178,9 +222,20 @@ private:
 
     std::string M_fEMType;
     std::string M_fEMType2;
+    std::string M_fEMTypeLinear;
 
     std::string M_integrationType;
     std::string M_integrationType2;
+
+    // darcy
+    scalar_type M_etaNormal; // eta_gamma = d/K_normale
+    scalar_type M_etaTangential; // eta_t=1/(K_t*d)
+    std::string M_etaNormalDistribution;
+    std::string M_etaTangentialDistribution;
+
+    std::string M_darcySource;
+    std::string M_pressureExact;
+    std::string M_velocityExact;
 
     // saturation
 	std::string M_u0;

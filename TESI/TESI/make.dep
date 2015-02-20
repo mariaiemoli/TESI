@@ -3,7 +3,10 @@ main.o: main.cc include/SaturationFractured.h include/Core.h \
  include/FractureData.h include/Parser.h include/ParserDefinitions.h \
  include/ParserSpiritGrammar.h include/FluxHandler.h \
  include/LevelSetHandler.h include/LevelSetData.h \
- include/UsefulFunctions.h include/Exporter.h include/FractureIntersect.h \
- include/IntersectData.h include/Geometry.h include/TriangleData.h \
- include/PointData.h include/QuadrilaterData.h include/FracturesSet.h \
- include/Core.h include/MediumData.h include/MeshHandler.h
+ include/UsefulFunctions.h include/Exporter.h include/BCHandler.h \
+ include/BC.h include/FractureIntersect.h include/IntersectData.h \
+ include/Geometry.h include/TriangleData.h include/PointData.h \
+ include/QuadrilaterData.h include/FracturesSet.h include/Core.h \
+ include/MediumData.h include/DarcyFractured.h include/XFEMOperators.h \
+ include/MeshHandler.h include/MatrixBifurcationHandler.h \
+ include/MediumData.h include/MeshHandler.h

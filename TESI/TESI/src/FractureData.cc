@@ -9,9 +9,11 @@
 FractureData::FractureData ( const GetPot& dataFile,
 				   	   	   	 const std::string& section,
 			                 const std::string& sectionDomain,
+			                 const std::string& sectionDarcy,
 				   	   	   	 const std::string& sectionSaturation ):
 				   	   	   	 M_section ( section ),
 				   	   	   	 M_sectionDomain ( M_section + sectionDomain ),
+				   	   	   	 M_sectionDarcy ( M_section + sectionDarcy ),
 				   	   	   	 M_sectionSaturation ( M_section + sectionSaturation ),
 				   	   	   	 // domain
 				             M_thickness ( dataFile ( ( M_sectionDomain + "thickness" ).data (), 0.01 ) ),
@@ -25,12 +27,21 @@ FractureData::FractureData ( const GetPot& dataFile,
 				             M_spaceDimension ( dataFile ( ( M_section + "spaceDimension" ).data (), 1. ) ),
 				             M_meshType ( dataFile ( ( M_sectionDomain + "meshType" ).data (), "GT_PK(1,1)" ) ),
 				             M_meshSpacing( dataFile ( ( M_sectionDomain + "spacing" ).data (), "x" ) ),
-				             M_fEMType ( dataFile ( ( M_sectionDomain + "FEMType" ).data (), "FEM_PK(1,0)" ) ),
-				             M_fEMType2 ( dataFile ( ( M_sectionDomain + "FEMType2" ).data (), "FEM_PK(1,1)" ) ),
-				             M_integrationType ( dataFile ( ( M_sectionDomain + "integrationType" ).data (),
+				             M_fEMType ( dataFile ( ( M_sectionDomain + "FEMTypePressure" ).data (), "FEM_PK(1,0)" ) ),
+				             M_fEMType2 ( dataFile ( ( M_sectionDomain + "FEMTypeVelocity" ).data (), "FEM_PK(1,1)" ) ),
+				             M_fEMTypeLinear ( dataFile ( ( M_sectionDomain + "FEMTypeLinear" ).data (), "FEM_PK(1,1)" ) ),
+				             M_integrationType ( dataFile ( ( M_sectionDomain + "integrationTypePressure" ).data (),
 				                                                    "IM_GAUSS1D(2)" ) ),
-							 M_integrationType2 ( dataFile ( ( M_sectionDomain + "integrationType2" ).data (),
+							 M_integrationType2 ( dataFile ( ( M_sectionDomain + "integrationTypeVelocity" ).data (),
 																    "IM_GAUSS1D(3)" ) ),
+							 // darcy
+							 M_etaNormal ( dataFile ( ( M_sectionDarcy + "etaNormal" ).data (), M_thickness ) ),
+							 M_etaTangential ( dataFile ( ( M_sectionDarcy + "etaTangential" ).data (), 1. / M_thickness ) ),
+							 M_etaNormalDistribution ( dataFile ( ( M_sectionDarcy + "etaNormalDistribution" ).data (), "1." ) ),
+							 M_etaTangentialDistribution ( dataFile ( ( M_sectionDarcy + "etaTangentialDistribution" ).data (), "1." ) ),
+							 M_darcySource ( dataFile ( ( M_sectionDarcy + "source" ).data (), "1." ) ),
+							 M_pressureExact ( dataFile ( ( M_sectionDarcy + "solution" ).data (), "1." ) ),
+							 M_velocityExact ( dataFile ( ( M_sectionDarcy + "velocity" ).data (), "1." ) ),
 				             // saturation
 				   	   	   	 M_u0 ( dataFile ( ( M_sectionSaturation + "u0").data (), "1." ) ),
 				   	   	   	 M_numberFlux( dataFile ( ( M_sectionSaturation + "numberFlux").data (), 1 ) ),
@@ -72,6 +83,56 @@ FractureData::FractureData ( const GetPot& dataFile,
 	M_Int = 1000000;
 
 }// costruttore
+
+
+//questa bella funzione restituisce un'eventuale modulazione del coefficiente di permeabilità normale
+scalar_type FractureData::etaNormalDistribution ( const base_node& x )
+{
+    M_parser.setString ( M_etaNormalDistribution );
+    M_parser.setVariable ( "x", x [ 0 ] );
+
+    return M_parser.evaluate ();
+}// etaNormalDistribution
+
+//questa bella funzione restituisce un'eventuale modulazione del coefficiente di permeabilità tangenziale
+scalar_type FractureData::etaTangentialDistribution ( const base_node& x )
+{
+    M_parser.setString ( M_etaTangentialDistribution );
+    M_parser.setVariable ( "x", x [ 0 ] );
+
+    return M_parser.evaluate ();
+}// etaTangentialDistribution
+
+
+// Exact solution, velocity (non ho ancora impostato quella corretta)
+scalar_type FractureData::velocityExact ( const base_node& x, const base_node& n )
+{
+    M_parser.setString ( M_velocityExact );
+    M_parser.setVariable ( "x", x [ 0 ] );
+    M_parser.setVariable ( "y", x [ 1 ] );
+    M_parser.setVariable ( "n1", n [ 0 ] );
+    M_parser.setVariable ( "n2", n [ 1 ] );
+
+    return M_parser.evaluate ();
+}// velocityExact
+
+// Exact solution, div(Velocity) -- SET = 0 WITH NO MASS SOURCES/SINKS !
+scalar_type FractureData::darcySource ( const base_node& x )
+{
+    M_parser.setString ( M_darcySource );
+    M_parser.setVariable ( "x", x [ 0 ] );
+
+    return M_parser.evaluate ();
+}// darcySource
+
+//pressione esatta nella frattura, se volessi fare il caso con p imposta - qui invece è predisposto per risolvere il problema accoppiato
+scalar_type FractureData::pressureExact ( const base_node& x )
+{
+    M_parser.setString ( M_pressureExact );
+    M_parser.setVariable ( "x", x [ 0 ] );
+
+    return M_parser.evaluate ();
+}// pressureExact
 
 
 void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, const size_type i, const size_type f )

@@ -154,7 +154,6 @@ void SaturationFractured::solve()
 		{
 			solve_riemann ( f, u0 [ f ], flux [ f ] );
 
-
 			std::ostringstream ss;
 			ss << "./matlab/risultati/saturation_flusso.txt";
 

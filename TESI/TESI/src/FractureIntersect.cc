@@ -37,6 +37,11 @@ void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& 
 					 fracturesInvolved [ i ][ f ] = fractures [ listOfFractures [ i ] [ j ] [ f-1 ] ];
 				}
 
+				for ( size_type k = 1; k < fracturesInvolved[ i ].size(); k++ )
+				{
+					fractures [ i ]->setMeshLevelSetFracture ( *fracturesInvolved [ i ][ k ] );
+				}
+
 				// Costruisco la classe IntersectData per la nuova intersezione
 				IntersectData intersection;
 

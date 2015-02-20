@@ -28,7 +28,19 @@ public:
 	// Costruttore nullo
 	FracturesSet ();
 
-	void init ( const GetPot& dataFile, const std::string& section, const size_type& numFractures, const ExporterPtr_Type& exporter );
+	/**
+	 * Funzione che inizializza l'insieme delle fratture definendo un vettore con le fratture e una classe delle intersezioni.
+	 */
+    void init ( const GetPot& dataFile,
+                const std::string& section,
+                const size_type& numFractures,
+                getfem::mesh& mesh,
+                getfem::mesh_level_set& meshLevelSet,
+                const std::string& integrationTypeVelocity,
+                const getfem::mesh_fem& meshFEMScalar,
+                const getfem::mesh_fem& meshFEMVector,
+                const ExporterPtr_Type& exporter );
+
 
     const FractureHandlerPtr_Type& getFracture ( const size_type& f ) const
     {

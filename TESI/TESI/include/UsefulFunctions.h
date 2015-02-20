@@ -26,6 +26,7 @@
  */
 void exportSolution ( const std::string& fileName,
                       const std::string& solutionName,
+                      const getfem::mesh_fem& meshFEM,
                       const scalarVector_Type& solution );
 
 
@@ -35,6 +36,13 @@ scalar_type min ( const std::string& flusso, const scalar_type ul, const scalar_
 
 scalar_type max ( const std::string& flusso, const scalar_type ul, const scalar_type ur );
 
+/**
+ * Funzione che calcola la distanza tra due punti
+ */
+scalar_type pointDistance ( const scalar_type& x0,
+                            const scalar_type& x1,
+                            const scalar_type& y0,
+                            const scalar_type& y1 );
 
 
 class VectorIntersection
@@ -82,5 +90,7 @@ typedef VectorIntersection VectorIntersection_Type;									/*!< classe VectorIn
 typedef std::vector < VectorIntersection_Type > VectorIntersectionContainer_Type;				/*!< Vettore di classi IntersectData */
 typedef boost::shared_ptr < VectorIntersection > VectorIntersectionPtr_Type;			/*!< puntatore alla classe VectorIntersection */
 
+
+void orderId( size_type& id_i, size_type& id_j, size_type& id_k );
 
 #endif /* _USEFULFUNCTION_H_ */

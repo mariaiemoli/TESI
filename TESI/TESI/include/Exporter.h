@@ -61,14 +61,6 @@ public:
     void spy ( const scalarVectorPtr_Type& vector, const std::string& nameFile ) const;
 
 
-    /**
-     * Funzione che esporta le regioni della mesh.
-     * \param getfem::mesh& mesh: mesh di supporto
-     * \param std::string& nameFile = "RegionMesh.vtk": nome del file su cui scrivere la soluzione, se non è dato è posto di default pari a "RegionMesh.vtk"
-     */
-    void meshRegion ( const getfem::mesh& mesh,
-                      const std::string& nameFile = "RegionMesh.vtk" ) const;
-
 private:
 
     const std::string M_vtkFolder;

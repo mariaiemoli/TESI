@@ -13,7 +13,7 @@
 #include "include/FracturesSet.h"
 #include "include/Core.h"
 #include "include/MediumData.h"
-//#include "include/DarcyFractured.h"
+#include "include/DarcyFractured.h"
 #include "include/MeshHandler.h"
 
 
@@ -42,22 +42,23 @@ int main ( int argc, char* argv [ ] )
 	//	std::string s = "mkdir "+vtkFolder;
 	//	system (s.c_str());
 
-
-	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
-
-	std::cout << "Solving the Saturation problem for a set of fractures." << std::endl;
 	std::cout << std::endl;
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
+	std::cout << " 			---  FLUSSO DI FLUIDI BIFASE IN MEZZI POROSI  ---			" << std::endl;
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
 
+	std::cout << " 			---  MESH DI SUPPORTO E MEZZO  ---			" << std::endl;
+	std::cout << std::endl;
 
 	//Data exporter
 	std::cout << "Create the data exporter..." << std::flush;
 	ExporterPtr_Type exporter( new Exporter_Type( dataFile ));
 	std::cout << " completed!" <<std::endl;
 	std::cout << std::endl;
-	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
 
@@ -68,9 +69,7 @@ int main ( int argc, char* argv [ ] )
 	mesh->setUpFEM();
 	std::cout<< " completed!" << std::endl;
 	std::cout << std::endl;
-	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
-
 
 
 	// Medium data for the Darcy problem
@@ -83,6 +82,9 @@ int main ( int argc, char* argv [ ] )
 	std::cout << std::endl;
 
 
+	std::cout << " 			---  DEFINIZIONE FRATTURE E CONDIZIONI AL BORDO  ---			" << std::endl;
+	std::cout << std::endl;
+
 	// Fracture Set
 	std::cout << "Create the set of fractures for " << std::flush;
 	const size_type numberFractures = dataFile((section + "numberFractures").data(), 0 );
@@ -93,12 +95,12 @@ int main ( int argc, char* argv [ ] )
 	FracturesSetPtr_Type fractures ( new  FracturesSet  );
 
 	std::cout << " completed! " << std::endl;
-	fractures->init( dataFile, section, numberFractures, exporter );
+	fractures->init ( dataFile, section, numberFractures, mesh->getMesh(), mesh->getMeshLevelSet(),
+					  mesh->getIntegrationTypeVelocity(),
+					  mesh->getMeshFEMScalar(), mesh->getMeshFEMVector(), exporter );
 	std::cout << std::endl;
-	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
-/*
 	// Fracture boundary conditions
 	std::cout << "Create fracture boundary conditions..." << std::flush;
 	BCPtrContainer_Type bcFracture(numberFractures);
@@ -109,13 +111,77 @@ int main ( int argc, char* argv [ ] )
 										   	fractures->getFracture ( f ) -> getDofIntersection() ));
 	}
 	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 
 
 	// Boundary conditions handler
 	std::cout << "Create boundary conditions handler..." << std::flush;
 	BCHandlerPtr_Type bcHandler(new BCHandler_Type( bcFracture ));
 	std::cout << " completed!" << std::endl;
-*/
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+
+	// Compute inverse of mesh size (h^(-1) dove h è il passo di griglia)
+	std::cout << "Compute inverse of mesh size..." << std::flush;
+	mesh->computeMeshMeasures();
+	for ( size_type f = 0; f < numberFractures; ++f )
+	{
+		fractures->getFracture( f )->computeInvH(bcHandler);
+	}
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+
+
+	std::cout << " 			---  PROBLEMA DI DARCY  ---			" << std::endl;
+	std::cout << std::endl;
+
+	/*
+	// Darcy problem
+	std::cout << "Create Darcy problem..." << std::flush;
+	DarcyFracturedPtr_Type darcy(new DarcyFractured_Type(mediumDataDarcy, mesh,
+			bcHandler, fractures, exporter));
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+
+	// Initialize the solver
+	std::cout << "Initialize the Darcy problem..." << std::flush;
+	darcy->init();
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+
+
+	// Assembly the matrices and vectors
+	std::cout << "Assembly the Darcy problem..." << std::flush;
+	darcy->assembly( dataFile);
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+
+
+	// Solve and save the solutions
+	std::cout << "Solve the Darcy problem..." << std::flush;
+	darcy->solve();
+	std::cout << " completed!" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+
+	std::cout << "*******************   " << std::endl;
+	std::cout << std::endl;
+	*/
+
+
+	std::cout << " 			---  PROBLEMA DI SATURAZIONE  ---			" << std::endl;
+	std::cout << std::endl;
 
 	// Risolvo il problema in saturazione
 	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, exporter ) );
@@ -123,6 +189,7 @@ int main ( int argc, char* argv [ ] )
 	saturation->init();
 
 	saturation-> solve();
+
 
 	std::cout << std::endl;
 	std::cout << "*******************   " << std::endl;

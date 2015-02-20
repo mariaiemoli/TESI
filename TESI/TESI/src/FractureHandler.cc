@@ -17,9 +17,11 @@ FractureHandler::FractureHandler ( const GetPot& dataFile,
                                    M_meshFEM( M_meshFlat ),
                                    M_meshFEM2( M_meshFlat ),
                                    M_meshFEMVisualization( M_mesh ),
-                                   M_integrationMethod( M_mesh ),
+                                   M_integrationMethod( M_meshFlat ),
                                    M_integrationMethodVisualization( M_mesh ),
-                                   M_integrationMethod2( M_meshFlat )
+                                   M_integrationMethod2( M_meshFlat ),
+                                   M_integrationMethodLinear( M_mesh ),
+                                   M_meshFEMLinear( M_mesh )
 
 {
 	M_levelSet.reset( new LevelSetHandler_Type ( dataFile, section ) );
@@ -44,7 +46,7 @@ FractureHandler::FractureHandler ( const GetPot& dataFile,
 
 void FractureHandler::init ()
 {
-    // Geometric transformation usign primal finite elements type in the fracture
+	// Geometric transformation usign primal finite elements type in the fracture
     M_geometricTransformation = bgeot::geometric_trans_descriptor( M_data.getMeshType() );
 
 
@@ -77,7 +79,6 @@ void FractureHandler::init ()
         M_meshFlat.points() [ i ] [ 0 ] = M_data.meshSpacing( M_meshFlat.points() [ i ] [ 0 ] );
     }
 
-
     //-------------------- M_mesh, mesh reale nel piano 2d --------------------//
     //costruisco la M_mediumMesh n.2 quella di servizio, quella della frattura mappata
 
@@ -88,11 +89,11 @@ void FractureHandler::init ()
         bgeot::base_node P(M_data.getSpaceDimension() + 2);
         bgeot::base_node P1(M_data.getSpaceDimension() + 2);
 
+        P [ 0 ] = M_meshFlat.points() [ i ] [ 0 ];
+
         scalar_type t = i*1./(M_data.getSpatialDiscretization () );
 
         P1 [ 0 ] = t;
-
-        P [ 0 ] = P1 [ 0 ];
         P [ 1 ] =  M_levelSet->getData()->y_map( P1 );
         ind [ i ] = M_mesh.add_point( P );
     }
@@ -134,6 +135,18 @@ void FractureHandler::init ()
     M_meshFEM2.set_qdim( M_data.getSpaceDimension() );
     M_meshFEM2.set_finite_element( M_meshFlat.convex_index(), fractureFEType2 );
 
+    // Definisco gli elementi finiti per i coefficienti nella frattura
+    getfem::pfem fractureFEMTypeLinear = getfem::fem_descriptor( M_data.getFEMTypeLinear() );
+
+    // Definisco il tipo di integrazione per i coefficienti nella frattura
+    getfem::pintegration_method fractureIntegrationTypeLinea = getfem::int_method_descriptor( M_data.getIntegrationType2() );
+
+    // Definisco il metodo di integrazione per i coefficienti nella frattura
+    M_integrationMethodLinear.set_integration_method( M_mesh.convex_index(), fractureIntegrationTypeLinea );
+
+    // Definisco lo spazio degli elementi finiti per i coefficienti nella frattura
+    M_meshFEMLinear.set_qdim( M_data.getSpaceDimension() );
+    M_meshFEMLinear.set_finite_element( M_mesh.convex_index(), fractureFEMTypeLinear );
 
     // P(K-1) discontinuous FE
     // Definisco gli elementi finiti nella frattura
@@ -154,6 +167,29 @@ void FractureHandler::init ()
     // Elementi finiti per la pressione nella frattura per la visualizzazione
     M_meshFEMVisualization.set_finite_element( M_mesh.convex_index(), fractureFEType );
 
+    // Allocate data
+
+    // Alloco il vettore per M_etaNormalInterpolated
+    gmm::resize ( M_etaNormalInterpolated, M_meshFEM.nb_dof() );
+    gmm::clear ( M_etaNormalInterpolated );
+
+    // Alloco il vettore per M_etaTangentialInterpolated
+    gmm::resize ( M_etaTangentialInterpolated, M_meshFEM.nb_dof() );
+    gmm::clear ( M_etaTangentialInterpolated );
+
+    // Riempio i vettori M_etaNormalInterpolated, M_etaTangentialInterpolated, M_muNormalInterpolated e M_muTangentialInterpolated della frattura
+    for ( size_type i = 0; i < M_meshFEM.nb_dof(); ++i )
+    {
+        M_etaNormalInterpolated [ i ] = M_data.etaNormalDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaNormal();
+
+        M_etaTangentialInterpolated [ i ] = M_data.etaTangentialDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaTangential();
+
+    }
+
+    gmm::resize ( M_inverseMeshSize, M_meshFEM.nb_dof() );
+    gmm::clear ( M_inverseMeshSize );
+
+    M_meshFlat.region ( FractureHandler::FRACTURE_UNCUT * ( M_ID + 1 ) ).add ( M_meshFlat.convex_index() );
 
 	std::ostringstream ss;
 	ss << "./matlab/risultati/inizialSaturation_" << M_ID << ".txt";
@@ -167,12 +203,121 @@ void FractureHandler::init ()
 	return;
 }// init
 
-/*
-scalarVector_Type FractureHandler::getDofIntersection () const
+void FractureHandler::normalVectorAndMap ( const getfem::mesh_fem& mediumMeshFEMPressure )
 {
-	scalarVector_Type v;
-	v.push_back( M_data.getInt() );
+	// Assegno il vettore normale e la mappa per la frattura
+    for ( size_type i = 0; i < M_meshFEM.nb_dof(); ++i )
+    {
+        const base_node& node = mediumMeshFEMPressure.point_of_basic_dof(i);
+        const bgeot::dim_type& dim = M_data.getSpaceDimension();
 
-	return v;
-}// getDofIntersection
-*/
+        scalarVector_Type magnificationMapFactor = M_levelSet->getData()->map_jac( node, dim );
+
+        scalarVector_Type fractureNormal = M_levelSet->getData()->normal_map( node, dim );
+
+        M_magnificationMapFactor1.push_back ( magnificationMapFactor [ 0 ] );
+        M_normal1.push_back ( fractureNormal [ 0 ] );
+        M_normal2.push_back ( fractureNormal [ 1 ] );
+    }
+
+    return;
+
+}// normalVectorAndMap
+
+
+sizeVector_Type FractureHandler::getDofIntersection( )
+{
+	sizeVector_Type Dof;
+
+	Dof.push_back( M_data.getInt() );
+
+	return Dof;
+}// fetDofIntersection
+
+
+void FractureHandler::computeInvH ( const BCHandlerPtr_Type& bcHandler )
+{
+    // Computing h^(-1) on external boudaries of the fracture.
+    // Useful for impose the boundary condition with Nitsche penalisation
+
+    const sizeVector_Type& fractureDirichlet = bcHandler->getFractureBC( M_ID )->getDirichlet();
+    const size_type shiftFracture = fractureDirichlet.size();
+
+    for ( size_type i = 0; i < shiftFracture; i++ )
+    {
+        for ( getfem::mr_visitor vis( M_meshFlat.region( fractureDirichlet [ i ] ) ); !vis.finished(); ++vis )
+        {
+            // Seleziono i grado di libertà corrente
+            size_type dof = M_meshFEM.ind_basic_dof_of_element( vis.cv() ) [ 0 ];
+
+            // Stimo la dimensione della mesh
+            const scalar_type meshSize = M_meshFlat.convex_radius_estimate( vis.cv() );
+
+            // calcolo h^(-1)
+            M_inverseMeshSize [ dof ] = 1.0 / meshSize;
+
+        }
+    }
+
+    return;
+
+}// computeInvH
+
+
+void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
+{
+
+    const size_type otherFractureId = otherFracture.getID();
+    size_type numIntersect = 0;
+
+    if ( !M_meshLevelSetIntersect[ otherFractureId ].get() )
+    {
+		M_meshLevelSetIntersect[ otherFractureId ].reset ( new GFMeshLevelSet_Type ( M_meshFlat ) );
+        LevelSetHandlerPtr_Type otherLevelSet = otherFracture.getLevelSet();
+        M_levelSetIntersect [ otherFractureId ].reset ( new GFLevelSet_Type ( M_meshFlat, 1, false )  );
+        M_levelSetIntersect [ otherFractureId ]->reinit();
+
+        const size_type nbDof = M_levelSetIntersect [ otherFractureId ]->get_mesh_fem().nb_basic_dof();
+
+        for ( size_type d = 0; d < nbDof; ++d )
+        {
+            base_node node = M_levelSetIntersect [ otherFractureId ]->get_mesh_fem().point_of_basic_dof(d);
+            base_node mappedNode ( node.size() +1 );
+
+			scalar_type t = d*1./(M_data.getSpatialDiscretization () );
+			base_node P (node.size());
+
+			P [0] = t;
+
+			mappedNode [0] = node [0];
+
+			mappedNode [1] = M_levelSet->getData()->y_map ( P );
+
+			M_levelSetIntersect [ otherFractureId ]->values(0)[d] = otherLevelSet->getData()->levelSetFunction ( mappedNode );
+
+        }
+
+        M_meshLevelSetIntersect[ otherFractureId ]->add_level_set ( *M_levelSetIntersect [ otherFractureId ] );
+        M_meshLevelSetIntersect[ otherFractureId ]->adapt ();
+
+        size_type i_cv = 0;
+        dal::bit_vector bc_cv = M_meshLevelSetIntersect[ otherFractureId ]->linked_mesh().convex_index();
+
+        for ( i_cv << bc_cv; i_cv != size_type(-1); i_cv << bc_cv )
+        {
+            if ( M_meshLevelSetIntersect[ otherFractureId ]->is_convex_cut ( i_cv ) )
+            {
+				M_meshFlat.region ( FractureHandler::FRACTURE_UNCUT * ( M_ID + 1 ) ).sup ( i_cv );
+
+				M_meshFlat.region ( FractureHandler::FRACTURE_INTERSECT * ( M_ID + 1 ) + otherFractureId + 1 ).add( i_cv );
+
+ 				M_fractureIntersectElements [ otherFractureId ].push_back ( i_cv );
+            }
+        }
+
+    }
+
+    return;
+
+}// setMeshLevelSetFracture
+
