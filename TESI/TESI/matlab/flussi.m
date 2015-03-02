@@ -21,7 +21,6 @@ plot(x,flux3(x))
 hold on
 plot(x,flux4(x),'g')
 
-
 %%
 
 
@@ -31,4 +30,4 @@ flux6=inline('50.*(x.^2).*5.*(1-x).^2 ./(50.*x.^2+5.*(1-x).^2 )');
 
 plot(x,flux5(x))
 hold on
-plot(x,flux6(x),'g')
+%plot(x,flux6(x),'g')

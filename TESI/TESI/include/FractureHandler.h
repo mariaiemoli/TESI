@@ -222,8 +222,6 @@ public:
     	return M_ci;
     }
 
-    //scalarVector_Type getDofIntersection () const;
-
 
 private:
 

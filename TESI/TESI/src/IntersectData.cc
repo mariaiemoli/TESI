@@ -277,6 +277,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 1 ] = 0;
 			M_intersection.setPoint ( 0, 0);
 			M_intersection.setPoint ( 1, 0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( 0 );
+			M_fractures [ 1 ]->getData ().imposeIntersection ( 0 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+			M_fractures [ 1 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+
 		}
 		else if( node_0 [ 1 ][ 0 ] == node_1 [ 0 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_1 [ 0 ][ 1 ] )
 		{
@@ -284,6 +291,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 1 ] = 0;
 			M_intersection.setPoint ( 1, 0);
 			M_intersection.setPoint ( 0, nbDof0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( nbDof0 );
+			M_fractures [ 1 ]->getData ().imposeIntersection ( 0 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+			M_fractures [ 1 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+
 		}
 		else if( node_0 [ 0 ][ 0 ] == node_1 [ 1 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_1 [ 1 ][ 1 ] )
 		{
@@ -291,6 +305,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 0 ] = 0;
 			M_intersection.setPoint ( 1, nbDof1);
 			M_intersection.setPoint ( 0, 0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( 0 );
+			M_fractures [ 1 ]->getData ().imposeIntersection ( nbDof1 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+			M_fractures [ 1 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+
 		}
 		else if( node_0 [ 1 ][ 0 ] == node_1 [ 1 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_1 [ 1 ][ 1 ] )
 		{
@@ -298,12 +319,29 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 0 ] = nbDof0;
 			M_intersection.setPoint ( 1, nbDof1);
 			M_intersection.setPoint ( 0, nbDof0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( nbDof0 );
+			M_fractures [ 1 ]->getData ().imposeIntersection ( nbDof1 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+			M_fractures [ 1 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+
 		}
 
 		if( node_0 [ 0 ][ 0 ] == node_2 [ 0 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_2[ 0 ][ 1 ] )
 		{
 			M_intersectionPoint [ 0 ] = 0;
 			M_intersectionPoint [ 2 ] = 0;
+
+			M_intersection.setPoint ( 0, 0);
+			M_intersection.setPoint ( 2, 0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( 0 );
+			M_fractures [ 2 ]->getData ().imposeIntersection ( 0 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+			M_fractures [ 2 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+
 		}
 		else if( node_0 [ 1 ][ 0 ] == node_2 [ 0 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_2 [ 0 ][ 1 ] )
 		{
@@ -311,6 +349,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 2 ] = 0;
 			M_intersection.setPoint ( 2, 0);
 			M_intersection.setPoint ( 0, nbDof0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( nbDof0 );
+			M_fractures [ 2 ]->getData ().imposeIntersection ( 0 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+			M_fractures [ 2 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+
 		}
 		else if( node_0 [ 0 ][ 0 ] == node_2 [ 1 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_2 [ 1 ][ 1 ] )
 		{
@@ -318,6 +363,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 0 ] = 0;
 			M_intersection.setPoint ( 2, nbDof2);
 			M_intersection.setPoint ( 0, 0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( 0 );
+			M_fractures [ 2 ]->getData ().imposeIntersection ( nbDof2 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+			M_fractures [ 2 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+
 		}
 		else if( node_0 [ 1 ][ 0 ] == node_2 [ 1 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_2 [ 1 ][ 1 ] )
 		{
@@ -325,6 +377,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 0 ] = nbDof0;
 			M_intersection.setPoint ( 2, nbDof2);
 			M_intersection.setPoint ( 0, nbDof0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( nbDof0 );
+			M_fractures [ 2 ]->getData ().imposeIntersection ( nbDof2 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+			M_fractures [ 2 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+
 		}
 
 		if( node_0 [ 0 ][ 0 ] == node_3 [ 0 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_3[ 0 ][ 1 ] )
@@ -333,6 +392,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 3 ] = 0;
 			M_intersection.setPoint ( 3, 0);
 			M_intersection.setPoint ( 0, 0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( 0 );
+			M_fractures [ 3 ]->getData ().imposeIntersection ( 0 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+			M_fractures [ 3 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+
 		}
 		else if( node_0 [ 1 ][ 0 ] == node_3 [ 0 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_3 [ 0 ][ 1 ] )
 		{
@@ -341,6 +407,12 @@ void IntersectData::updateNodes ()
 			M_intersection.setPoint ( 3, 0);
 			M_intersection.setPoint ( 0, nbDof0);
 
+			M_fractures [ 0 ]->getData ().imposeIntersection ( nbDof0 );
+			M_fractures [ 3 ]->getData ().imposeIntersection ( 0 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+			M_fractures [ 3 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+
 		}
 		else if( node_0 [ 0 ][ 0 ] == node_3 [ 1 ][ 0 ] && node_0 [ 0 ][ 1 ] == node_3 [ 1 ][ 1 ] )
 		{
@@ -348,6 +420,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 0 ] = 0;
 			M_intersection.setPoint ( 3, nbDof3);
 			M_intersection.setPoint ( 0, 0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( 0 );
+			M_fractures [ 3 ]->getData ().imposeIntersection ( nbDof3 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 0, 0 );
+			M_fractures [ 3 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+
 		}
 		else if( node_0 [ 1 ][ 0 ] == node_3 [ 1 ][ 0 ] && node_0 [ 1 ][ 1 ] == node_3 [ 1 ][ 1 ] )
 		{
@@ -355,6 +434,13 @@ void IntersectData::updateNodes ()
 			M_intersectionPoint [ 0 ] = nbDof0;
 			M_intersection.setPoint ( 3, nbDof3);
 			M_intersection.setPoint ( 0, nbDof0);
+
+			M_fractures [ 0 ]->getData ().imposeIntersection ( nbDof0 );
+			M_fractures [ 3 ]->getData ().imposeIntersection ( nbDof3 );
+
+			M_fractures [ 0 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+			M_fractures [ 3 ]->getData ().getFluxHandler( 0 )->update_UI ( 1, 0 );
+
 		}
 
 	}
@@ -409,6 +495,7 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 			scalar_type Sl;
 			scalar_type Sr;
 
+
 			if( H == 2.0 )		// caso A
 			{
 				if ( M_intersectionPoint [ i ] == 0 )
@@ -423,8 +510,8 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 				}
 
 
-				scalar_type F_ul = M_fractures [ i ]->getData().feval_scal( Sl, k );
-				scalar_type F_ur = M_fractures [ i ]->getData().feval_scal( Sr, k );
+				scalar_type F_ul = M_fractures [ i ]->getData().feval_scal( Sl, k, M_intersectionPoint [ i ]-1 );
+				scalar_type F_ur = M_fractures [ i ]->getData().feval_scal( Sr, k, M_intersectionPoint [ i ]-1 );
 
 				Flux[ i ] = std::max( F_ul, F_ur );
 			}
@@ -443,24 +530,24 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 				}
 
 
-				scalar_type F_ul = M_fractures [ i ]->getData().feval_scal( Sl, k );
-				scalar_type F_ur = M_fractures [ i ]->getData().feval_scal( Sr, k );
+				scalar_type F_ul = M_fractures [ i ]->getData().feval_scal( Sl, k, M_intersectionPoint [ i ] );
+				scalar_type F_ur = M_fractures [ i ]->getData().feval_scal( Sr, k, M_intersectionPoint [ i ] );
 
 				Flux[ i ] = std::min( F_ul, F_ur );
 			}
 		}
 		else
 		{
-			scalar_type F_ul = M_fractures [ i ] ->getData().feval_scal( u0, k );
-			scalar_type F_ur = M_fractures [ i ] ->getData().feval_scal( M_u0, k );
+			scalar_type F_ul = M_fractures [ i ] ->getData().feval_scal( u0, k, M_intersectionPoint [ i ] );
+			scalar_type F_ur = M_fractures [ i ] ->getData().feval_scal( M_u0, k, M_intersectionPoint [ i ] );
 
 			scalar_type Sl = u0;
 			scalar_type Sr = M_u0;
 
 			if ( M_intersectionPoint [ i ] == 0 )
 			{
-				F_ur = M_fractures [ i ] ->getData().feval_scal( u0, k );
-				F_ul = M_fractures [ i ] ->getData().feval_scal( M_u0, k );
+				F_ur = M_fractures [ i ] ->getData().feval_scal( u0, k, M_intersectionPoint [ i ] );
+				F_ul = M_fractures [ i ] ->getData().feval_scal( M_u0, k , M_intersectionPoint [ i ]);
 
 				Sl = M_u0;
 				Sr = u0;
@@ -479,6 +566,10 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 
 		}
 	}
+
+					// ***********  //
+					// modifico qui //
+					// ***********  //
 
 	// a questo punto calcolo la nuova U_I
 	scalar_type U0_old = M_u0;

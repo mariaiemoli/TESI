@@ -13,7 +13,6 @@ FractureHandler::FractureHandler ( const GetPot& dataFile,
 								   M_ID( ID ),
 								   M_data( dataFile, section ),
 								   M_exporter ( exporter ),
-
                                    M_meshFEM( M_meshFlat ),
                                    M_meshFEM2( M_meshFlat ),
                                    M_meshFEMVisualization( M_mesh ),
@@ -266,7 +265,6 @@ void FractureHandler::computeInvH ( const BCHandlerPtr_Type& bcHandler )
 
 void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
 {
-
     const size_type otherFractureId = otherFracture.getID();
     size_type numIntersect = 0;
 
@@ -297,8 +295,11 @@ void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
 
         }
 
+        /*
         M_meshLevelSetIntersect[ otherFractureId ]->add_level_set ( *M_levelSetIntersect [ otherFractureId ] );
+
         M_meshLevelSetIntersect[ otherFractureId ]->adapt ();
+
 
         size_type i_cv = 0;
         dal::bit_vector bc_cv = M_meshLevelSetIntersect[ otherFractureId ]->linked_mesh().convex_index();
@@ -307,6 +308,7 @@ void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
         {
             if ( M_meshLevelSetIntersect[ otherFractureId ]->is_convex_cut ( i_cv ) )
             {
+            	std::cout << " frattura " << M_ID << "  otherfracture  " << otherFractureId << std::endl;
 				M_meshFlat.region ( FractureHandler::FRACTURE_UNCUT * ( M_ID + 1 ) ).sup ( i_cv );
 
 				M_meshFlat.region ( FractureHandler::FRACTURE_INTERSECT * ( M_ID + 1 ) + otherFractureId + 1 ).add( i_cv );
@@ -314,6 +316,9 @@ void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
  				M_fractureIntersectElements [ otherFractureId ].push_back ( i_cv );
             }
         }
+		*/
+
+        //size_type i_cv = intersezione ( otherFracture );
 
     }
 

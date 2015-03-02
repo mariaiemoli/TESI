@@ -59,7 +59,7 @@ public:
 
 	void feval( scalarVector_Type& fl, const scalarVector_Type& u0, const size_type i, const size_type f );
 
-	scalar_type feval_scal( const scalar_type& us, const size_type i, const size_type f = 0 );
+	scalar_type feval_scal( const scalar_type& us, const size_type i, const size_type j, const size_type f = 0 );
 
 	std::string getFlux( const size_type& i );
 
@@ -68,6 +68,8 @@ public:
     scalar_type meshSpacing ( const scalar_type& x );
 
     scalar_type porosity( const scalar_type& u );
+
+    scalar_type velocity( const size_type& i );
 
     scalar_type getCi ( const scalar_type& x );
 
@@ -80,6 +82,8 @@ public:
      * Funzione che agggiorna il valore della funzione flusso all'intersezione
      */
     void updateSI ( const scalarVector_Type& f );
+
+    void updateU ( const scalarVector_Type& velocity );
 
     void imposeIntersection ( const size_type& i );
 
@@ -250,6 +254,7 @@ private:
 	scalar_type M_SI;
 
 	std::string M_invP;
+	scalarVector_Type M_U;
 
 	mutable LifeV::Parser M_parser;
 

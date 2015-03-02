@@ -19,6 +19,7 @@ void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& 
 
 	std::vector<FracturePtrContainer_Type> fracturesInvolved ( fractures.size() );
 
+
 	for ( size_type i = 0; i < fractures.size(); i++ )
 	{
 		// Prendo i puntatori alle fratture coinvolte
@@ -37,11 +38,6 @@ void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& 
 					 fracturesInvolved [ i ][ f ] = fractures [ listOfFractures [ i ] [ j ] [ f-1 ] ];
 				}
 
-				for ( size_type k = 1; k < fracturesInvolved[ i ].size(); k++ )
-				{
-					fractures [ i ]->setMeshLevelSetFracture ( *fracturesInvolved [ i ][ k ] );
-				}
-
 				// Costruisco la classe IntersectData per la nuova intersezione
 				IntersectData intersection;
 
@@ -52,6 +48,44 @@ void FractureIntersect::constructIntesection ( const FracturePtrContainer_Type& 
 
 				// tolgo le fratture già analizzate dagli altri vettori
 				clear ( listOfFractures,  i, j );
+
+			}
+		}
+	}
+
+	// ************************************ //
+
+
+	listOfFractures.clear();
+	listOfFractures.resize( fractures. size() );
+
+	for ( size_type f = 0; f < fractures.size(); f++ )
+	{
+		// cerco tutte le possibili intersezioni tra la frattura corrente e le altre fratture
+		findIntersection ( fractures [ f ], fractures, listOfFractures [ f ] );
+	}
+
+	for ( size_type i = 0; i < fractures.size(); i++ )
+	{
+		// Prendo i puntatori alle fratture coinvolte
+		for ( size_type j = 0; j < 2; j++ )
+		{
+			if ( listOfFractures [ i ] [ j ].size () != 0 )	// cioè se la frattura i-esima ha un'intersezione nel nodo j
+			{
+				fracturesInvolved [ i ].clear();
+				fracturesInvolved [ i ].resize( listOfFractures[ i ] [ j ].size() +1 );
+
+				fracturesInvolved [ i ][ 0 ] = fractures[ i ];
+
+				for ( size_type f = 1; f < fracturesInvolved.size(); ++f )
+				{
+					 fracturesInvolved [ i ][ f ] = fractures [ listOfFractures [ i ] [ j ] [ f-1 ] ];
+				}
+
+				for ( size_type k = 1; k < fracturesInvolved[ i ].size(); k++ )
+				{
+					fractures [ i ]->setMeshLevelSetFracture ( *fracturesInvolved [ i ][ k ] );
+				}
 
 			}
 		}
@@ -85,6 +119,7 @@ void FractureIntersect::findIntersection ( const FractureHandlerPtr_Type& f,
 	{
 		node_of.clear();
 		node_of.resize( 2 );
+
 
 		if( otherFracture != ID )
 		{
@@ -198,7 +233,7 @@ IntersectDataContainer_Type FractureIntersect::getCrossIntersections () const
 	{
 		for ( size_type i = 0; i< M_intersections.size(); i++ )
 		{
-			if ( M_intersections[ i ].getNumFractures () == 2 )
+			if ( M_intersections[ i ].getNumFractures () == 4 )
 			{
 				tmp.push_back( M_intersections[ i ] );
 			}
@@ -238,7 +273,7 @@ size_type FractureIntersect::getNumberCross() const
 
 	for ( size_type i = 0; i < M_intersections.size (); i++ )
 	{
-		if ( M_intersections[ i ].getFractures().size() == 2 )
+		if ( M_intersections[ i ].getFractures().size() == 4 )
 		{
 			count ++;
 		}

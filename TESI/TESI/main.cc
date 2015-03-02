@@ -136,10 +136,11 @@ int main ( int argc, char* argv [ ] )
 	std::cout << std::endl;
 
 
+
 	std::cout << " 			---  PROBLEMA DI DARCY  ---			" << std::endl;
 	std::cout << std::endl;
 
-	/*
+
 	// Darcy problem
 	std::cout << "Create Darcy problem..." << std::flush;
 	DarcyFracturedPtr_Type darcy(new DarcyFractured_Type(mediumDataDarcy, mesh,
@@ -166,7 +167,6 @@ int main ( int argc, char* argv [ ] )
 	std::cout << std::endl;
 
 
-
 	// Solve and save the solutions
 	std::cout << "Solve the Darcy problem..." << std::flush;
 	darcy->solve();
@@ -177,8 +177,8 @@ int main ( int argc, char* argv [ ] )
 
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
-	*/
 
+	/*
 
 	std::cout << " 			---  PROBLEMA DI SATURAZIONE  ---			" << std::endl;
 	std::cout << std::endl;
@@ -195,6 +195,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
+	*/
 
 	return 0;
 

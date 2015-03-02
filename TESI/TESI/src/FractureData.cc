@@ -50,6 +50,13 @@ FractureData::FractureData ( const GetPot& dataFile,
 {
 	M_flux.resize( M_numberFlux );
 
+	M_U.resize( M_spatialDiscretization );
+
+	for ( size_type i = 0; i < M_spatialDiscretization; i++ )
+	{
+		M_U[ i ] = 1.;
+	}
+
 	std::ostringstream sectionFlux;
 
 	for ( size_type i = 0; i < M_numberFlux; i++ )
@@ -60,7 +67,7 @@ FractureData::FractureData ( const GetPot& dataFile,
 
 		sectionFlux.str("");
 
-		if ( feval_scal( 0., 0 ) == feval_scal( 1., 0 ) )
+		if ( feval_scal( 0., 0, 0 ) == feval_scal( 1., 0, M_spatialDiscretization-2  ) )
 		{
 			M_flux [ i ]->monotone ( "false" );
 		}
@@ -69,7 +76,7 @@ FractureData::FractureData ( const GetPot& dataFile,
 			M_flux [ i ]->monotone ( "true" );
 		}
 
-		if ( feval_scal( 0., 0 ) < feval_scal( 0.5, 0 ) )
+		if ( feval_scal( 0., 0, 0 ) < feval_scal( 0.5, 0, ( M_spatialDiscretization -2 )/2 ) )
 		{
 			M_flux [ i ]->H ( 3 );	// c'è un massimo
 		}
@@ -145,6 +152,8 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
     {
 		scalar_type P = porosity ( u0 [ j ]);
 
+		scalar_type U = velocity ( j );
+
 		if( i == 1)
 		{
 			Flux = M_flux [ f ]->getFlux();
@@ -157,7 +166,7 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 		M_parser.setString ( Flux );
     	M_parser.setVariable ( "x", u0 [ j ] );
 
-		flux.push_back( P*M_parser.evaluate () );
+		flux.push_back( U*P*M_parser.evaluate () );
 
     }
 
@@ -165,9 +174,11 @@ void FractureData::feval( scalarVector_Type& flux, const scalarVector_Type& u0, 
 }// feval
 
 
-scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, const size_type f )
+scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, const size_type j, const size_type f )
 {
-	//	scalar_type P = porosity ( us );
+	scalar_type P = porosity ( us );
+
+	scalar_type U = velocity ( j );
 
 	std::string Flux;
 
@@ -179,9 +190,9 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, 
 
 		M_parser.setVariable ( "x", us );
 
-		//return P*M_parser.evaluate ();
+		return U*P*M_parser.evaluate ();
 
-		return M_parser.evaluate ();
+		//return M_parser.evaluate ();
 	}
 	else
 	{
@@ -191,10 +202,9 @@ scalar_type FractureData::feval_scal( const scalar_type& us, const size_type i, 
 
 		M_parser.setVariable ( "x", us );
 
-		//return P*M_parser.evaluate ();
+		return U*P*M_parser.evaluate ();
 
-		return M_parser.evaluate ();
-
+		//return M_parser.evaluate ();
 
 	}
 
@@ -229,6 +239,12 @@ scalar_type FractureData::porosity( const scalar_type& u )
 
 	return M_parser.evaluate ();
 }// porosity
+
+
+scalar_type FractureData::velocity( const size_type& i )
+{
+	return M_U [ i ];
+}// velocity
 
 
 scalar_type FractureData::getCi ( const scalar_type& x )
@@ -268,6 +284,12 @@ void FractureData::updateSI ( const scalarVector_Type& f )
 	return;
 }// updateSI
 
+void FractureData::updateU ( const scalarVector_Type& velocity )
+{
+	M_U = velocity;
+
+	return;
+}
 
 void FractureData::imposeIntersection ( const size_type& i )
 {
