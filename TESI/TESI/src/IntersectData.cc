@@ -576,31 +576,74 @@ void IntersectData::update_Ui ( const scalar_type& dt )
 
 	if ( M_intersectionPoint [0] == 0 )
 	{
-		Flux [ 0 ] =  - M_fractures[ 0 ]->getData().getSI();
+		//if ( ( M_fractures [ 0 ] -> getData().getFluxHandler( 0 ))->getU() != "v")
+		{
+			Flux [ 0 ] =  - M_fractures[ 0 ]->getData().getSI();
+		}/*
+		else
+		{
+			Flux [ 0 ] =  - M_fractures[ 0 ]->getData().getSI()*M_fractures[0]->getData().getThickness ();
+		}*/
 	}
 	else
 	{
-		Flux [ 0 ] = M_fractures[ 0 ]->getData().getSI();
+		//if (( M_fractures [ 0 ] -> getData().getFluxHandler( 0 ))->getU() != "v")
+		{
+			Flux [ 0 ] = M_fractures[ 0 ]->getData().getSI();
+		}/*
+		else
+		{
+			Flux [ 0 ] =  M_fractures[ 0 ]->getData().getSI()*M_fractures[0]->getData().getThickness ();
+		}*/
 	}
 
 	if ( M_intersectionPoint [1] == 0 )
 	{
-		Flux [ 1 ] = - M_fractures[ 1 ]->getData().getSI();
+		//if ( (M_fractures [ 1 ] -> getData().getFluxHandler( 0 ))->getU() != "v")
+		{
+			Flux [ 1 ] =  - M_fractures[ 1 ]->getData().getSI();
+		}/*
+		else
+		{
+			Flux [ 1 ] =  - M_fractures[ 1 ]->getData().getSI()*M_fractures[1]->getData().getThickness ();
+		}*/
 	}
 	else
 	{
-		Flux [ 1 ] = M_fractures[ 1 ]->getData().getSI();
+		//if ( (M_fractures [ 1 ] -> getData().getFluxHandler( 0 ))->getU() != "v")
+		{
+			Flux [ 1 ] =  M_fractures[ 1 ]->getData().getSI();
+		}/*
+		else
+		{
+			Flux [ 1 ] = M_fractures[ 1 ]->getData().getSI()*M_fractures[1]->getData().getThickness ();
+		}*/
 	}
 
 	if ( M_intersectionPoint [2] == 0 )
 	{
-		Flux [ 2 ] = - M_fractures[ 2 ]->getData().getSI();
+		//if ( (M_fractures [ 2 ] -> getData().getFluxHandler( 0 ))->getU() != "v")
+		{
+			Flux [ 2 ] =  - M_fractures[ 2 ]->getData().getSI();
+		}/*
+		else
+		{
+			Flux [ 2 ] =  - M_fractures[ 2 ]->getData().getSI()*M_fractures[2]->getData().getThickness ();
+		}*/
 	}
 	else
 	{
-		Flux [ 2 ] = M_fractures[ 2 ]->getData().getSI();
-	}
 
+		//if ( (M_fractures [ 2 ] -> getData().getFluxHandler( 0 ))->getU() != "v")
+		{
+			Flux [ 2 ] =  M_fractures[ 2 ]->getData().getSI();
+		}/*
+		else
+		{
+			Flux [ 2 ] =  M_fractures[ 2 ]->getData().getSI()*M_fractures[2]->getData().getThickness ();
+		}*/
+
+	}
 
 	M_u0 = U0_old - ( dt )/( M_measure ) *( - Flux [ 0 ] - Flux [ 1 ] - Flux [ 2 ] );
 

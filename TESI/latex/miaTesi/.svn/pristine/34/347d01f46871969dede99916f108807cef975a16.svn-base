@@ -1,0 +1,101 @@
+
+\cleardoublepage %per cominciare sulla pagina destra
+
+%---------------------------------------------------------------------------------------------%
+%Layout dei ringraziamenti
+%---------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}%
+%%%%%%%%%%%%%%%%%%%%%%%
+%
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+
+\setlength{\textheight}{211mm}
+\setlength{\textwidth}{138mm}
+
+\setlength{\evensidemargin}{32mm}
+\setlength{\oddsidemargin}{41mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\marginparsep}{0mm}
+
+\setlength{\topmargin}{12mm}
+\setlength{\headheight}{5mm}
+\setlength{\headsep}{26mm}
+
+\setlength{\footskip}{32mm}
+%---------------------------------------------------------------------------------------------%
+\vspace{40mm}
+\begin{flushright}
+{\itshape A {\bfseries Irene}, \\
+non c'è giorno in cui non penso a quanto ti amo.}
+
+\vspace {10mm}
+{\itshape Alla mia  {\bfseries famiglia}, \\
+per il continuo affetto e per la vicinanza mostrati.}
+
+\vspace{5mm}
+{\itshape Gregorio}
+\end{flushright}
+
+
+
+\newpage %per aprire una nuova pagina e non metterne il numero di pagina
+\thispagestyle{empty} %per non mettere intestazione e piè di pagina
+\cleardoublepage %per cominciare sulla pagina destra
+
+%---------------------------------------------------------------------------------------------%
+%Layout dei ringraziamenti
+%---------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}%
+%%%%%%%%%%%%%%%%%%%%%%%
+%
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+
+\setlength{\textheight}{211mm}
+\setlength{\textwidth}{138mm}
+
+\setlength{\evensidemargin}{32mm}
+\setlength{\oddsidemargin}{41mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\marginparsep}{0mm}
+
+\setlength{\topmargin}{12mm}
+\setlength{\headheight}{5mm}
+\setlength{\headsep}{26mm}
+
+\setlength{\footskip}{32mm}
+%---------------------------------------------------------------------------------------------%
+
+
+\begin{flushright}
+\Large{ {\bfseries {\itshape Ringraziamenti}} } \vspace{8mm}
+\end{flushright}
+
+
+\vspace{5mm}
+
+\noindent
+{\itshape 
+Non posso che cominciare da Mamma e Papà. Non sono mai riuscito a comunicarvi con le giuste parole il mio affetto nei vostri confronti, ma spero di esser riuscito a mostrarvi la mia notevole riconoscenza per tutti i sacrifici che avete fatto per me in questi anni. Senza di voi non sarei certamente la persona che sono: grazie per tutto quello che avete fatto e continuerete a fare per me!\\
+E con voi ricordo anche tutta la famiglia, il mio fratellone Tommaso per primo, che ha sempre dimostrato di sapermi indirizzare nella direzione giusta e che per me continua a essere un punto di riferimento, i miei nonni e i miei zii, che mi hanno sempre sostenuto e valorizzato, e i miei due cugini.
+\\\\
+Un ringraziamento speciale va alla donna che amo, Irene, con cui ho vissuto cinque anni indimenticabili della mia vita e senza la quale non avrei mai avuto la determinazione di proseguire lungo questo arduo percorso.
+\\\\
+E poi c'è la mia seconda famiglia, i miei Amici. In particolare Nino e Yuzzo, che mi sono sempre vicini nei momenti di difficoltà e con cui mi trovo davvero bene. Ringrazio inoltre Bonfa, che nonostante i continui tour in giro per il mondo è un amico su cui è sempre possibile contare, e Zanna e Gloria, con cui ho legato molto ultimamente. 
+\\\\
+Ringrazio tutti i miei compagni dell'università, in particolare Andre e Vetto, con cui ho affrontato la fatica degli esami e trascorso momenti in compagnia indimenticabili. Non posso non ringraziare naturalmente la mia eccezionale collega di tesi, Stefania, che mi ha sopportato per tutto questo tempo e con cui ho condiviso le difficoltà ma soprattutto i momenti di gioia e successo che hanno caratterizzato gli ultimi due anni di università. \\\\
+Ringrazio infine il professor Baresi, che è stato il primo a trasmettermi la passione nello sviluppo di applicazioni per dispositivi mobili e che ha dato un contributo significativo nella stesura della tesi.
+} 
+
+
+
+
+\newpage %per aprire una nuova pagina e non metterne il numero di pagina
+\thispagestyle{empty} %per non mettere intestazione e piè di pagina
+
+
+
+

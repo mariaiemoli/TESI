@@ -1,0 +1,171 @@
+\chapter{Codice generato}\label{cap:CodiceGenerato}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Appendice \thechapter}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot[]{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+In questa appendice presentiamo, in maniera sintetica, i pezzi di codice generati a fronte di ciascuno degli elementi del modello dell'applicazione, in modo da rendere chiara la struttura del progetto generato allo sviluppatore e permettergli di rivedere e modificare i sorgenti prodotti per un particolare elemento del modello. Vedremo in particolare gli elementi che compongono l'interfaccia grafica, per poi passare a quelli che interagiscono direttamente con i componenti hardware del dispositivo.
+
+\section{Elementi dell'interfaccia grafica}
+Le tabelle seguenti mostrano l'output della fase di traduzione del modello in codice per gli elementi del metamodello implementativo che costituiscono l'interfaccia grafica.
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape Button} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza, dove viene collegato al relativo layout XML attraverso il suo id. Nel caso in cui sia stato indicato il ClickListener viene inserito il metodo onClickListener, nel quale si trova, laddove sia definita una navigazione, l'intent per il passaggio all'Activity destinazione. &
+Il bottone viene creato all'interno della Storyboard. Se è stato definito un ClickListener senza navigazione nel file .m del ViewController di appartenenza viene inserito un metodo per la definizione dell'azione da compiere, al contrario se è prevista una navigazione viene inserito un segue direttamente nella Storyboard.\\
+\hline
+{\itshape TextView} &
+L'elemento è definito e settato nel layout XML dell'Activity di appartenenza. &
+L'elemento è definito e settato nella Storyboard.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: presentazione del codice degli elementi del metamodello implementativo (Prima parte).}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape AlertDialog} & 
+La logica applicativa viene gestita tutta nel metodo onCreate dell'Activity di appartenenza, dove viene istanziato l'elemento, vengono settati il titolo e il messaggio, vengono inseriti i metodi per la gestione dell'evento di click dei bottoni che lo compongono e viene inserito il codice per renderlo visibile sullo schermo. &
+Oltre alla dichiarazione dell'elemento tra le property nel file .m del ViewController e alla LazyInstantiation, viene implementato un metodo delegate, dove è richiesta l'implementazione delle azioni da svolgere al momento della pressione di uno dei due bottoni che lo compongono.\\
+\hline
+{\itshape ProgressDialog} &
+L'elemento è gestito nel metodo onCreate dell'Activity di appartenenza, nel quale viene settato titolo, messaggio e tipologia (spinner o progress bar). Per come viene generato il codice, il ProgressDialog viene dismesso immediatamente per evitare il blocco della UI. &
+L'elemento è gestito all'interno del metodo viewDidLoad del ViewController di appartenenza, dove viene settato e immediatamente dismesso, come nel caso Android.\\
+\hline
+{\itshape ImageView} &
+Il settaggio dell'elemento avviene nel file XML o nell'Activity di appartenenza a seconda del valore dell'attributo SourceType. Nel caso in cui l'immagine provenga da un file locale l'elemento viene settato direttamente nel file XML, altrimenti viene settato nell'Activity. Nel caso di provenienza da remoto l'immagine viene prima scaricata attraverso un task asincrono, nel caso di provenienza dalla fotocamera la logica applicativa di settaggio dell'ImageView è definita nel PhotocameraController. &
+L'immagine viene settata nella Storyboard se il file da cui proviene è locale, al contrario viene settata nel metodo viewDidLoad del ViewController di appartenenza. Nel caso di provenienza da remoto l'immagine viene prima scaricata dal server in maniera asincrona, nel caso di provenienza dalla fotocamera la logica applicativa di settaggio dell'ImageView è definita nel PhotocameraController.\\
+\hline
+{\itshape VideoView} &
+L'elemento viene settato nel metodo onCreate dell'Activity di appartenenza se il file referenziato è locale o remoto. Se il video proviene dalla videocamera del dispositivo la logica applicativa di settaggio della VideoView è definita al momento della traduzione in codice dell'elemento VideocameraController. &
+L'elemento viene settato nel metodo viewDidAppear del ViewController di appartenenza se il file referenziato è locale o remoto. In caso contrario la logica applicativa di settaggio della VideoView è definita al momento della traduzione in codice dell'elemento VideocameraController.\\ 
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: presentazione del codice degli elementi del metamodello implementativo (Seconda parte).}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape EditText} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza, dove viene collegato al relativo layout XML attraverso il suo id.&
+L'elemento viene settato nella Storyboard e collegato al file .m del ViewController di appartenenza attraverso un outlet.\\
+\hline
+{\itshape WebView} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza. &
+L'elemento viene dichiarato e settato nel metodo viewDidLoad del ViewController di appartenenza.\\
+\hline
+{\itshape GridView} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza, dove viene collegato al relativo layout XML attraverso il suo id. Nell'Activity vengono definiti un array e un adapter per memorizzare e mostrare a schermo i contenuti delle celle. Nel caso in cui sia stato indicato il ClickListener viene implementata l'interfaccia OnItemClickListener, facendo l'override del metodo onItemClick, nel quale si trova, laddove sia definita una navigazione, l'intent per il passaggio all'Activity destinazione. &
+L'elemento viene inserito nella Storyboard e nel file .h del ViewController vengono inclusi i protocolli UICollectionViewDelegate e UICollectionViewDataSource, mentre nel file .m viene dichiarato l'array per memorizzare i contenuti, il quale viene istanziato solo se sono state definite delle celle. Nel file .m vengono implementati tutti i metodi necessari per la gestione della CollectionView, tra i quali quello per la gestione dell'azione da compiere al momento della selezione di una cella (didSelectItemAtIndexPath).\\
+\hline
+{\itshape GridViewCell} &
+Gli elementi GridViewCell collegati ad un particolare elemento GridView contribuiscono, attraverso il loro attributo Title che li contraddistingue, alla definizione dell'array dei contenuti di GridView. &
+Per questo elemento è creata una classe apposita ``MyCollectionViewCell'' al cui interno si trova la dichiarazione di una stringa, perché in ambiente iOS non è previsto un prototipo di default per le celle delle GridView. Così come per Android, l'attributo testuale della singola cella contribuisce alla definizione dell'array dei contenuti della GridView.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: presentazione del codice degli elementi del metamodello implementativo (Terza parte).}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape ListView} &
+Cosi come per l'elemento GridView, vengono definiti nell'Activity di appartenenza un adapter ed un array per memorizzare e mostrare a schermo i contenuti delle celle. Nel caso in cui sia stato indicato il ClickListener viene implementata l'interfaccia OnItemClickListener, facendo l'override del metodo onItemClick, nel quale si trova, laddove sia definita una navigazione, l'intent per il passaggio all'Activity destinazione. &
+L'elemento viene inserito nella Storyboard e nel file .h del ViewController vengono inclusi i protocolli UITableViewDelegate e UITableViewDataSource, mentre nel file .m viene dichiarato l'array per memorizzare i contenuti. Nel file .m vengono implementati tutti i metodi necessari per la gestione della TableView, tra i quali quello per la gestione dell'azione da compiere al momento della selezione di una cella (didSelectRowAtIndexPath).\\
+\hline
+{\itshape ListViewCell} &
+Così come GridViewCell, gli elementi ListViewCell collegati ad un particolare elemento ListView contribuiscono, attraverso il loro attributo Title che li contraddistingue, alla definizione dell'array dei contenuti di ListView. &
+Così come per Android, l'attributo testuale della singola cella contribuisce alla definizione dell'array dei contenuti della ListView. A differenza di GridViewCell, per ListViewCell non è necessario creare alcuna classe Objective-C, in quanto è già previsto un prototipo di default per le celle delle ListView.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: presentazione del codice degli elementi del metamodello implementativo (Quarta parte).}
+\end{table}
+
+\clearpage
+\section{Hardware}
+Le tabelle seguenti mostrano l'output della fase di traduzione del modello in codice per gli elementi del metamodello implementativo che sfruttano l'hardware del dispositivo sulla quale l'applicazione è installata.
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape AudioPlayer} &
+Nel file XML del layout dell'Activity di appartenenza vengono inseriti tre bottoni per avviare, fermare e mettere in pausa la riproduzione del file audio. Nel metodo onResume dell'Activity avviene invece il settaggio del file da riprodurre e la gestione delle azioni da compiere al momento del click dei tre bottoni. &
+Nella Storyboard sono definiti i tre bottoni Play, Stop e Pause, mentre le loro azioni sono definite nei metodi delegate associati ai bottoni all'interno del file .m del ViewController di appartenenza. Il settaggio del file da riprodurre avviene nel metodo viewDidAppear.\\
+\hline
+{\itshape AudioRecorder} &
+Nel file XML del layout dell'Activity di appartenenza viene inserito un bottone per avviare o fermare la registrazione. La logica applicativa di registrazione e salvataggio in memoria del file registrato viene implementata nel metodo onResume dell'Activity. Nel metodo onResume viene anche settato l'AudioPlayer nel caso in cui all'AudioRecorder nel modello sia associato un AudioPlayer con attributo SourceType=hardwareFile. &
+Nella Storyboard viene definito un bottone per avviare o fermare la registrazione, la cui logica applicativa è implementata nel metodo record associato al bottone all'interno del file .m del ViewController di appartenenza. In questo metodo viene gestita in particolare la registrazione e il salvataggio del file registrato nella memoria del dispositivo, oltre al settaggio dell'eventuale AudioPlayer.\\
+\hline
+{\itshape LocationManager} &
+La logica applicativa di recupero della posizione del dispositivo attraverso il GPS viene implementata nel metodo onCreate dell'Activity di appartenenza, dove viene implementata l'interfaccia LocationListener. Vengono aggiunte infatti le dichiarazioni dei metodi onLocationChanged, onProviderDisabled, onProviderEnabled e onStatusChanged, la cui implementazione viene però lasciata allo sviluppatore. &
+Nel file .h viene incluso il protocollo UINavigationControllerDelegate e i suoi metodi sono implementati nel file .m del ViewController di appartenenza, dove risiede tutta la logica applicativa: nel metodo viewDidLoad viene recuperata la posizione dell'utente facendo uso del GPS.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Hardware}: presentazione del codice degli elementi del metamodello implementativo (Prima parte).}
+\end{table}
+
+\clearpage
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape PhotocameraController} &
+Nel metodo onCreate dell'Activity di appartenenza viene creato un bottone che conduce all'apertura dell'applicazione Android sul dispositivo che consente di scattare una foto. Nell'Activity viene implementato il metodo onActivityResult, dove viene ricevuta l'immagine proveniente dalla fotocamera. In questo metodo viene settata l'eventuale ImageView associata al PhotocameraController e salvata l'immagine nella memoria interna del dispositivo. &
+Nella Storyboard viene creato un bottone che conduce all'apertura dell'applicazione iOS che consente di scattare una foto. Il file .h del ViewController di appartenenza include il protocollo UIImagePickerControllerDelegate, mentre nel file .m viene inserita l'implementazione dei suoi metodi che consentono di gestire la foto ricevuta, come salvarla in memoria o usarla per settare l'eventuale ImageView associata al PhotocameraController.\\
+\hline
+{\itshape VideocameraController} &
+Come per l'elemento PhotocameraController, viene creato un bottone nel layout dell'Activity di appartenenza che permette l'apertura dell'applicazione Android che consente la registrazione di un filmato. Nell'Activity viene implementato il metodo onActivityResult, per il salvataggio in memoria del video ricevuto e il settaggio dell'eventuale VideoView associata. &
+Nella Storyboard viene creato un bottone che conduce all'apertura dell'applicazione iOS che consente di registrare un filmato. Nel file .h viene incluso il protocollo UIImagePickerControllerDelegate, mentre nel file .m viene inserita l'implementazione dei suoi metodi che consentono di gestire il video ricevuto, come salvarlo in memoria o usarlo per settare l'eventuale VideoView associata al VideocameraController.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Hardware}: presentazione del codice degli elementi del metamodello implementativo (Seconda parte).}
+\end{table}
+
+\section{Altri elementi}
+Tra quanto riguarda gli altri elementi, vediamo ora qual'è l'output della fase di traduzione del modello in codice per AsyncTask e Menu.
+\\\\
+L'elemento {\itshape AsyncTask} comporta, in entrambi i casi Android e iOS, l'aggiunta nel ViewController di appartenenza dell'intestazione di un metodo con il nome indicato dallo sviluppatore nel modello. L'implementazione della logica applicativa interna al metodo viene lasciata allo sviluppatore.
+\\\\
+L'elemento {\itshape Menu} prevede, nei sorgenti Android, la creazione di una classe MenuActivity, che verrà poi estesa dalle altre Activity dell'applicazione. A seconda dei vari elementi MenuItem collegati a Menu la classe creata comprende la definizione degli intent necessari per avviare la navigazione verso le Activity di destinazione. Per quanto concerne iOS invece la presenza dell'elemento Menu comporta l'inserimento di una UITabBarController nella Storyboard e di tante UINavigationController quanti sono i MenuItem relazionati al Menu: in questo caso la logica applicativa di gestione del Menu è quindi interamente definita nella Storyboard.

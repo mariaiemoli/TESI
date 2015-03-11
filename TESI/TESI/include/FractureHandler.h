@@ -80,6 +80,7 @@ public:
      */
     void setMeshLevelSetFracture ( FractureHandler& otherFracture );//, size_type& globalIndex, const std::string& type );
 
+    void updateEtaTangentialInterpolated ( const scalarVector_Type& s );
 
     inline FractureData& getData()
     {

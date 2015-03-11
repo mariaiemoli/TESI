@@ -52,6 +52,17 @@ public:
                                 const base_node& n );
 
 
+    /**
+     * Funzione che restituisce un'eventuale modulazione del coefficiente di permeabilità in direzione normale.
+     */
+    scalar_type lambdaW ( const base_node& x );
+
+    /**
+     * Funzione che restituisce un'eventuale modulazione del coefficiente di permeabilità in direzione normale.
+     */
+    scalar_type lambdaNW ( const base_node& x );
+
+
     // Soluzione esatta, div(Velocity) -- SET = 0 WITH NO MASS SOURCES/SINKS !
     scalar_type darcySource ( const base_node& x );
 
@@ -236,6 +247,9 @@ private:
     scalar_type M_etaTangential; // eta_t=1/(K_t*d)
     std::string M_etaNormalDistribution;
     std::string M_etaTangentialDistribution;
+
+    std::string M_Wmobility;
+    std::string M_NWmobility;
 
     std::string M_darcySource;
     std::string M_pressureExact;

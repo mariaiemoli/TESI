@@ -1,0 +1,93 @@
+\chapter{Leggi di conservazione} \label{cap:LeggiConservazione}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Capitolo \thechapter}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+
+Questo capitolo presenta una breve introduzione alle leggi di conservazione e ai principali risultati matematici ad esse collegati. \\
+\noindent Viene prima data una descrizione delle equazioni differenziali iperboliche e dei tipi di soluzione che ne possono derivare. \\
+\noindent Successivamente vengono introdotti i principali schemi numerici per la soluzione di questi problemi.
+
+\section{Leggi di conservazione}
+Consideriamo il seguente sistema iperbolico di leggi di conservazione
+\begin{center}
+\begin{equation}
+\begin{cases}
+\frac{\partial}{\partial t}u(x,t) + \frac{\partial}{\partial x} f(u(x,t)) = 0 & in \;  \mathbb{R}   \times ( 0, + \infty )  \\
+u(x,0 ) = u_0(x) & in \; \mathbb{R}
+\end{cases}\label{ref1}
+\end{equation}
+\end{center}
+\noindent dove $ u \, : \, \mathbb{R} \times \mathbb{R}  \rightarrow \mathbb{R}^m$ è un vettore m-dimensionale di quantità che si conservano, come ad esempio la massa, il momento e l'energia in problemi di fluidodinamica; $f(u(x,t)) \,  : \, \mathbb{R}^m \rightarrow \mathbb{R}^m$ è una funzione di $u$ detta \textit{funzione flusso} per il sistema di leggi di conservazione. Su ogni intervallo del tipo $(\alpha, \beta) $ di $\mathbb{R}$ la funzione flusso soddisfa:
+\begin{center}
+\begin{equation}
+\frac{\partial}{\partial t} \int_{\alpha}^{\beta} u(x,t) \, dx = f(u(\alpha, t))-f(u(\beta, t))
+\end{equation}
+\end{center}
+\noindent in questo senso \ref{ref1} esprime una legge di conservazione. \\
+\noindent Assumiamo che il sistema \ref{ref1} sia \textbf{strettamente iperbolico}, questo significa che la matrice Jacobiana $m \times m$ $f'(u)$ della funzione flusso è tale per cui per ogni valore di $u$, i corrispondenti autovalori di $f'(u)$ sono reali e distinti, e la matrice è diagonalizzabile.\\
+\noindent Spesso le funzioni flusso sono funzioni non lineari di $u$, e quindi si ha a che fare con sistemi non lineari di equazioni differenziali. Generalmente non è possibile ricavare analiticamente le soluzioni di queste equazioni, per cui si rende necessario studiare opportuni metodi numerici per ricavare una soluzione approssimata. Nella soluzione di questi sistemi si incontrano delle difficoltà legate alla natura stessa delle soluzioni (come ad esempio la formazione di shock), per questo è opportuno utilizzare metodi numerici in grado di risolvere queste difficoltà. Metodi basati sulle differenze finite possono funzionare bene per soluzioni regolari, ma possono avere comportamenti inaspettati in presenza di discontinuità.\\
+\par Sistemi di equazioni del tipo \ref{ref1} presentano applicazioni di grande interesse.  Infatti, varie leggi fondamentali della fisica matematica si scrivono in forma di conservazione. Un esempio di sistema di leggi di conservazione è l'equazione di Eulero, un sistema che descrive la dinamica di un fluido con viscosità trascurabile. Tali equazioni rappresentano la conservazione della massa, dell’energia e della quantità di moto.\\
+\noindent Un altro esempio importante è lo studio di flussi multifase in mezzi porosi. In questo caso un'applicazione è la fase di recupero secondario del petrolio dai giacimenti, in cui viene pompata dell'acqua del pozzo al fine di forzare ulteriormente la fuoriuscita del petrolio. Un semplice modello in questo caso è l'equazione di Buckley-Leverett, una legge di conservazione scalare per una singola variabile $u$ che rappresenta la saturazione dell'acqua nella roccia. 
+
+\section{Soluzione Analitica}
+Vediamo come risolvere analiticamente una legge di conservazione scalare e i problemi che derivano nel caso in cui la funzione flusso sia non lineare nell'incognita $u$.\\
+\noindent Consideriamo il seguente problema ai valori iniziali:
+\begin{center}
+\begin{equation}
+\begin{cases}
+u_t +q(u)_x = 0 \\
+u(x,0) = g(x)
+\end{cases}
+\label{ref3}
+\end{equation}
+\end{center}
+\noindent L'idea alla base della soluzione del problema è quella di connettere il punto $(x,t)$ con un punto $(x_0,0)$ portante il dato iniziale, mediante una curva lungo la quale $uo$ sia costante, detta  \textit{curva caratteristica}, da cui si ottiene:
+\begin{center}
+\begin{equation}
+u(x(t), t) = g(x_0).
+\label{ref4}
+\end{equation}
+\end{center}
+\noindent Con opportuni passaggi algebrici si ricava la seguente equazione per le curve caratteristiche:
+$$ x(t) = q'(g(\xi))t + \xi $$
+\noindent cioè le caratteristiche sono delle rette con pendenza $q'(g(\xi))$. \\
+\noindent È possibile ricavare ora una formula generale per $u$:
+\begin{center}
+\begin{equation}
+u(x, t) = g(x-q'(g(\xi))t).
+\label{ref5}
+\end{equation}
+\end{center}
+\noindent che rappresenta un'onda progressiva che si muove con velocità q'(g(x0)) nella direzione positiva dell'asse delle x. \\
+\noindent Osserviamo che la \ref{ref5} presenta una validità limitata: anche se il dato iniziale è regolare, la soluzione può dare origine a singolarità che rendono inefficace il metodo delle caratteristiche. Un esempio tipico è quando due caratteristiche uscenti da due punti diversi si incontrano. Vi sono quindi delle condizioni sulle funzioni $g(x)$ e $q(u)$ da soddisfare affinchè tale equazione ammetta una forma esplicita per la soluzione. \\
+\noindent Osserviamo che la \ref{ref5} definisce la $u$ in maniera implicita:
+$$G(x, t, u) \equiv u - g(x - q'(u)t) = 0. $$
+Per il teorema delle funzioni implicite, $u$ è definita come funzione di $(x, t)$ se:
+$$G_u(x, t, u) = 1+tq''(u)g'(x-q'(u)t)=1+tq''(g(\xi))g'(\xi) \ne 0 $$
+\noindent e questo è verificato se $q''(g(\xi))g'(\xi) \ge 0$. In questo caso infatti le caratteristiche hanno pendenza crescente con $\xi$ e non si possono intersecare.\\
+Se questa condizione non è verificata invece, esistono un istante $t_s$ e un punto $x_s$ da cui parte una linea d'urto.\\
+\noindent Si possono quindi verificare due casi:
+\begin{itemize} 
+\item le caratteristiche si intersecano: la soluzione presenta una discontinuità a seguito di una discontinuità nel dato iniziale. Tale situazione non è ammissibile per una
+soluzione classica dell’equazione differenziale a derivate parziali, ed è causa della perdita di unicità nel punto di intersezione delle caratteristiche. A partire da questo punto si sviluppa un'\textit{onda  d'urto} o di \textit{shock}, cioè una curva lungo cui si propaga la discontinuità.
+\item si formano \textit{onde di rarefazione}: la discontinuità nel dato iniziale fa si che le caratteristiche che non riempiano tutto il piano $(x, t)$. In questi punti si genera un fascio di caratteristiche, con piede nel punto di discontinuità, dette appunto \textit{onde di rarefazione}, lungo le quali la soluzione è costante e data da $u(x, t) = q^{'-1} \left ( \frac{x}{t} \right ) $. 
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%
+%% inserire immagine caratteristiche che si intersecano pp 189 salsa
+%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\section{Soluzione Numerica}

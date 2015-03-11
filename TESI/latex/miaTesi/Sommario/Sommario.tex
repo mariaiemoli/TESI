@@ -1,0 +1,38 @@
+\chapter*{Sommario}
+\vspace{-5mm}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione del sommario
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Sommario}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{Sommario}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{}
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+I giacimenti petroliferi convenzionali sono delle riserve di petrolio in cui, grazie alle caratteristiche geologiche delle formazioni che contengono il greggio e alle proprietà fisiche dello stesso, il petrolio può fluire in maniera spontanea verso i pozzi di estrazione. Questo processo di estrazione, che sfrutta principalmente la pressione presente nel giacimento, permette di recuperare in media soltanto il 30-35\% dell'olio presente in un giacimento. Esistono dei processi di estrazione avanzati che permettono di recuperare un'ulteriore 20\% del petrolio presente nel deposito. \\
+Si può suddividere suddividere il processo di estrazione in tre fasi principali: una prima fase di \textit{recupero primario}, che sfrutta unicamente l'energia del giacimento; una fase detta \textit{recupero secondario}, a volte affiancata alla prima fase, che fornisce ulteriore energia al deposito tramite l'immissione di un fluido (gas o acqua); un ultimo momento detto \textit{recupero terziario}, in cui vengono impiegate tecniche specifiche per il tipo di giacimento.\\
+Il presente lavoro si propone di studiare i processo di recupero secondario. In questo caso sono presenti due fluidi, acqua e olio, in un mezzo poroso. Questo fenomeno, detto flusso bifase, è governato dall'equazione di \textbf{Buckley-Leverett}, in cui l'incognita è la saturazione dell'acqua. Ovviamente la soluzione del problema si presta per innumerevoli altre applicazioni di flussi bifase non solo al processo di recupero secondario del petrolio. In particolare si è interessati a risolvere il problema in un network di fratture in un mezzo poroso, Tale equazione rientra nella categoria delle leggi di conservazione. Per la soluzione numerica del problema è stato utilizzato il \textit{metodo di Godunov}, un metodo ai volumi finiti, implementato in un codice \textit{C++}. \\
+Una volta risolto il problema sulla singola frattura, è stato implementato il problema per fratture che presentano discontinuità nelle proprietà mezzo, ossia una discontinuità nella funzione flusso. Lo scopo principale di questa tesi è quello di ricavare le condizioni da imporre nel caso di intersezioni tra fratture, in particolare di tre fratture che si intersecano. Le condizioni d'interfaccia sono state ricavate prendendo spunto dai risultati presenti in letteratura sullo studio della dinamica del traffico.\\
+
+
+\noindent {\bfseries Parole chiave:} flusso bifase, Buckley-Leverett, leggi di conservazione, metodo di Godunov, dinamica del traffico.
+
+
+
+
+\newpage
+\vspace{15mm}
+\noindent
+{\LARGE {\bfseries Abstract}} \\
+\vspace{5mm} \\
+
+
+
+{\bfseries Keywords:} two phase flow,  Buckley-Leverett, conservation laws, Godunov's method, traffic flow.
+
+
+
+
+
+\cleardoublepage

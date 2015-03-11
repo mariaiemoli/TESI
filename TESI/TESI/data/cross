@@ -1,0 +1,381 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program laplacian    PARAMETRIZZATO                      %
+% fratture usate in PACS						  						  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 4
+
+[dataTime]
+
+        endTime = 150. #4.
+        dt = 0.002
+        
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 1.
+                lengthOrdinate = 1.
+                lengthQuota = 1.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+        
+        [./darcy]
+
+	        invK = 1.
+	        invKDist11 = 1.
+	        invKDist12 = 0.
+	        invKDist22 = 1.
+
+        [../]
+        
+
+[../]
+
+
+
+[fractureData0]
+
+spaceDimension = 1.
+
+        [./levelSet]
+		
+				levelSet = y-2*x-0.6
+                ylevelSet = y-0.6-0.2*t
+				xlevelSet = x-0.1*t             
+				levelSetCut = -1
+				yMap = 0.6+0.2*t
+				xMap = 0.1*t
+				
+                jacMap = [1./sqrt(5)]
+                normalMap = [2.,-1.] #[-2.,1.]
+
+                integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+                thickness = 0.01
+
+                spacing = x 
+                
+    			a = 0.
+				b = 0.1			
+                
+
+                spatialDiscretization = 81
+                translateAbscissa = 0.0
+                lengthAbscissa = 0.1 #0.5
+                lengthOrdinate = 0.
+                lengthQuota = 0.
+                meshType = GT_PK(1,1)
+
+
+                integrationTypeVelocity = IM_GAUSS1D(3)
+                integrationTypePressure = IM_GAUSS1D(2)
+
+                FEMTypeVelocity = FEM_PK(1,1)
+                FEMTypePressure = FEM_PK(1,0)
+                FEMTypeLinear = FEM_PK(1,1)
+
+        [../]
+
+        [./darcy]
+
+                etaNormal = 0.01
+                etaNormalDistribution = 1. #1.+1000.*(x>0.25)-1000.*(x>0.75)
+                etaTangential = 100.
+                etaTangentialDistribution = 1.
+
+                source = -0.4
+                solution = 0.
+                velocity = 0.
+
+        [../]
+        
+        [./saturation]
+
+				numberFlux = 1
+				x0 = 0.
+	            u0 = 0. #1.*(x<0.31)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+
+				invPorosity = 1.
+
+				[./fluxData0]	# sinistra
+			
+					f = -x*x*(1.-x)*(1.-x)*0.5/(x*x+(1.-x)*(1.-x))
+					f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/(x^2-x+0.5)^2  
+					us = 0.5 
+					us_meno = -0.7712
+					us_piu = 1.7712
+					bc1 = 0.5
+					bc2 = 0.5
+				
+			[../]
+			
+			
+        [../]
+
+[../]
+
+
+[fractureData1]
+
+spaceDimension = 1.
+
+        [./levelSet]
+
+				levelSet = y-0.8
+                ylevelSet = y-0.8
+				xlevelSet = x-0.1*t
+                levelSetCut = -1
+                yMap = 0.8
+				xMap = 0.1*t
+                jacMap = 1 %here the mapped grid is shorter than the actual arc length
+                normalMap = [0.,1.]
+
+                integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+                thickness = 0.01
+
+                spacing = x  %here the fracture starts at x=0.1 
+                
+    			a = 0.
+				b = 0.1			
+                
+                spatialDiscretization = 81 
+                translateAbscissa = 0.
+                lengthAbscissa = 0.1 #1.
+                lengthOrdinate = 0.
+                lengthQuota = 0.
+                meshType = GT_PK(1,1)
+
+                integrationTypeVelocity = IM_GAUSS1D(3)
+                integrationTypePressure = IM_GAUSS1D(2)
+
+                FEMTypeVelocity = FEM_PK(1,1)
+                FEMTypePressure = FEM_PK(1,0)
+                FEMTypeLinear = FEM_PK(1,1)
+
+        [../]
+
+        [./darcy]
+
+                etaNormal = 0.01
+                etaNormalDistribution = 1. 
+                etaTangential = 100
+                etaTangentialDistribution = 1.
+
+                source = -0.04
+                solution = 0.
+                velocity = 0.
+
+        [../]
+        
+        [./saturation]
+
+				numberFlux = 1
+				x0 = 0.
+	            u0 = 0. # 1.*(x>0.15)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+				invPorosity = 1.
+
+				[./fluxData0]	# sinistra
+			
+					f = -x*x*(1.-x)*(1.-x)/(x*x+(1.-x)*(1.-x))
+					f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/((x^2-x+0.5)^2*0.5)  
+					us = 0.5 
+					us_meno = -0.7712
+					us_piu = 1.7712
+					bc1 = 1.
+					bc2 = 1.
+				
+			[../]
+			
+			
+        [../]
+
+s[../]
+
+
+[fractureData2]
+
+spaceDimension = 1.
+
+        [./levelSet]
+		
+				levelSet = y-2*x-0.6
+                ylevelSet = y-0.8-0.2*t
+				xlevelSet = x-0.1-0.1*t             
+				levelSetCut = -1
+				yMap = 0.8+0.2*t
+				xMap = 0.1+0.1*t
+				
+                jacMap = [1./sqrt(5)]
+                normalMap = [2.,-1.] #[-2.,1.]
+
+                integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+                thickness = 0.01
+
+                spacing = x+0.1 
+
+				a = 0.1
+				b = 0.2			
+
+                spatialDiscretization = 81
+                translateAbscissa = 0.1
+                lengthAbscissa = 0.1 #0.5
+                lengthOrdinate = 0.
+                lengthQuota = 0.
+                meshType = GT_PK(1,1)
+
+
+                integrationTypeVelocity = IM_GAUSS1D(3)
+                integrationTypePressure = IM_GAUSS1D(2)
+
+                FEMTypeVelocity = FEM_PK(1,1)
+                FEMTypePressure = FEM_PK(1,0)
+                FEMTypeLinear = FEM_PK(1,1)
+
+        [../]
+
+        [./darcy]
+
+                etaNormal = 0.01
+                etaNormalDistribution = 1. #1.+1000.*(x>0.25)-1000.*(x>0.75)
+                etaTangential = 100.
+                etaTangentialDistribution = 1.
+
+                source = -0.4
+                solution = 0.
+                velocity = 0.
+
+        [../]
+        
+        [./saturation]
+
+				numberFlux = 1
+				x0 = 0.
+	            u0 = 0. #1.*(x<0.31)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+
+				invPorosity = 1.
+
+				[./fluxData0]	# sinistra
+			
+					f = -x*x*(1.-x)*(1.-x)*0.5/(x*x+(1.-x)*(1.-x))
+					f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/(x^2-x+0.5)^2  
+					us = 0.5 
+					us_meno = -0.7712
+					us_piu = 1.7712
+					bc1 = 0.5
+					bc2 = 0.5
+				
+			[../]
+			
+			
+        [../]
+
+[../]
+
+
+[fractureData3]
+
+spaceDimension = 1.
+
+        [./levelSet]
+
+				levelSet = y-0.8
+                ylevelSet = y-0.8
+				xlevelSet = x-0.1-0.9*t
+                levelSetCut = -1
+                yMap = 0.8
+				xMap = 0.1+0.9*t
+                jacMap = 1 %here the mapped grid is shorter than the actual arc length
+                normalMap = [0.,1.]
+
+                integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+                thickness = 0.01
+
+                spacing = x+0.1  %here the fracture starts at x=0.1 
+                
+    			a = 0.1
+				b = 1.			
+                
+                spatialDiscretization = 81 
+                translateAbscissa = 0.1
+                lengthAbscissa = 0.9 #1.
+                lengthOrdinate = 0.
+                lengthQuota = 0.
+                meshType = GT_PK(1,1)
+
+                integrationTypeVelocity = IM_GAUSS1D(3)
+                integrationTypePressure = IM_GAUSS1D(2)
+
+                FEMTypeVelocity = FEM_PK(1,1)
+                FEMTypePressure = FEM_PK(1,0)
+                FEMTypeLinear = FEM_PK(1,1)
+
+        [../]
+
+        [./darcy]
+
+                etaNormal = 0.01
+                etaNormalDistribution = 1. 
+                etaTangential = 100
+                etaTangentialDistribution = 1.
+
+                source = -0.04
+                solution = 0.
+                velocity = 0.
+
+        [../]
+        
+        [./saturation]
+
+				numberFlux = 1
+				x0 = 0.
+	            u0 = 0. # 1.*(x>0.15)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+				invPorosity = 1.
+
+				[./fluxData0]	# sinistra
+			
+					f = -x*x*(1.-x)*(1.-x)/(x*x+(1.-x)*(1.-x))
+					f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/((x^2-x+0.5)^2*0.5)  
+					us = 0.5 
+					us_meno = -0.7712
+					us_piu = 1.7712
+					bc1 = 1.
+					bc2 = 1.
+				
+			[../]
+			
+			
+        [../]
+
+s[../]

@@ -14,6 +14,7 @@ CXXFLAGS = $(OPTFLAGS) $(CPPFLAGS) $(WARNFLAGS) -std=c++11
 
 # Executable source
 EXESRCS = main.cc
+#EXESRCS = main2.cc
 
 # Executable object file
 EXEOBJS = $(EXESRCS:.cc = .o)

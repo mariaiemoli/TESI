@@ -1,0 +1,97 @@
+
+%% CAPITOLO 1: leggi di conservazione
+%% CAPITOLO 2: two phase flow
+
+@misc{ bastian:ref1,
+   author = "Peter Bastian",
+   title = "Numerical Computation of Multiphase Flows in Porous Media",
+   year = "1999",
+   Url = "\url{http://conan.iwr.uni-heidelberg.de/people/peter/pdf/Bastian_habilitationthesis.pdf}"
+}
+
+
+@book{ leveque:ref2,
+   author = "Randall J. LeVeque",
+   title = "Numerical Methods for Conservation Laws",
+   year = "1992",
+   publisher = "Springer"
+}
+
+@book{ salsa:ref3,
+   author = "Sandro Salsa",
+   title = "Equazioni a derivate parziali. Metodi, modelli e applicazioni",
+   year = "2010",
+   publisher = "Springer"
+}
+
+@book{ quarteroni:ref4,
+   author = "Alfio Quarteroni",
+   title = "Modellistica Numerica per Problemi Differenziali",
+   year = "2008",
+   publisher = "Springer"
+}
+
+@misc{ bretti:ref5,
+   author = "Gabriella Bretti",
+   title = "Modelling and numerics for porous media and traffic flows",
+   year = "2004"
+}
+
+
+
+
+@article{kaass:ref6,
+  title={Solving the Buckley-Leverett Equation with Gravity in a Heterogeneous Porous Medium},
+  author={E.F. Kaasschieter},
+  journal={Computational Geosciences},
+  volume={3},
+  pages={23-48},
+  year={1999}
+}
+
+
+@article{jaffre:ref7,
+  title={Godunov-type methods for conservation laws with a flux function discontinuous in space},
+  author={Adimurthi, Jérome, Jaffré, G.D. Veerappa Gowda},
+  journal={SIAM J. Numer. Anal.},
+  volume={42},
+  number={1},
+  pages={179-208},
+  year={2004}
+}
+
+
+%% CAPITOLO 3: discontinuità del mezzo
+%% CAPITOLO 4: biforcazione
+
+@article{natalini:ref8,
+  title={Numerical approximations of a traffic flow model on networks},
+  author={G. Bretti, R. Natalini, B. Piccoli},
+  journal={American Institute of Mathematical Sciences},
+  volume={1},
+  number={1},
+  pages={57-84},
+  year={2006}
+}
+
+
+@article{coclitepiccoli:ref9,
+  title={Traffic Flow on a Road Network},
+  author={G.M. Coclite, M. Garavello, B. Piccoli},
+  journal={Siam Math. Anal.},
+  year={2002}
+}
+
+@book{garavellopiccoli:ref10,
+  title={Traffic Flow on Network. Conservation Laws Models},
+  author={M. Garavello, B. Piccoli},
+  journal={American Institute of Mathematical Sciences},
+  volume={1},
+  year={2006}
+}
+
+
+
+
+
+

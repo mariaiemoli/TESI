@@ -9,6 +9,7 @@
 
 FluxHandler::FluxHandler ( const GetPot& dataFile, const std::string& sectionFlux ):
 						 M_sectionFlux ( sectionFlux ),
+						 M_U ( dataFile ( ( M_sectionFlux + "U" ).data (), "v" ) ),
 						 M_flux ( dataFile ( ( M_sectionFlux + "f" ).data (), "x*x./2" ) ),
 						 M_flux1 ( dataFile ( ( M_sectionFlux + "f1" ).data (), "x" ) ),
 						 M_Us ( dataFile ( ( M_sectionFlux + "us" ).data (), 0.5 ) ),
@@ -48,3 +49,4 @@ void FluxHandler::H ( const size_type& hyp )
 
 	return;
 }
+

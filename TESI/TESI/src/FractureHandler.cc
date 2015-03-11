@@ -182,7 +182,6 @@ void FractureHandler::init ()
         M_etaNormalInterpolated [ i ] = M_data.etaNormalDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaNormal();
 
         M_etaTangentialInterpolated [ i ] = M_data.etaTangentialDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaTangential();
-
     }
 
     gmm::resize ( M_inverseMeshSize, M_meshFEM.nb_dof() );
@@ -326,3 +325,37 @@ void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
 
 }// setMeshLevelSetFracture
 
+
+void FractureHandler::updateEtaTangentialInterpolated ( const scalarVector_Type& s )
+{
+    // Alloco il vettore per M_etaNormalInterpolated
+    gmm::resize ( M_etaNormalInterpolated, M_meshFEM.nb_dof() );
+    gmm::clear ( M_etaNormalInterpolated );
+
+    // Alloco il vettore per M_etaTangentialInterpolated
+    gmm::resize ( M_etaTangentialInterpolated, M_meshFEM.nb_dof() );
+    gmm::clear ( M_etaTangentialInterpolated );
+
+    /*
+    // Riempio i vettori M_etaNormalInterpolated, M_etaTangentialInterpolated, M_muNormalInterpolated e M_muTangentialInterpolated della frattura
+    for ( size_type i = 0; i < M_meshFEM.nb_dof(); ++i )
+    {
+        M_etaNormalInterpolated [ i ] = M_data.etaNormalDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaNormal()/( s [ i ] );
+
+        M_etaTangentialInterpolated [ i ] = M_data.etaTangentialDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaTangential() /( s [ i ] );
+    }
+	*/
+
+    scalar_type lambda;
+
+    // Riempio i vettori M_etaNormalInterpolated, M_etaTangentialInterpolated, M_muNormalInterpolated e M_muTangentialInterpolated della frattura
+    for ( size_type i = 0; i < M_meshFEM.nb_dof(); ++i )
+    {
+    	lambda = M_data.lambdaW( ( M_meshFEM.point_of_dof(i) ) ) + M_data.lambdaNW( ( M_meshFEM.point_of_dof(i) ) );
+        M_etaNormalInterpolated [ i ] = M_data.etaNormalDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaNormal()/lambda;
+
+        M_etaTangentialInterpolated [ i ] = M_data.etaTangentialDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaTangential() /lambda;
+    }
+
+	return;
+}// updateEtaTangentialInterpolated

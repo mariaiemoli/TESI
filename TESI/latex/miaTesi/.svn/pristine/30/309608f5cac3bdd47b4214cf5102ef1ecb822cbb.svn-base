@@ -1,0 +1,49 @@
+\chapter*{Lista degli acronimi} \addcontentsline{toc}{chapter}{Lista degli acronimi}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dell'introduzione
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Lista degli acronimi}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{Lista degli acronimi}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{}
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+%ordine alfabetico :
+%A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z
+
+\begin{tabular}{l|l}
+\bfseries{3G} & Third Generation\\
+\bfseries{ADT} & Android Developer Tools \\
+\bfseries{API} & Application Programming Interface \\
+\bfseries{APK} & Android Package \\
+\bfseries{CSS} & Cascading Style Sheets\\
+\bfseries{DMG} & Disk Image \\
+\bfseries{EMF} & Eclipse Modeling Framework\\
+\bfseries{EMP} & Eclipse Modeling Project\\
+\bfseries{GMF} & Graphical Modeling Framework\\
+\bfseries{GPS} & Global Positioning System\\
+\bfseries{GUI} & Graphical User Interface\\
+\bfseries{HTML} & HyperText Markup Language\\
+\bfseries{HTTP} & Hypertext Transfer Protocol\\
+\bfseries{HTC} & High Tech Computer Corporation\\
+\bfseries{HW} & Hardware\\
+\bfseries{IDE} & Integrated Development Environment\\
+\bfseries{JSON} & JavaScript Object Notation\\
+\bfseries{MVC} & Model View Controller\\
+\bfseries{MWE} & Modeling Workflow Engine\\
+\bfseries{NFC} & Near Field Communication\\
+\bfseries{oAW} & openArchitectureWare\\
+\bfseries{RIM} & Research in Motion\\
+\bfseries{SDK} & Software Development Kit\\
+\bfseries{SLOC} & Source Lines of Code\\
+\bfseries{UML} & Unified Model Language\\
+\bfseries{URI} & Uniform Resource Identifier\\
+\bfseries{URL} & Uniform Resource Locator\\
+\bfseries{WP7} & Windows Phone 7\\
+\bfseries{XAP} & XActProject\\
+\bfseries{XMI} &  XML Metadata Interchange\\
+\bfseries{XML} & eXtensible Markup Language\\
+\end{tabular}
+
+\cleardoublepage

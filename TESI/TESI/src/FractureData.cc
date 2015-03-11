@@ -39,6 +39,8 @@ FractureData::FractureData ( const GetPot& dataFile,
 							 M_etaTangential ( dataFile ( ( M_sectionDarcy + "etaTangential" ).data (), 1. / M_thickness ) ),
 							 M_etaNormalDistribution ( dataFile ( ( M_sectionDarcy + "etaNormalDistribution" ).data (), "1." ) ),
 							 M_etaTangentialDistribution ( dataFile ( ( M_sectionDarcy + "etaTangentialDistribution" ).data (), "1." ) ),
+							 M_Wmobility ( dataFile ( ( M_sectionDarcy + "wmobility" ).data (), "x" ) ),
+							 M_NWmobility ( dataFile ( ( M_sectionDarcy + "nwmobility" ).data (), "1.-x" ) ),
 							 M_darcySource ( dataFile ( ( M_sectionDarcy + "source" ).data (), "1." ) ),
 							 M_pressureExact ( dataFile ( ( M_sectionDarcy + "solution" ).data (), "1." ) ),
 							 M_velocityExact ( dataFile ( ( M_sectionDarcy + "velocity" ).data (), "1." ) ),
@@ -110,6 +112,24 @@ scalar_type FractureData::etaTangentialDistribution ( const base_node& x )
     return M_parser.evaluate ();
 }// etaTangentialDistribution
 
+
+scalar_type FractureData::lambdaW ( const base_node& x )
+{
+    M_parser.setString ( M_Wmobility );
+    M_parser.setVariable ( "x", x [ 0 ] );
+
+    return M_parser.evaluate ();
+}// lambdaW
+
+
+scalar_type FractureData::lambdaNW ( const base_node& x )
+{
+    M_parser.setString ( M_NWmobility );
+    M_parser.setVariable ( "x", x [ 0 ] );
+
+    return M_parser.evaluate ();
+
+}// lambdaNW
 
 // Exact solution, velocity (non ho ancora impostato quella corretta)
 scalar_type FractureData::velocityExact ( const base_node& x, const base_node& n )

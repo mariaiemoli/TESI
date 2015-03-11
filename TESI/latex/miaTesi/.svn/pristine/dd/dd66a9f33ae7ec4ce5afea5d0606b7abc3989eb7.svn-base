@@ -1,0 +1,463 @@
+\chapter{Valutazione} \label{cap:Valutazione}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Capitolo \thechapter}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot[]{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+Nei capitoli precedenti abbiamo presentato le due versioni, astratta e implementativa, del metamodello per le applicazioni mobili, gli strumenti software utilizzati in fase di implementazione, la struttura e il funzionamento ad alto livello del progetto realizzato. In questo capitolo vedremo come sfruttare il nostro lavoro per produrre alcune istanze del metamodello implementativo, ciascuna delle quali finalizzata a modellare una particolare applicazione. A partire dalle singole istanze vedremo come è possibile ottenere i sorgenti Android e iOS corrispondenti e come importarli negli ambienti di sviluppo Eclipse e Xcode rispettivamente. L'obiettivo principale di questa fase, comunque, non è quello di mostrare al lettore come utilizzare lo strumento, quanto piuttosto fornire una valutazione, quantitativa e qualitativa, del codice prodotto attraverso il generatore e quindi dell'efficacia di quest'ultimo nel mondo dello sviluppo di applicazioni mobili.
+
+\section{Valutazione quantitativa}
+In questa sezione daremo una breve descrizione del processo di modellazione e generazione dei sorgenti per due applicazioni pensate da noi, chiamate Valtellina e Multimedia. Per quanto riguarda la prima, è già stata fornita una descrizione generica della sua struttura nel capitolo 2, quando abbiamo generato un'istanza del metamodello astratto. La seconda, come vedremo nelle righe successive, è un'applicazione incentrata sull'utilizzo dell'hardware del dispositivo per produrre e rendere accessibili all'utente finale diversi contenuti multimediali. \\
+Al termine della presentazione delle due applicazioni forniremo una valutazione quantitativa del codice generato grazie alla metrica del conteggio del numero di righe di codice sorgente (SLOC). Questo metodo di misura è il più indicato per stabilire la complessità di un software e per stimare le risorse necessarie per la sua produzione e il suo mantenimento. Quello che faremo, per ciascuna delle due versioni Android e iOS delle applicazioni Valtellina e Multimedia, sarà svolgere due conteggi distinti, uno inerente le righe di codice fisiche (Physical SLOC) e l'altro relativo alle righe di codice logiche (Logical SLOC). Nei conteggi di tipo Physical SLOC si considerano tutte le righe di testo del codice sorgente, includendo anche i commenti e le linee bianche, al contrario nei conteggi di tipo Logical SLOC si considerano gli statement, ovvero il numero di istruzioni effettive, indipendentemente dalla loro collocazione su una o su più righe.
+
+\subsection{Applicazione Valtellina}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/LowLevelModel-Valtellina.pdf}
+\caption{{\itshape Valtellina}: istanza del metamodello implementativo.}
+\label{fig:lowlevelmodel-valtellina}
+\end{figure}
+Prima di procedere con la generazione del file .xmi ci siamo preoccupati di definire una versione più concreta del modello dell'applicazione Valtellina presentato nel capitolo 2, istanziando questa volta la versione implementativa del metamodello. A partire dal nuovo modello, mostrato in Figura \ref{fig:lowlevelmodel-valtellina}, è infatti possibile definire in maniera univoca il contenuto del file .xmi e quindi la struttura dell'applicazione che intendiamo realizzare.\\
+Ai fini di modellare l'applicazione attraverso il generatore di codice nell'ambiente di sviluppo Eclipse, innanzitutto è necessario generare il file .xmi: apriamo quindi il file {\itshape metamodel.ecore} presente nel package {\itshape metamodel} del progetto e, con il tasto destro del mouse, facciamo click su {\itshape Application} e selezioniamo {\itshape Create Dynamic Istance}. Si aprirà una finestra che ci permetterà di stabilire il nome e in quale cartella del progetto intendiamo salvare il modello dell'applicazione che stiamo per definire: selezioniamo quindi la cartella {\itshape model} e indichiamo {\itshape Valtellina.xmi} come filename. Una volta creato, il file verrà automaticamente aperto, e sarà composto dall'unico elemento Application, a partire dal quale possiamo iniziare ad inserire gli elementi del metamodello per delineare la struttura dell'applicazione.\\
+Attraverso la finestra {\itshape Properties} di Eclipse è possibile settare tutti gli attributi degli elementi che vengono man mano inseriti nel modello. Per l'elemento Application ad esempio è possibile settare {\itshape CompanyIdentifier} e {\itshape Name} che, secondo quanto riportato in figura, assumono i valori ``it.polimi'' il primo e ``Valtellina'' il secondo.
+L'aggiunta degli elementi nel modello avviene sulla base delle composizioni indicate nel metamodello implementativo, a partire dall'elemento root Application, facendo click con il tasto destro del mouse sull'elemento da cui ha origine la composizione, selezionando {\itshape New Child} e quindi il nome del componente che si intende aggiungere. Per l'applicazione Valtellina, partendo da Application, è infatti possibile, attraverso la composizione {\itshape ViewControllers}, definire i quattro ViewController che compongono l'applicazione, oltre ad aggiungere il Menu. Sfruttando l'apposito editor grafico integrato nella distribuzione Epsilon di Eclipse, è infatti possibile definire tutti gli elementi dell'istanza riportati in Figura \ref{fig:lowlevelmodel-valtellina}, producendo così la versione finale del file {\itshape Valtellina.xmi}.
+\\\\
+Per questioni di spazio non abbiamo riportato in figura gli elementi ListViewCell di cui è composta la ListView del ViewController TurismLocationsList. Per evitare di doverle inserire manualmente via codice completiamo il file .xmi, aggiungendone una per ciascuna delle località turistiche che intendiamo mostrare, perciò sfruttando la relazione ListViewCells su {\itshape turismLocationListView} definiamo pertanto undici ListViewCell, a cui assegniamo rispettivamente come {\itshape Title} i seguenti nomi di località: ``Aprica'', ``Bormio'', ``Chiesa Valmalenco'', ``Livigno'', ``Madesimo'', ``Santa Caterina Valfurva'', ``Teglio'', ``Tirano'', ``Val Masino'', ``Piantedo'' e ``Dazio''. Per ciascuna di queste inseriamo nella cartella {\itshape user$\_$files} un file .txt, contenente una descrizione generica della specifica località,  e un'immagine da mostrare nel ViewController di dettaglio di ogni località.
+\\\\
+Dopo essersi accertati di aver inserito nell'apposita directory {\itshape user$\_$files} tutte le risorse referenziate dagli elementi dell'istanza (file .txt ed immagini per le celle della {\itshape turismLocationListView}, file valtellina.html per la {\itshape descriptionWebView} e file valtellina$\_$video.mp4 per la {\itshape videoView}), la fase successiva è quella di traduzione del modello in codice, operazione che può essere avviata lanciando il workflow engine, ovvero facendo click con il tasto destro del mouse su uno dei file .mwe presenti nel package {\itshape workflow} e selezionando {\itshape Run As MWE Workflow} dal menu a tendina che appare sullo schermo. Prima di avviare la generazione di codice bisogna impostare il file MWE in modo che legga il modello dell'applicazione di cui si desidera generare i sorgenti. In base al file .mwe scelto verranno generati i sorgenti nativi dell'applicazione per la piattaforma Android, per la piattaforma iOS o per entrambe. Perciò, dopo aver scelto quale file utilizzare, è necessario aprire tale file e cambiare il percorso che porta alla lettura del modello modificando il valore della property ``model'' che si trova all'inizio del file.  Ai fini di verificare il corretto funzionamento del generatore di codice e valutarne la sua utilità scegliamo di produrre i sorgenti per entrambe le piattaforme, utilizzando il file {\itshape iOSAndAndroidGenerator.mwe}. Prima di lanciare  il workflow engine, apriamo il file e modifichiamo il percorso per la lettura del modello inserendo il percorso del file Valtellina.xmi nell'attributo ``value'' per il tag ``property'' in cui l'attributo name è impostato a ``model''.
+\\\\
+Ora che abbiamo presentato a livello generale l'approccio model-driven allo sviluppo dell'applicazione Valtellina, forniamo una valutazione quantitativa dello strumento, confrontando il codice prodotto dal generatore con quello che, a seguito di modifiche manuali, definisce l'applicazione finale. Come anticipato in precedenza effettueremo una valutazione distinta per le versioni Android e iOS dell'applicazione.
+\subsubsection{Valutazione dell'applicazione Android}
+Dopo l'importazione nell'ambiente di sviluppo Eclipse dei sorgenti Android prodotti dal generatore di codice, appare evidente la necessità di perfezionare il layout e la grafica dei ViewController. In particolare lo sviluppatore dovrà riposizionare e modificare secondo le proprie preferenze, gli elementi dell'interfaccia grafica, modificando il contenuto dei file .xml che definiscono il layout dell'applicazione. Oltre a questo genere di modifiche, ai fini di completare le funzionalità che l'applicazione dovrà offrire all'utente finale, il programmatore dovrà implementare le parti algoritmiche mancanti. Nel caso in analisi abbiamo preferito trascurare la ridefinizione dell'interfaccia grafica, che attraverso l'editor grafico reso disponibile dal plugin ADT di Eclipse è possibile personalizzare rapidamente, privilegiando, al contrario, il completamento della logica applicativa mancante. 
+\\\\
+Per l'applicazione Valtellina possiamo considerare completamente funzionanti i ViewController Description e Video, in quanto il contenuto e il layout del primo sono definiti principalmente attraverso il file {\itshape valtellina.html}, copiato dal generatore all'interno dei sorgenti e referenziato dalla WebView interna al ViewController, mentre il secondo ospita una VideoView che riproduce un video salvato in locale.
+Oltre alla revisione dei layout dei ViewController rimane da settare il contenuto delle due TextView e dell'ImageView presenti all'interno del ViewController TurismLocationDetail, sulla base dell'elemento che è stato cliccato nella ListView del ViewController TurismLocationsList. Perciò abbiamo memorizzato in due array tutti i file di testo e le immagini relative alle località turistiche, quindi abbiamo implementato la logica che permette di passare titolo, testo e immagine della località turistica selezionata dalla lista al ViewController di dettaglio. All'interno di quest'ultimo abbiamo dovuto poi aggiungere manualmente il codice Java necessario a settare dinamicamente i contenuti delle due TextView e dell'ImageView, sulla base delle informazioni passate.
+\\\\
+Nella Tabella \ref{tab:valtorig} sono riportati i valori delle due misure Physical SLOC e Logical SLOC per i file Java originali del progetto Valtellina prodotto dal generatore di codice, ovvero quelli che contengono la logica applicativa dell'applicazione. In Tabella \ref{tab:valtmod} sono riportati i valori degli stessi file in seguito alle modifiche effettuate nell'ambiente di sviluppo Eclipse per completare l'applicazione.  Di fianco ad ogni conteggio è riportata la percentuale di codice coperta da ogni file con il codice prodotto dal generatore di codice, per esempio per quanto riguarda il file {\itshape DescriptionActivity.java} si ha una copertura del 100\% sia per le Physical SLOC sia per le Logical SLOC in quanto i valori misurati nel file autogenerato e nel file completo sono gli stessi. In Figura \ref{graf:valtclassiJAVA} è riportato un grafico che riporta i valori di entrambe le tabelle. Come è possibile notare la maggior parte delle Activity risultano essere già complete per come vengono generate dal generatore, e le classi interessate dalle modifiche necessarie al completamento dell'applicazione sono {\itshape TurismLocationListActivity} e {\itshape TurismLocationDetailActivity} che richiedono la definizione della logica applicativa di passaggio dei parametri dalla prima alla seconda activity e del settaggio degli elementi grafici nella seconda.
+\begin{table}
+\centering
+\footnotesize
+\begin{tabular} {lcc}
+\hline
+\hline
+{\bfseries File} & {\bfseries Physical SLOC} & {\bfseries Logical SLOC}\\
+\hline
+{\itshape DescriptionActivity.java} &81&48\\
+\hline
+{\itshape ImageDownloadingTask.java} &75&39\\
+\hline
+{\itshape MenuActivity.java} &30&20\\
+\hline
+{\itshape TursimLocationDetailActivity.java} &52&32\\
+\hline
+{\itshape TurismLocationListActivity.java} &79&46\\
+\hline
+{\itshape Utils.java} &23&15\\
+\hline
+{\itshape VideoActivity.java} &61&39\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Valtellina}: numero di righe dei file più importanti dell'applicazione Android generata dal tool.}
+\label{tab:valtorig}
+\end{table}
+\begin{table}
+\centering
+\footnotesize
+\begin{tabular} {l|cr|cr}
+\hline
+\hline
+{\bfseries File} & \multicolumn{2}{c|}{\bfseries Physical SLOC} & \multicolumn{2}{c}{\bfseries Logical SLOC}\\
+\cline{2-5}
+& \multicolumn{1}{l}{\itshape \#} & {\itshape \%} & {\itshape \#} & \multicolumn{1}{r}{{\itshape \%}}\\
+\hline
+{\itshape DescriptionActivity.java}&81&100&48&100\\
+\hline
+{\itshape ImageDownloadingTask.java}&75&100&39&100\\
+\hline
+{\itshape MenuActivity.java}&30&100&20&100\\
+\hline
+{\itshape TursimLocationDetailActivity.java}&66&78.7&47&68.08\\
+\hline
+{\itshape TurismLocationListActivity.java}&89&88.76&53&86.79\\
+\hline
+{\itshape Utils.java}&23&100&15&100\\
+\hline
+{\itshape VideoActivity.java}&61&100&39&100\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Valtellina}: numero di righe dei file più importanti dell'applicazione Android completa e percentuali della copertura ottenuta con il generatore di codice.}
+\label{tab:valtmod}
+\end{table}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/ValtClassiJAVA.pdf}
+\caption{{\itshape Valtellina}: grafico rappresentante le righe di codice delle principali classi JAVA dell'applicazione Android.}
+\label{graf:valtclassiJAVA}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/ValtGraficoRigheTotaliAndroid.pdf}
+\caption{{\itshape Valtellina}: grafico rappresentante le righe di codice totali dell'applicazione Android.}
+\label{graf:valtrighetotandroid}
+\end{figure}
+\\\\
+Non abbiamo riportato i valori di conteggio per i singoli file XML interni al progetto Android dell'applicazione per via del fatto che abbiamo trascurato la ridefinizione della veste grafica. Infatti, a meno di alcuni riposizionamenti all'interno delle schermate, non abbiamo apportato alcuna modifica a questi file dopo l'importazione del progetto in Eclipse. In Figura \ref{graf:valtrighetotandroid} è riportato un grafico che mostra un confronto quantitativo ad alto livello tra il codice dell'applicazione prodotta dal generatore e quello dell'applicazione modificata: risulta evidente che la quantità di righe e statement dei file XML, dove è compreso anche il Manifest, è invariata nelle due versioni dell'applicazione Android, mentre emergono alcune variazioni nei file Java.\\
+Quindi sembra che il generatore di codice ha permesso, nel caso di Valtellina, di risparmiare buona parte del tempo richiesto per lo sviluppo completo dell'applicazione. Senza considerare alcuna modifica all'interfaccia grafica, il generatore di codice produce 510 righe di codice sulle 534 righe che compongono l'applicazione completa e 326 statement sui 348 complessivi, arrivando così a coprire il 95,5\% delle Physical SLOC e il 93,7\% delle Logical SLOC. Questo risultato è significativo se vogliamo considerare la copertura della logica applicativa, che costituisce la parte sulla quale ci siamo concentrati maggiormente al momento della definizione dei template Xpand.
+\subsubsection{Valutazione dell'applicazione iOS}
+La valutazione svolta sull'applicazione Android vale in generale anche per i sorgenti iOS. Per quanto riguarda il layout e la grafica dei ViewController, la differenza principale rispetto ai sorgenti Android risiede nel fatto che occorre modificare un unico file, ovvero la Storyboard. Queste modifiche avvengono sfruttando Interface Builder, uno strumento integrato in Xcode, che offre un editor grafico intuitivo e ricco di opzioni utili. Per quanto riguarda i ViewController, TurismLocationsList e TurismLocationDetail, oltre alla definizione dei due array per recuperare i file di testo e le immagini dobbiamo definire la logica applicativa che determina il passaggio delle informazioni dal primo ViewController al secondo e quella per il settaggio dinamico dei contenuti dei componenti grafici del ViewController di dettaglio.
+\\\\
+Di conseguenza anche le considerazioni che concernono il codice iOS sono simili a quelle relative all'applicazione Android. Anche in questo caso abbiamo confrontato i valori Physical SLOC e Logical SLOC del codice generato con quelli del codice modificato per i file più significativi del progetto. Oltre a considerare i file Objective-C, che definiscono buona parte della logica applicativa, abbiamo però valutato anche la Storyboard, che costituisce un elemento di fondamentale importanza nello sviluppo di applicazioni per iOS e che, a differenza dei file XML del layout in Android, definisce sia il layout dell'applicazione che la logica applicativa delle navigazioni tra ViewController.
+\begin{table} [h!]
+\centering
+\footnotesize
+\begin{tabular} {lcc}
+\hline
+\hline
+{\bfseries File} & {\bfseries Physical SLOC} & {\bfseries Logical SLOC}\\
+\hline
+{\itshape DescriptionViewController.m} &79&29\\
+\hline
+{\itshape VideoViewController.m} &79&28\\
+\hline
+{\itshape TurismLocationsListViewController.m} &131&45\\
+\hline
+{\itshape TurismLocationDetailViewController.m} &72&20\\
+\hline
+{\itshape ImageDownloadingTask.m} &36&15\\
+\hline
+{\itshape DescriptionViewController.h} &5&2\\
+\hline
+{\itshape VideoViewController.h} &6&3\\
+\hline
+{\itshape TurismLocationsListViewController.h} &6&2\\
+\hline
+{\itshape TurismLocationDetailViewController.h} &5&2\\
+\hline
+{\itshape ImageDownloadingTask.h} &6&3\\
+\hline
+{\itshape MainStoryboard.storyboard} &259&159\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Valtellina}: numero di righe dei file più importanti dell'applicazione iOS generata dal tool.}
+\label{tab:valtorigios}
+\end{table}
+\begin{table} [h!]
+\centering
+\footnotesize
+\begin{tabular} {l|cr|cr}
+\hline
+\hline
+{\bfseries File} & \multicolumn{2}{c|}{\bfseries Physical SLOC} & \multicolumn{2}{c}{\bfseries Logical SLOC}\\
+\cline{2-5}
+& \multicolumn{1}{l}{\itshape \#} & {\itshape \%} & {\itshape \#} & \multicolumn{1}{r}{{\itshape \%}}\\
+\hline
+{\itshape DescriptionViewController.m}&79&100&29&100\\
+\hline
+{\itshape VideoViewController.m}&79&100&28&100\\
+\hline
+{\itshape TurismLocationsListViewController.m}&170&77.05&60&75\\
+\hline
+{\itshape TurismLocationDetailViewController.m}&75&96&29&69\\
+\hline
+{\itshape ImageDownloadingTask.m}&36&100&15&100\\
+\hline
+{\itshape DescriptionViewController.h}&5&100&2&100\\
+\hline
+{\itshape VideoViewController.h}&6&100&3&100\\
+\hline
+{\itshape TurismLocationsListViewController.h}&6&100&2&100\\
+\hline
+{\itshape TurismLocationDetailViewController.h}&8&62,5&5&40\\
+\hline
+{\itshape ImageDownloadingTask.h}&6&100&3&100\\
+\hline
+{\itshape MainStoryboard.storyboard}&237&---&162&98.1\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Valtellina}: numero di righe dei file più importanti dell'applicazione iOS completa e percentuali della copertura ottenuta con il generatore di codice.}
+\label{tab:valtmodios}
+\end{table}
+\\\\
+In Tabella \ref{tab:valtorigios} sono riportati i valori di conteggio relativi ai file dell'applicazione prodotta dal generatore, mentre in Tabella \ref{tab:valtmodios} ci sono quelli relativi ai file dell'applicazione modificata con le percentuali di copertura del codice prodotto con il generatore di codice rispetto al file completato manualmente. In Figura \ref{graf:valtclassiIOS} è riportato un grafico che riporta i valori di entrambe le tabelle. Come è possibile notare, anche nel caso dell'applicazione iOS, gli unici file che sono stati modificati, escludendo la Storyboard, sono i due relativi alle ViewController delle località turistiche. 
+\begin{figure} [h!]
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/ValtIOSclassi.pdf}
+\caption{{\itshape Valtellina}: grafico rappresentante le righe di codice dei principali file dell'applicazione iOS.}
+\label{graf:valtclassiIOS}
+\end{figure}
+\\
+Osservando il grafico potrebbe sorprendere la diversità nei valori SLOC relativi al file della Storyboard. Grazie all'utilizzo di {\itshape DiffMerge}, un software per il confronto tra file, abbiamo riscontrato che il motivo di questo cambiamento inaspettato è da ricercare nel generatore di codice che, sfruttando il template Xpand finalizzato alla produzione della Storyboard, produce un file contenente alcuni spazi bianchi, che non impattano sul corretto funzionamento dell'applicazione. Al momento dell'importazione dei sorgenti in Xcode, e in particolare all'apertura del file della Storyboard, quello che si verifica è una pulizia automatica del codice, con rimozione degli spazi bianchi generati e conseguente riduzione del numero delle Physical SLOC.\\
+Se confrontiamo invece il numero di statement dell'applicazione originale con quello dell'applicazione modificata, possiamo riscontrare un leggero aumento nell'applicazione modificata: ciò è dovuto all'inserimento di alcuni outlet nel {\itshape TurismLocationDetailViewController}, necessari per settare correttamente gli elementi grafici manualmente via codice.
+\begin{figure} [h!]
+\centering
+\includegraphics[scale=0.57]{Figure/Cap5/ValtGraficoRigheTotaliIOS.pdf}
+\caption{{\itshape Valtellina}: grafico rappresentante le righe di codice totali dell'applicazione iOS.}
+\label{graf:valtrighetotios}
+\end{figure}
+\\
+In Figura \ref{graf:valtrighetotios} è riportato un grafico che mostra un confronto quantitativo ad alto livello tra il codice dell'applicazione prodotta dal generatore e quello dell'applicazione modificata, dove risulta evidente la piccola differenza esistente nel numero di righe e nel numero di statement del codice prodotto e del codice modificato. Possiamo affermare che, anche per la versione iOS, il generatore ha permesso di risparmiare buona parte del tempo di sviluppo dell'applicazione. Senza considerare alcuna modifica all'interfaccia grafica, il generatore di codice produce 684 righe di codice sulle 707 complessive e 308 statement sui 338 complessivi, arrivando così a coprire il 96,7\% delle Physical SLOC e il 91\% delle Logical SLOC. I valori delle percentuali sono positivi, ma è bene tenere presente che i valori di conteggio sono stati determinati, così come nel caso Android, senza apportare modifiche all'interfaccia grafica esistente, sebbene quest'ultima può essere ridefinita rapidamente attraverso lo strumento Interface Builder di Xcode.
+
+\subsection{Applicazione Multimedia}
+Multimedia è un'applicazione pensata per permettere all'utente di scattare delle fotografie, registrare dei filmati con la videocamera del dispositivo ed effettuare registrazioni vocali.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/LowLevelModel-Multimedia-part1.pdf}
+\caption{{\itshape Multimedia}: istanza del metamodello implementativo - parte 1.}
+\label{fig:lowlevelmodel-multimedia-part1}
+\end{figure}
+L'applicazione, inoltre, mette a disposizione una Gallery per mostrare i file multimediali prodotti, divisi per categoria, in modo da permettere all'utente di vedere ed eventualmente cancellare le foto, i video o i file audio che sono stati salvati in memoria.
+Così come per Valtellina, ai fini di chiarire la struttura dell'applicazione e quale sarà il contenuto del file .xmi che utilizzeremo come input per la fase di traduzione del modello in codice, abbiamo prodotto un'istanza del metamodello implementativo, mostrata nelle Figure \ref{fig:lowlevelmodel-multimedia-part1} e \ref{fig:lowlevelmodel-multimedia-part2}. Abbiamo dovuto spezzare il modello su due figure per problemi di spazio.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/LowLevelModel-Multimedia-part2.pdf}
+\caption{{\itshape Multimedia}: istanza del metamodello implementativo - parte 2.}
+\label{fig:lowlevelmodel-multimedia-part2}
+\end{figure}
+Come è possibile notare, nella prima figura sono stati indicati i tre ViewController e i relativi elementi che permettono di sfruttare i componenti hardware del dispositivo per generare e salvare in memoria un nuovo file multimediale (immagine, video o audio). Questi ViewController sono raggiungibili attraverso il menu dell'applicazione, per il quale in Figura \ref{fig:lowlevelmodel-multimedia-part1} sono stati indicati tutti i MenuItem che lo compongono. Oltre a tutti questi elementi è stato inserito il ViewController Gallery, che sarà il primo ad essere mostrato all'apertura dell'applicazione e che può essere raggiunto selezionando la relativa voce del menu. Attraverso i tre Button che compongono Gallery è possibile raggiungere i ViewController PhotoGrid, VideoList e AudioList, che sono mostrati in Figura \ref{fig:lowlevelmodel-multimedia-part2} e che mostrano rispettivamente la lista di tutte le foto, i video e i file audio salvati in memoria. La selezione di una voce all'interno di una di queste tre liste porta all'apertura di un ViewController che mostra i dettagli e consente la cancellazione del file multimediale.
+\\\\
+Dopo aver generato il file .xmi e inserito gli elementi in accordo con il modello presentato nelle due figure, abbiamo generato i sorgenti Android e iOS corrispondenti, le cui valutazioni sono riportate di seguito.
+
+\subsubsection{Valutazione dell'applicazione Android}
+Escludendo il riposizionamento degli elementi grafici nei layout dei ViewController, abbiamo dovuto implementare manualmente il recupero dei file multimediali dalla memoria all'apertura dei ViewController PhotoGrid, VideoList e AudioList, oltre alla logica applicativa relativa al passaggio dei parametri necessari verso i ViewController di dettaglio e quella per settare dinamicamente il contenuto dello specifico componente grafico all'interno dei ViewController PhotoViewer, VideoViewer e AudioPlayer. Per quanto riguarda il ViewController PhotoGrid, esso è stato progettato per mostrare in una griglia le miniature delle fotografie scattate dall'utente, quindi, oltre alla necessità di definire via codice il recupero delle immagini dalla memoria, è stato quindi necessario creare manualmente un file XML, chiamato {\itshape item$\_$imagesgrid.xml}, per definire il layout delle celle della griglia. Questo file contiene una semplice ImageView, che viene settata grazie all'implementazione manuale, nell'Activity contenente la griglia, di un adapter alternativo a quelli predefiniti  in modo da gestire l'inserimento di foto, e non di testi, all'interno delle GridViewCell. Infine, aggiungendo poche righe di codice, abbiamo implementato anche la cancellazione dalla memoria interna di un particolare file multimediale, da svolgersi al momento del click da parte dell'utente finale dell'apposito bottone presente all'interno dei tre ViewController di dettaglio.
+\\\\
+Nelle tabelle \ref{tab:multorig} e \ref{tab:multmod} sono riportati i valori di Physical SLOC e Logical SLOC presenti all'interno dei file del progetto Android, generato e modificato rispettivamente. Nella seconda tabella sono riportate anche le percentuali di codice coperto con i sorgenti prodotti dal generatore di codice per ognuno dei file presi in analisi.
+\begin{table} [h!]
+\centering
+\footnotesize
+\begin{tabular} {lcc}
+\hline
+\hline
+{\bfseries File} & {\bfseries Physical SLOC} & {\bfseries Logical SLOC}\\
+\hline
+{\itshape AudioListActivity.java} &78&50\\
+\hline
+{\itshape AudioPlayerActivity.java} &106&66\\
+\hline
+{\itshape AudioRecorderActivity.java} &165&101\\
+\hline
+{\itshape GalleryActivity.java} &87&32\\
+\hline
+{\itshape MenuActivity.java} &35&26\\
+\hline
+{\itshape PhotocameraActivity.java} &106&68\\
+\hline
+{\itshape PhotoGridActivity.java} &78&49\\
+\hline
+{\itshape PhotoViewerActivity.java} &63&40\\
+\hline
+{\itshape Utils.java} &28&15\\
+\hline
+{\itshape VideocameraActivity.java} &117&76\\
+\hline
+{\itshape VideoListActivity.java} &78&49\\
+\hline
+{\itshape VideoViewerActivity.java} &73&46\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Multimedia}: numero di righe dei file più importanti dell'applicazione Android generata dal tool.}
+\label{tab:multorig}
+\end{table}
+\begin{table} [h!]
+\centering
+\footnotesize
+\begin{tabular} {l|cr|cr}
+\hline
+\hline
+{\bfseries File} & \multicolumn{2}{c|}{\bfseries Physical SLOC} & \multicolumn{2}{c}{\bfseries Logical SLOC}\\
+\cline{2-5}
+& \multicolumn{1}{l}{\itshape \#} & {\itshape \%} & {\itshape \#} & \multicolumn{1}{r}{{\itshape \%}}\\
+\hline
+{\itshape AudioListActivity.java}&85&91.8&57&87.7\\
+\hline
+{\itshape AudioPlayerActivity.java}&110&100&70&100\\
+\hline
+{\itshape AudioRecorderActivity.java}&165&100&101&100\\
+\hline
+{\itshape GalleryActivity.java}&87&100&32&100\\
+\hline
+{\itshape MenuActivity.java}&35&100&26&100\\
+\hline
+{\itshape PhotocameraActivity.java}&106&100&68&100\\
+\hline
+{\itshape PhotoGridActivity.java}&119&89&87&78.2\\
+\hline
+{\itshape PhotoViewerActivity.java}&71&88.7&48&83.3\\
+\hline
+{\itshape Utils.java}&28&100&15&100\\
+\hline
+{\itshape VideocameraActivity.java}&117&100&76&100\\
+\hline
+{\itshape VideoListActivity.java}&85&91.8&56&87.5\\
+\hline
+{\itshape VideoViewerActivity.java}&75&97.3&48&95.8\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Multimedia}: numero di righe dei file più importanti dell'applicazione Android completa e percentuali della copertura ottenuta con il generatore di codice.}
+\label{tab:multmod}
+\end{table}
+Entrando nel dettaglio di quanto riportato nelle tabelle e consultando gli stessi dati sul grafico di Figura \ref{graf:multclassiJAVA} possiamo notare che sono state modificate solo le Activity {\itshape AudioListActivity.java}, {\itshape AudioPlayerActivity.java}, {\itshape PhotoGridActivity.java}, {\itshape PhotoViewerActivity.java}, {\itshape VideoListActivity.java} e {\itshape VideoViewerActivity.java}, in accordo con quanto appena esposto.
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/MultClassiJAVA.pdf}
+\caption{{\itshape Multimedia}: grafico rappresentante le righe di codice dei principali file dell'applicazione Android.}
+\label{graf:multclassiJAVA}
+\end{figure}
+Per quanto riguarda i file XML per la definizione del layout delle Activity, così come per Valtellina, i file esistenti non hanno subito alcuna variazione significativa, poiché abbiamo preferito trascurare la ridefinizione della veste grafica, che, per il modo in cui viene generata, permette di avere un'applicazione comunque funzionale.
+\\\\
+In Figura \ref{graf:multrighetotandroid} è riportato un grafico con i valori di SLOC totali: considerando sia i file Java che quelli XML, il generatore ha prodotto 1274 Physical SLOC e 827 Logical SLOC, mentre nell'applicazione modificata sono stati contati 1343 Physical SLOC e 928 Logical SLOC. Quindi il generatore ha coperto il 94,9\% delle righe di codice e l'89\% degli statement. Anche considerando i soli file Java la percentuale di statement coperti risulta essere del 90,3\%, infatti abbiamo contato 684 statement complessivi, di cui 618 risultano essere autogenerati.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/MultGraficoRigheTotaliAndroid.pdf}
+\caption{{\itshape Multimedia}: grafico rappresentante le righe di codice totali dell'applicazione Android.}
+\label{graf:multrighetotandroid}
+\end{figure}
+
+\subsubsection{Valutazione dell'applicazione iOS}
+Molte delle considerazioni presentate per i sorgenti Android prodotti valgono per i sorgenti iOS dell'applicazione, con la differenza, considerata anche per l'applicazione Valtellina, che occorre modificare un unico file, la Storyboard, per la definizione del layout grafico, in alternativa a tanti file XML.
+\begin{table} [h!]
+\centering
+\footnotesize
+\begin{tabular} {lcc}
+\hline
+\hline
+{\bfseries File} & {\bfseries Physical SLOC} & {\bfseries Logical SLOC}\\
+\hline
+{\itshape VideocameraViewController.m} &138&59\\
+\hline
+{\itshape PhotocameraViewController.m} &132&53\\
+\hline
+{\itshape AudioRecorderViewController.m} &145&68\\
+\hline
+{\itshape GalleryViewController.m} &72&20\\
+\hline
+{\itshape PhotoGridViewController.m} &119&45\\
+\hline
+{\itshape VideoListViewController.m} &118&44\\
+\hline
+{\itshape AudioListViewController.m} &118&45\\
+\hline
+{\itshape PhotoViewerViewController.m} &75&21\\
+\hline
+{\itshape VideoViewerViewController.m} &83&29\\
+\hline
+{\itshape AudioPlayerViewController.m} &98&32\\
+\hline
+{\itshape CustomCollectionViewCell.m} &24&6\\
+\hline
+{\itshape MainStoryboard.storyboard} &720&448\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Multimedia}: numero di righe dei file più importanti dell'applicazione iOS generata dal tool.}
+\label{tab:multorigIOS}
+\end{table}
+\begin{table} [h!]
+\centering
+\footnotesize
+\begin{tabular} {l|cr|cr}
+\hline
+\hline
+{\bfseries File} & \multicolumn{2}{c|}{\bfseries Physical SLOC} & \multicolumn{2}{c}{\bfseries Logical SLOC}\\
+\cline{2-5}
+& \multicolumn{1}{l}{\itshape \#} & {\itshape \%} & {\itshape \#} & \multicolumn{1}{r}{{\itshape \%}}\\
+\hline
+{\itshape VideocameraViewController.m}&138&100&59&100\\
+\hline
+{\itshape PhotocameraViewController.m}&132&100&53&100\\
+\hline
+{\itshape AudioRecorderViewController.m}&145&100&68&100\\
+\hline
+{\itshape GalleryViewController.m}&72&100&20&100\\
+\hline
+{\itshape PhotoGridViewController.m}&132&90.2&55&81.8\\
+\hline
+{\itshape VideoListViewController.m}&129&91.5&52&84.6\\
+\hline
+{\itshape AudioListViewController.m}&128&58.6&53&84.9\\
+\hline
+{\itshape PhotoViewerViewController.m}&76&98.7&27&77.7\\
+\hline
+{\itshape VideoViewerViewController.m}&86&96.5&32&90.6\\
+\hline
+{\itshape AudioPlayerViewController.m}&103&95.1&37&86.5\\
+\hline
+{\itshape CustomCollectionViewCell.m}&24&100&6&100\\
+\hline
+{\itshape MainStoryboard.storyboard}&694&---&476&94.1\\
+\hline
+\hline
+\end{tabular}
+\caption{{\itshape Multimedia}: numero di righe dei file più importanti dell'applicazione iOS completa e percentuali della copertura ottenuta con il generatore di codice.}
+\label{tab:multmodIOS}
+\end{table}
+\\
+Osservando le tabelle \ref{tab:multorigIOS} e \ref{tab:multmodIOS} e i grafici in Figura \ref{graf:multclassiIOS} e in Figura \ref{graf:multstoryboard}, si può notare che i ViewController che hanno subito delle modifiche corrispondono alle Activity modificate nel progetto Android. In aggiunta a {\itshape MainStoryboard.storyboard}, si tratta in particolare dei file {\itshape PhotoGridViewController.m}, {\itshape VideoListViewController.m}, {\itshape AudioListViewController.m}, {\itshape PhotoViewerViewController.m}, {\itshape VideoViewerViewController.m}, {\itshape AudioPlayerViewController.m}. Osservando le due tabelle potrebbe sembrare che il numero di statement, quindi il valore delle Logical SLOC, dei vari file è di molto inferiore al corrispettivo valore del Physical SLOC: questo comportamento è in parte dovuto all'inserimento di qualche commento o spazio bianco, ma la causa principale risiede nel modo in cui abbiamo definito gli statement all'interno delle classi Objective-C del progetto. Laddove possibile abbiamo, infatti, cercato di compattare in una singola riga di codice più chiamate a funzione, in modo da evitare la dichiarazione e utilizzo di un numero eccessivo di variabili.
+\\
+Per il file {\itshape MainStoryboard.storyboard} le Tabelle \ref{tab:multorigIOS} e \ref{tab:multmodIOS} e la Figura \ref{graf:multstoryboard} mostrano che il valore del Physical SLOC è inferiore nell'applicazione modificata: così come per l'applicazione Valtellina, il motivo di questa diminuzione è ancora da ricercarsi nella pulizia automatica del codice XML interno alla Storyboard al momento dell'importazione dei sorgenti in Xcode. Confrontando invece il valore dei due Logical SLOC, si osserva un numero maggiore di statement nell'applicazione completa, determinato dall'inserimento di outlet per gestire manualmente via codice i contenuti degli elementi grafici della gallery dell'applicazione.
+\\\\
+Il progetto dell'applicazione Multimedia completa, come mostrato in Figura \ref{graf:multrighetotios}, richiede, per i file .m, .h e per la Storyboard, un totale di 1931 Physical SLOC, di cui il generatore di codice ha prodotto rispettivamente 1910 Physical SLOC, coprendo cosi il 98,9\% delle righe di codice. Considerando invece le Logical SLOC, l'applicazione completa richiede in totale 969 statement, di cui 476 risiedono nel file della Storyboard, mentre il generatore di codice ha prodotto 899 Logical SLOC totali, di cui 448 interni alla Storyboard. Perciò la percentuale di statement coperta per la totalità del codice risulta essere circa del 92,8\%, mentre per la Storyboard il generatore è riuscito a produrre il 94\% degli statement. Questi risultati vanno considerati tenendo sempre presente che sono state escluse considerazioni di restyling della veste grafica dell'applicazione.
+\begin{figure} [h!]
+\centering
+\includegraphics[width=\textwidth]{Figure/Cap5/MultStoryboard.pdf}
+\caption{{\itshape Multimedia}: grafico rappresentante le righe di codice del file MainStoryboard.storyboard.}
+\label{graf:multstoryboard}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth , height =\textheight]{Figure/Cap5/MultClassiIOS.pdf}[h!]
+\caption{{\itshape Multimedia}: grafico rappresentante le righe di codice dei principali file dell'applicazione iOS.}
+\label{graf:multclassiIOS}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{Figure/Cap5/MultGraficoRigheTotaliIOS.pdf}[h!]
+\caption{{\itshape Multimedia}: grafico rappresentante le righe di codice totali dell'applicazione iOS.}
+\label{graf:multrighetotios}
+\end{figure}
+\subsection{Vincoli di valutazione}
+\clearpage
+\section{Valutazione qualitativa}
+Dopo aver cercato di dare una valutazione quantitativa del generatore di codice, analizzando i sorgenti delle due semplici applicazioni Valtellina e Multimedia, in questa sezione proviamo a valutare qualitativamente come l'uso del generatore possa impattare sullo sviluppo di un'applicazione mediamente complessa.
+\\\\
+L'ambito di utilizzo per cui questo progetto è nato ed è stato portato avanti, è quello dello sviluppo di applicazioni native. In particolare il tool è stato pensato in modo da permettere ai team che si occupano dello sviluppo di una stessa applicazione per piattaforme diverse, di condividere la fase di progettazione dell'applicazione, definendo un'istanza del metamodello e producendo i sorgenti Android e iOS corrispondenti, che costituiscono il punto di partenza della fase di implementazione dell'applicazione. L'opportunità di avere uno strumento che permette di definire applicazioni parzialmente o completamente funzionali attraverso un approccio model-driven può velocizzare il processo di sviluppo dell'applicazione. Sebbene il principale beneficio sia la diminuzione dei tempi per lo sviluppo, l'utilizzo del tool può impattare anche sull'effort richiesto dai membri dei team di sviluppo, che in questo modo non si trovano a dover partire dal nulla nella fase di design e di implementazione.
+\\\\
+Oltre alla definizione di un'applicazione totalmente nuova, il tool può essere usato anche nel momento in cui esiste già una versione dell'applicazione e si intende rinnovarla, oppure nel caso in cui è già stata sviluppata per una specifica piattaforma e si rende necessario implementare la stessa applicazione per un sistema operativo differente. Per quanto riguarda la definizione di una nuova versione di un'applicazione sviluppata per una certa piattaforma, difficilmente l'utilizzo del tool può essere la soluzione più indicata: è da valutare se il rinnovamento con un approccio model-driven di quella specifica applicazione implica una ridefinizione di parti esistenti nella vecchia versione oppure no. Diverso è il caso della definizione di una versione della stessa applicazione per una piattaforma diversa, dove l'utilizzo del tool può determinare un punto di partenza interessante nella fase di sviluppo. 
+\\\\
+Per valutare qualitativamente l'impatto del tool sullo sviluppo di più versioni di una stessa applicazione abbiamo considerato l'applicazione {\itshape Franciacorta}, di cui esistono già le versioni iOS e Android. La prima è presente sull'Apple Store dal 2011 all'url \url{http://itunes.apple.com/it/app/franciacorta/id441208456?mt=8}, mentre la seconda è stata rilasciata sul Google Play Store nell'Aprile di quest'anno ed è scaricabile dall'url \url{http://play.google.com/store/apps/details?id=net.franciacorta.android}.
+\begin{figure}[h!]
+\centering
+\subfigure
+{\includegraphics[width=0.25\textwidth]{Figure/Cap5/NewsList.png}}
+\hspace{5mm}
+\subfigure
+{\includegraphics[width=0.25\textwidth]{Figure/Cap5/NewsDetail.png}}
+\caption{{\itshape Franciacorta}: schermate tratte dall'applicazione Android.}
+\label{fig:franciacorta}
+\end{figure}
+In Figura \ref{fig:franciacorta} sono riportate alcuni screenshot della versione Android, ma la struttura e le schermate delle due applicazioni sono molto simili, nonostante rispecchino le caratteristiche di design della specifica piattaforma di appartenenza. Gli screenshot riportati in figura sono quelli relativi alle news inerenti il territorio, ma l'applicazione comprende altre sezioni in cui si possono visualizzare gli itinerari pedonali e ciclo-pedonali della zona, i locali e le attività commerciali, alcune fotografie, un video e una descrizione del territorio e del consorzio di vini Franciacorta.
+\\\\
+Immaginiamo ora di avere a disposizione la versione iOS dell'applicazione e di voler sviluppare quella Android, immedesimandoci così nel team di sviluppo che si è dedicato alla realizzazione della stessa all'inizio di quest'anno. Attraverso il tool è possibile definire in maniera semplice il modello dell'applicazione, sulla base della struttura dell'applicazione iOS esistente. Non possiamo chiaramente aspettarci di riuscire a produrre un modello che possa garantire la generazione dell'applicazione completa, infatti uno dei limiti principali della fase di modellazione è quello di non permettere allo sviluppatore di definire le parti algoritmiche dell'applicazione.
+\\\\
+Innanzitutto Franciacorta presenta numerosi task asincroni, finalizzati a salvare e recuperare informazioni dalla memoria del dispositivo, e a gestire uno scambio dati con un server remoto. Per esempio, nella sezione delle notizie, rappresentata in Figura \ref{fig:franciacorta}, in caso di connessione a Internet disponibile l'applicazione richiede la lista aggiornata delle news al server centrale, in caso contrario estrae gli ultimi dati memorizzati dalla memoria interna del dispositivo. Quello che è possibile fare a livello di modello è limitarsi a definire i nomi di questi task asincroni e rimandare alla fase successiva di revisione dei sorgenti prodotti l'implementazione delle parti algoritmiche. \\
+Oltre a queste limitazioni è richiesta la definizione della logica applicativa che determina la transizione da un ViewController contenente una lista al ViewController di dettaglio, lo stesso problema riscontrato nelle applicazioni Valtellina e Multimedia descritte in precedenza, che in genere richiede però l'aggiunta di poche righe di codice. Infine l'applicazione presenta un'interfaccia grafica particolarmente curata, che il generatore non è capace di riprodurre automaticamente, per cui, in questo caso, è richiesto un effort abbastanza sostanzioso allo sviluppatore che intende utilizzare il generatore di codice e replicare la veste grafica dell'applicazione originale.
+\\\\
+Queste considerazioni, che possono essere generalizzate, valgono naturalmente anche nel caso della situazione opposta, ovvero lo sviluppo della versione iOS a partire da quella Android. Quindi, nel caso in cui esista già una versione di una certa applicazione, un approccio di questo tipo può portare dei vantaggi, che riguardano il fatto di poter sfruttare l'applicazione esistente per definire in poco tempo l'istanza del metamodello e quindi riuscire ad avere i sorgenti da cui partire per completare l'applicazione. Tuttavia non mancano  degli aspetti negativi legati principalmente all'impossibilità di modellare la logica applicativa e alla grafica minimale che richiede di essere personalizzata.
+\\\\
+L'esempio presentato mira a chiarire che è sempre possibile sfruttare un approccio di questo tipo nello sviluppo di applicazioni mobili, ma il tool non può annullare completamente il lavoro di implementazione dell'applicazione, nonostante possa rivelarsi uno strumento decisamente interessante a disposizione dei programmatori per dispositivi mobili, in quanto permette di velocizzare e rendere uniforme lo sviluppo di una stessa applicazione per più piattaforme, a partire da Android e iOS.
+
+\section{Conclusioni}
+In questo capitolo abbiamo dato una valutazione quantitativa e qualitativa al risultato del lavoro di tesi, che si concretizza nella produzione di uno strumento in grado di offrire un approccio alternativo a quello classico nativo e a quelli cross-platform di cui abbiamo ampiamente discusso nei primi capitoli. \\
+La valutazione quantitativa è stata svolta considerando due piccole applicazioni, dove i risultati sembrano essere rilevanti. Sebbene per entrambi il generatore copra più del 90\% dei sorgenti necessari, raggiungendo un ottimo risultato, bisogna tenere presente che considerare solo due applicazioni non particolarmente estese, non è statisticamente sufficiente a dimostrare la positività dell'impatto del tool sullo sviluppo di applicazioni mobili. \\
+Invece, da un punto di vista qualitativo abbiamo fatto delle considerazioni generali sulle possibili situazioni in cui è indicato l'utilizzo dello strumento. Nello specifico abbiamo visto quali possono essere i principali benefici e svantaggi che nascono dall'impiego di un approccio model-driven allo sviluppo di applicazioni mobili. Tra le limitazioni dello strumento abbiamo in particolare riscontrato il fatto di non riuscire a coprire le parti algoritmiche e definire una grafica personalizzata. Inoltre, analizzando l'applicazione Franciacorta abbiamo considerato un caso concreto in cui si possa giudicare necessario lo sviluppo di una nuova versione di un'applicazione esistente.
+\\\\
+Rimane un unico punto sul quale non ci siamo soffermati, vale a dire la valutazione dell'utilizzo del solo metamodello astratto, che può avvenire per la definizione della struttura ad alto livello di un'applicazione che dovrà essere installata su un'unica piattaforma o su diverse piattaforme, differenti da quelle Android e iOS. Un metamodello a così alto livello si presenta come un generico strumento di modellazione per dispositivi mobili di facile interpretazione, in quanto permette di modellare in maniera molto semplice una qualsiasi applicazione, astraendo dalla specifica piattaforma per cui la si vuole realizzare. Quindi, non è da escludere che possa offrire dei benefici se utilizzato come strumento stand-alone.

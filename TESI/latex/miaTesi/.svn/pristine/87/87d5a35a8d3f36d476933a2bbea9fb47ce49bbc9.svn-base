@@ -1,0 +1,89 @@
+\chapter*{Lista dei simboli} \addcontentsline{toc}{chapter}{Lista dei simboli}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dell'introduzione
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Lista dei simboli}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{Lista dei simboli}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{}
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+\section*{Simboli}
+
+\begin{tabular}{p{1.2cm}|p{12.6cm}}
+$a$                & velocità del suono\\
+$A$                & velocità del suono adimensionale\\
+$a_A$							 & livello entropico\\	
+$A_A$              & livello entropico adimensionale\\
+$A$                & area del connettore \\
+$c_p$							 & calore specifico a pressione costante\\
+$c_v$              & calore specifico a volume costante\\
+$D$                & diametro del condotto\\
+$E$								 & energia interna del fluido\\
+$e$                & energia interna specifica del fluido\\
+$f$                & coefficiente di attrito\\
+$F$                & area della sezione trasversale del condotto\\
+$H$                & entalpia del fluido\\
+$h$                & entalpia specifica del fluido\\
+$k$                & rapporto tra i calori specifici $c_p/c_v$ \\
+$\dot{m}$          & portata massica\\
+$p$                & pressione del fluido\\
+$q$                & calore scambiato per unità di tempo e di massa\\
+$R$								 & costante equazione di stato dei gas \\
+$s$                & entropia \\
+$t$                & istante temporale\\
+$T$								 & temperatura del gas \\
+$u$                & velocità del fluido lungo l'asse del condotto\\
+$U$							   & velocità adimensionale del fluido lungo l'asse del condotto\\	
+$\mathbf{U}$       & vettore velocità del fluido\\
+$V$							   & volume\\
+$x$                & ascissa curvilinea del condotto\\
+$X$                & ascissa curvilinea adimensionale del condotto\\
+$Z$                & tempo adimensionale\\
+\end{tabular}
+
+\newpage
+
+\section*{Simboli}
+\begin{tabular}{{p{1.2cm}|p{12.6cm}}}
+$\Delta t$         & passo temporale\\
+$\Delta x$         & distanza tra due nodi consecutivi del condotto\\
+$\lambda$          & variabile di Riemann\\
+$\beta$            & variabile di Riemann\\
+$\xi$              & coefficiente di riflessione \\
+$\rho$             & densità del fluido\\
+\end{tabular}
+
+
+
+\section*{Pedici}
+
+\begin{tabular}{{p{1.2cm}|p{12.6cm}}}
+$_0$                & grandezza termodinamica totale \\
+$_c$                & cella\\
+$_C$								& grandezza corretta \\
+$_{end}$            & grandezza riferita alla sezione terminale di un condotto\\
+$_L$                & sinistra\\
+$_n$ 								& componente normale\\
+$_p$                & connettore\\
+$_R$                & destra\\
+$_{ref}$            & grandezza di riferimento\\
+\end{tabular}
+
+
+\section*{Apici}
+\begin{tabular}{{p{1.2cm}|p{12.6cm}}}
+$^+$								& onda incidente\\
+$^-$								& onda riflessa\\
+$^*$                & grandezza asteriscata\\
+$^n$                & n-esimo istante temporale\\
+\end{tabular}
+
+%\section*{Simboli matematici}
+%\begin{tabular}{{p{1.2cm}|p{12.6cm}}}
+%$\partial$                & derivata parziale\\
+%$\nabla$                  & divergenza \\
+%\end{tabular}
+
+\cleardoublepage

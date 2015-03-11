@@ -11,8 +11,8 @@ numberFractures = 1
 
 [dataTime]
 
-        endTime = 10.
-        
+        endTime = 0.5
+		dt = 0.02        
 [../]
 
 [mediumData]
@@ -37,7 +37,7 @@ numberFractures = 1
 
 
 
-[fractureData0]														
+[fractureData1]														
 
 spaceDimension = 1.
 	
@@ -61,7 +61,7 @@ spaceDimension = 1.
 			
 	        a = 0.
 	        b = 2.
-			spatialDiscretization = 160
+			spatialDiscretization = 160  # 20 #160
 	        translateAbscissa = 0.
 	        lengthAbscissa = 2 #0.5
 	        lengthOrdinate = 0.
@@ -116,7 +116,7 @@ spaceDimension = 1.
 
 
 
-[fractureData1]														
+[fractureData0]														
 
 spaceDimension = 1.
 	
@@ -128,6 +128,8 @@ spaceDimension = 1.
 			levelSetCut = -1
 			yMap = 1
 			xMap = 2.*t
+			
+			jacMap = [1.]
 			normalMap = [1.,1.]
 			
 		[../]
@@ -140,7 +142,7 @@ spaceDimension = 1.
 			
 	        a = 0.
 	        b = 2.
-			spatialDiscretization = 160
+			spatialDiscretization = 80  # 80 #20 #160
 	        translateAbscissa = 0.
 	        lengthAbscissa = 2 #0.5
 	        lengthOrdinate = 0.
@@ -154,10 +156,8 @@ spaceDimension = 1.
 
 			numberFlux = 2
 			x0 = 1.
-            bc = g
             u0 = 0.66  # 1.-1.*(x<0.)  #1.*(x>0.)  
-			cfl = 1.5
-			U = 1.
+
 			invPorosity = 1.
 
 			[./fluxData0]	# sinistra
@@ -169,8 +169,8 @@ spaceDimension = 1.
 				us = 0.5 
 				us_meno = -0.7712
 				us_piu = 1.7712
-				uin = 0.25
-				uout = 0.66
+				bc1 = 0.25
+				bc2 = 0.66
 				
 			[../]
 			
@@ -183,8 +183,8 @@ spaceDimension = 1.
 				us = 0.3333333333
 				us_meno = 0.2659
 				us_piu =  0.7341
-				uin = 0.25
-				uout = 0.66
+				bc1 = 0.25
+				bc2 = 0.66
 				
 			[../]
 			

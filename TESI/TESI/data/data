@@ -1,0 +1,193 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parametri per il problema di saturazione                                %
+% caso con funzione flusso discontinua									  %
+% funzioni articolo Kaasschieter										  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 1
+
+[dataTime]
+
+        endTime = 0.5
+        
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 300.
+                lengthOrdinate = 300.
+                lengthQuota = 300.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+
+[../]
+
+
+
+
+[fractureData0]														#1a
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x+0.4-0.4*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = -0.4+0.4*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x-0.4
+			
+	        a = -0.4
+	        b = 0.
+			spatialDiscretization = 80
+	        translateAbscissa = -0.4
+	        lengthAbscissa = 0.4 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+			x0 = 0.
+            bc = g
+            u0 = 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+			cfl = 0.2 # 0.8 # 0.18 # 1.4
+			U = 1.
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = -x*x*(1.-x)*(1.-x)*0.5/(x*x+(1.-x)*(1.-x))
+				f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/(x^2-x+0.5)^2  
+				monotone = false
+				h = 2
+				us = 0.5 
+				us_meno = -0.7712
+				us_piu = 1.7712
+				uin = 0.
+				uout = 0.25
+				
+			[../]
+			
+			[./fluxData1] # destra
+			
+				f = -x*x*(1.-x)*(1.-x)/(x*x+(1.-x)*(1.-x))
+				f1 = -2*x*(2*x^4-5*x^3+6*x^2-4*x+1)/(2*x^2-2*x+1)^2  
+				monotone = false
+				h = 2
+				us = 0.5
+				us_meno = 0.2659
+				us_piu =  0.7341
+				uin = 0.
+				uout = 0.25
+				
+			[../]
+			
+        [../]
+
+
+[../]
+
+
+[fractureData1]														#1a
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-0.4*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 0.4*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 0.4
+			spatialDiscretization = 80
+	        translateAbscissa = 0.
+	        lengthAbscissa = 0.4 #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+			x0 = 0.
+            bc = g
+            u0 = 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+			cfl = 0.2 # 0.8 # 0.18 # 1.4
+			U = 1.
+			invPorosity = 1.
+
+			[./fluxData1]	# sinistra
+			
+				f = -x*x*(1.-x)*(1.-x)*0.5/(x*x+(1.-x)*(1.-x))
+				f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/(x^2-x+0.5)^2  
+				monotone = false
+				h = 2
+				us = 0.5 
+				us_meno = -0.7712
+				us_piu = 1.7712
+				uin = 0.
+				uout = 0.25
+				
+			[../]
+			
+			[./fluxData0] # destra
+			
+				f = -x*x*(1.-x)*(1.-x)/(x*x+(1.-x)*(1.-x))
+				f1 = -2*x*(2*x^4-5*x^3+6*x^2-4*x+1)/(2*x^2-2*x+1)^2  
+				monotone = false
+				h = 2
+				us = 0.5
+				us_meno = 0.2659
+				us_piu =  0.7341
+				uin = 0.
+				uout = 0.25
+				
+			[../]
+			
+        [../]
+
+
+[../]

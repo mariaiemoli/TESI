@@ -1,0 +1,43 @@
+%---------------------------------------------------------------------------------------------%
+%Separazione delle parole
+%---------------------------------------------------------------------------------------------%
+%
+%Separazione vocaboli
+\hyphenation{ge-ne-ra-zio-ne   ge-ne-ra-zio-ni} 
+\hyphenation{pro-gress-dia-log pro-gress-dia-logs}
+\hyphenation{iOS-And-Android-Generator}
+\hyphenation{off-line}
+\hyphenation{AssociationEnd}
+\hyphenation{SQLite}
+\hyphenation{Eclipse}
+\hyphenation{fileUri}
+\hyphenation{Win-dows}
+%---------------------------------------------------------------------------------------------%
+%Definzione di nuovi comandi e modifica di comandi già presenti
+%---------------------------------------------------------------------------------------------%
+%
+
+%Definizione comandi
+\newcommand{\mobile}{{\itshape mobile }} %mette in corsivo la parola mobile
+\renewcommand{\cap}{\^{}}
+%\renewcommand{\refname}{Bibliografia e Sitografia}
+%\renewcommand{\bibname}{Bibliografia e Sitografia}
+
+
+%Definizione colori
+\definecolor{fuchsia}{HTML}{FF00FF}
+\definecolor{purple}{HTML}{800080}
+\definecolor{navy}{HTML}{000080}
+\definecolor{green}{HTML}{008000}
+
+
+%---------------------------------------------------------------------------------------------%
+%Dimensione di capitoli, sezioni, ecc.
+%---------------------------------------------------------------------------------------------%
+%Dimensioni del font di capitolo, sezioni e sottosezioni (pacchetto "sectsty")
+\chapterfont{\LARGE \bf} %LARGE=20pt
+\sectionfont{\large \bf} %large=14pt Large=17pt
+\subsectionfont{\normalsize \bf} %normalsize=12pt large=14pt
+%Dimensione delle scritte "Figura" e "Tabella"
+\renewcommand{\figurename}{\footnotesize{Figura}} %footnotesize=10pt
+\renewcommand{\tablename}{\footnotesize{Tabella}}

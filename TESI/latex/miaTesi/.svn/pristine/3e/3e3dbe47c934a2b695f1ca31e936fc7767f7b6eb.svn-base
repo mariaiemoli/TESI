@@ -1,0 +1,486 @@
+\chapter{Generatore di codice} \label{cap:GeneratoreDiCodice}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Capitolo \thechapter}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot[]{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+Prima di iniziare l'implementazione abbiamo valutato, tra gli strumenti software esistenti, quelli che ci permettessero di definire il metamodello implementativo e di generarne, attraverso un editor grafico, una sua istanza che rappresenti il modello dell'applicazione desiderata. A partire dall'istanza ci siamo poi preoccupati di generare i sorgenti nativi corrispondenti per le diverse piattaforme mobili presenti sul mercato, tra cui Android e iOS, che nel nostro lavoro costituiscono i target del processo di traduzione del modello in codice.\\
+In questo capitolo partiremo pertanto con la presentazione degli strumenti e tecnologie utilizzati in fase di implementazione, per poi descrivere dettagliatamente la struttura del progetto realizzato, ovvero il generatore di codice. Inoltre presenteremo le regole e le notazioni da seguire al momento della definizione dell'istanza del metamodello per la corretta generazione dei sorgenti corrispondenti e analizzeremo l'output della fase di traduzione del modello in codice prodotto per ciascuno degli elementi modellati.
+ 
+\section{Tecnologie utilizzate}
+Durante l'implementazione abbiamo utilizzato l'ambiente di sviluppo Eclipse, e in particolare la distribuzione {\bfseries Juno 4.2} contenente la versione 1.0 di {\bfseries Epsilon}, che costituisce una famiglia di linguaggi e di strumenti utili per la generazione del codice, per la trasformazione da un modello ad un altro e per la validazione dei modelli ~\cite{online:epsilon}. Abbiamo scelto questa distribuzione principalmente perché offre supporto al framework di modellazione {\bfseries EMF}, che verrà descritto di seguito e che rappresenta un potente strumento per la definizione e la gestione di modelli. Oltre ad EMF, Epsilon offre numerosi altri strumenti interessanti, tra cui EuGENia, che costituisce un tool utile per la costruzione di un editor grafico GMF a partire da un metamodello definito con EMF. Come vedremo, la creazione di un editor grafico personalizzato per la definizione di un'istanza del metamodello rientra comunque tra i possibili sviluppi futuri del nostro lavoro.\\
+Attraverso questa distribuzione di Eclipse siamo riusciti a sfruttare le funzionalità offerte dal framework EMF per la definizione, attraverso un editor grafico minimale, del metamodello implementativo. Aggiungendo alcuni plugin all'ambiente di sviluppo siamo riusciti, inoltre, a sfruttare gli strumenti del framework {\bfseries openArchitectureWare} che, come vedremo in questo capitolo, è finalizzato alla definizione della traduzione di un'istanza del metamodello in codice.
+
+\subsection{Eclipse Modeling Framework}
+E' un framework per la modellazione e la generazione del codice di applicazioni basate su un modello di dati strutturato ~\cite{online:emf}. In particolare EMF mette a disposizione diversi strumenti con un'interfaccia grafica semplice per la definizione di un metamodello e la generazione di una sua istanza. A partire dall'istanza è possibile poi produrre classi Java, senza utilizzare altri strumenti all'infuori di quelli offerti da EMF. L'utilizzo esclusivo di questo strumento non ci permette di generare il codice nativo dell'applicazione per le diverse piattaforme mobili, per questo abbiamo deciso di utilizzarlo unicamente per la definizione del metamodello implementativo e per la generazione di sue istanze. Il metamodello implementativo è stato salvato in un file .ecore chiamato 	{\itshape metamodel.ecore}, interno al progetto, mentre l'istanza dinamica generata dallo sviluppatore viene salvata in un file .xmi, del quale l'utente può scegliere il nome, che dovrebbe corrispondere a quello dell'applicazione che intende sviluppare.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale = 0.50]{Figure/Cap4/ecore+xmi.pdf}
+\caption{{\itshape Esempio}: parte di un file .ecore e parte di un file .xmi}
+\label{fig:ecore+xmi}
+\end{figure}
+In Figura \ref{fig:ecore+xmi}, a titolo d'esempio, è riportata parte della struttura di un file .ecore, che costituisce il metamodello implementativo, e di un file .xmi, che rappresenta una sua istanza.
+\\
+Una volta creata l'istanza del metamodello, ovvero il modello dell'applicazione, siamo interessati a generare i sorgenti corrispondenti per le piattaforme mobili Android e iOS: come anticipato in precedenza, per definire il processo di traduzione del modello in codice abbiamo deciso di appoggiarci ai componenti del framework openArchitectureWare.
+
+\subsection{openArchitectureWare}
+E' un framework sviluppato in Java utile per la validazione e la trasformazione dei modelli in codice ~\cite{online:oaw}. Tale strumento fornisce un ottimo supporto per i modelli definiti con EMF, ma è in grado di parsare anche modelli UML2, XML o JavaBeans. \\
+La piattaforma oAW offre diversi strumenti, che consentono di sviluppare l'applicazione in modo modulare, generando codice in un qualsiasi linguaggio di programmazione. Il cuore di questa architettura è il Modeling Workflow Engine (MWE), il quale permette di inglobare diversi componenti, ciascuno con una propria funzionalità, che concorrono alla corretta generazione del codice sulla base del metamodello e del modello dell'applicazione definito dallo sviluppatore. Gli strumenti di oAW che abbiamo utilizzato durante l'implementazione sono elencati di seguito e descritti in dettaglio nei paragrafi successivi.
+\begin{itemize}
+\item {\itshape Xpand}: per definire i template di traduzione del modello in codice.
+\item {\itshape Xtend}: per aggiungere alle funzionalità offerte da Xpand le potenzialità del linguaggio Java.
+\item {\itshape Check}: per validare il modello dell'applicazione.
+\item{\itshape Modeling Workflow Engine}: per integrare i diversi componenti che devono essere processati per la generazione del codice.
+\end{itemize}
+Tutti questi componenti del framework sono stati recentemente incorporati nell'Eclipse Modeling Project (EMP), che costituisce un progetto mirato alla diffusione e promozione di tecnologie di sviluppo model-based attraverso la community Eclipse.
+\\\\
+{\bfseries Xpand} è un framework progettato con lo scopo di fornire allo sviluppatore un linguaggio per creare output testuali partendo da modelli EMF Ecore, Eclipse UML2, JavaBeans o XMLSchema ~\cite{documentation:xpand}. In particolare Xpand permette di definire uno o più template, ovvero file con estensione .xpt per definire l'effettiva traduzione del modello in codice. Tramite questo strumento è possibile produrre pezzi di codice in un qualsiasi linguaggio di programmazione, in quanto è in grado di generare tutto ciò che può essere espresso in forma testuale. Definendo opportunamente i template possiamo quindi sfruttare Xpand per generare i sorgenti nativi per una qualsiasi piattaforma mobile.\\
+Nel nostro caso, una volta definito il metamodello in un file .ecore, possiamo creare dei template per mappare gli elementi modellati sui pezzi di codice da generare per la specifica piattaforma.\\
+Per citare un esempio ipotizziamo che l'utente intendesse inserire un elemento Button in un ViewController all'interno dell'istanza del metamodello. Il generatore di codice dovrebbe generare il codice per la gestione del bottone all'interno del file del ViewController in cui è stato definito e, per fare in modo che questo accada, è necessario implementare dei template, ovvero dei file che definiscano il mapping richiesto. Come vedremo in dettaglio nella seconda parte del capitolo, durante l'implementazione abbiamo definito due file Xpand per ciascun elemento del metamodello implementativo, suddividendo in cartelle diverse i file finalizzati alla produzione di codice Java per Android, da quelli finalizzati alla produzione di codice Objective-C per iOS. Il framework Xpand dispone infatti di numerose potenzialità, che permettono, attraverso un linguaggio con una sintassi particolarmente semplice, di avere flessibilità nella definizione dei template e quindi nella gestione dei file del progetto. \\
+All'inizio di qualsiasi template Xpand viene sempre eseguito l'import del metamodello sulla base del quale deve essere generato il codice. Nello stesso file vengono quindi delineate le traduzioni da compiere e, facendo uso dei costrutti ``extend'' e ``define'', è possibile includere template dislocati su altri file esterni, rendendo così modulare e comprensibile la struttura del progetto. In Figura \ref{code:Xpand} è riportato un pezzo di un template Xpand, estratto dal progetto del generatore di codice che presenteremo tra poco, dove si può osservare l'importazione del metamodello implementativo e l'utilizzo di altri costrutti scritti in maiuscolo appartenenti alla sintassi Xpand.
+\begin{figure} [h!]
+\centering
+{\alltt{\footnotesize{
+«{\textcolor{purple}{IMPORT}} metamodel»
+«{\textcolor{purple}{DEFINE}} buttons FOR ViewController-»
+«{\textcolor{purple}{FOREACH}} buttons {\textcolor{purple}{AS}} b-»
+«{\textcolor{purple}{IF}} b.clickListener!={\textcolor{purple}{null}} && b.clickListener.navigation=={\textcolor{purple}{null}}-»
+{\textcolor{navy}{-(IBAction)}}«b.id»{\textcolor{navy}{ClickAction:(UIButton *)sender {
+	//TODO Implement the action}}}
+«{\textcolor{purple}{ENDIF}}-»
+«{\textcolor{purple}{ENDFOREACH}}-»
+«{\textcolor{purple}{ENDDEFINE}}-»
+}}}
+\caption{{\itshape Esempio}: parte di un file Xpand}
+\label{code:Xpand}
+\end{figure}
+Nell'esempio si vuole in particolare inserire un metodo Objective-C per la gestione dell'azione da svolgere al momento del click di un bottone che non rappresenti un NavigationStarter, la cui logica applicativa dovrà essere in seguito implementata dallo sviluppatore.
+\\
+Oltre a Xpand, il framework oAW mette a disposizione il linguaggio Xtend, che permette di aggiungere nuove funzionalità a quelle offerte da Xpand.
+\\\\
+{\bfseries Xtend} è un linguaggio di programmazione che permette di sfruttare le potenzialità offerte dal linguaggio Java durante il processo di traduzione del modello in codice. Grazie a Xtend è infatti possibile definire dei metodi all'interno di una classe Java e chiamarli dai template Xpand, a patto di inserire il mapping all'interno di un file Xtend (con estensione .ext) e importare tale file all'interno del template facendo uso del costrutto ``extension''.
+\begin{figure}[h!]
+\centering
+{\alltt{\footnotesize{
+{\textcolor{purple}{import}} metamodel;
+Void deleteApplicationFolder():
+\hspace{3mm} {\textcolor{purple}{JAVA}} android_extensions.AndroidJavaUtil.deleteApplicationFolder();
+Void copyDefaultAndroidFiles():
+\hspace{3mm} {\textcolor{purple}{JAVA}} android_extensions.AndroidJavaUtil.copyDefaultAndroidFiles();
+Void copyUserFiles():
+\hspace{3mm} {\textcolor{purple}{JAVA}} android_extensions.AndroidJavaUtil.copyUserFiles();
+}}}
+\caption{{\itshape Esempio}: parte di un file Xtend}
+\label{code:Xtend}
+\end{figure}
+\\
+In Figura \ref{code:Xtend} è riportato a titolo di esempio un file Xtend estratto dal nostro progetto. Come per i file .xpt la prima riga di codice è finalizzata all'importazione del metamodello, mentre a seguire si trovano le dichiarazioni dei metodi del file Java che possono essere invocati dai template Xpand. Ciascuna dichiarazione presenta a sinistra il nome con il quale il metodo può essere chiamato dai file Xpand attraverso la notazione «nome$\_$del$\_$metodo», mentre a destra è riportato il nome del metodo all'interno del file Java. In questo modo avviene la mappatura tra il nome usato dai template Xpand al momento dell'invocazione e il nome reale presente nella classe Java. I file Java definiti dallo sviluppatore sono comuni classi Java pertanto possono contenere metodi e attributi ausiliari che non devono essere necessariamente mappati dai file Xtend.\\
+Tuttavia i file .ext non sono utilizzati unicamente come mediatori per l'accesso a metodi di classi Java, in quanto possono contenere anche delle operazioni specifiche, definite in linguaggio Xtend. Come vedremo tra poco abbiamo sfruttato questa funzionalità di Xtend al momento della validazione del modello dell'applicazione, attraverso il linguaggio Check.
+\\\\
+{\bfseries Check} è un linguaggio fornito da openArchitectureWare per specificare i vincoli che il modello dell'applicazione definito dall'utente deve adempiere per garantire la corretta generazione del codice corrispondente. Un file Check, con estensione .chk, è costituito da un insieme di espressioni, che fanno riferimento agli elementi del metamodello EMF da cui è stata generata l'istanza dell'applicazione, e che fanno uso della logica matematica e di un sottoinsieme delle funzioni Java esistenti. Per esempio, nelle espressioni scritte con Check, si possono usare i quantificatori ``forall'' ed ``exist'' della logica, e funzioni Java come ``split'' e ``matches'', utilizzate principalmente sulle stringhe.\\
+Sfruttando questo linguaggio è possibile controllare che i testi inseriti dall'utente in fase di definizione dell'istanza non contengano caratteri proibiti, oppure eseguire controlli di altro genere, come verificare che gli id assegnati agli elementi dell'applicazione non violino una certa espressione regolare e siano univoci. Proprio ai fini di effettuare dei controlli più articolati è possibile definire un file Xtend che, come avviene per i template Xpand, affianchi i file .chk offrendo la possibilità di chiamare metodi Java o eseguire operazioni definite in linguaggio Xtend. Nel nostro caso abbiamo sfruttato questa funzionalità per effettuare dei controlli sugli id degli elementi del metamodello: per verificare l'univocità di questi attributi abbiamo infatti costruito un array all'interno di un file Xtend contenente tutti gli id degli elementi del modello, per poi richiamarlo al momento opportuno dal file di Check.
+\begin{figure} [h!]
+\centering
+{\alltt{\footnotesize{
+{\textcolor{purple}{import}} metamodel;
+{\textcolor{purple}{extension}} model_checks::Extensions;
+
+{\textcolor{purple}{context}} Application {\textcolor{purple}{ERROR}} {\textcolor{navy}{"Application name '"}}+name+
+{\textcolor{navy}{"' must match the regular expression ^[a-zA-Z]+" }}:
+\hspace{10mm} validAppName(name)==true;
+
+{\textcolor{purple}{context}} Application {\textcolor{purple}{ERROR}} {\textcolor{navy}{"Names of ViewControllers must be unique.}}
+{\textcolor{navy}{Duplicates: "}} + duplicatedIds(viewControllers.name) :
+\hspace{10mm} duplicatedIds(viewControllers.name).size==0;
+
+{\textcolor{purple}{context}} Application {\textcolor{purple}{ERROR}} {\textcolor{navy}{"Ids must be unique. Duplicates: "}} +
+duplicatedIds(ids()) :
+\hspace{10mm} duplicatedIds(ids()).size==0;
+}}}
+\caption{{\itshape Esempio}: parte di un file Check}
+\label{code:Check}
+\end{figure}
+\\
+In Figura \ref{code:Check} è riportata a titolo d'esempio una parte del nostro file Checks.chk, di cui parleremo successivamente e che abbiamo utilizzato per svolgere tutti i controlli sul modello dell'applicazione. Come per i file Xtend, nella prima riga effettuiamo l'import del metamodello, necessario per accedere agli elementi che lo compongono. Nella seconda riga è riportata la dichiarazione di utilizzo di un file Xtend esterno, contenuto nel package {\itshape model$\_$checks}.
+A seguire sono riportate alcune espressioni che caratterizzano il linguaggio Check: in ogni espressione è richiesto che venga definito il contesto, ovvero l'elemento del modello da controllare e il messaggio da mostrare nel caso in cui la regola definita di seguito non venga soddisfatta dal modello analizzato. Prima di indicare il testo del messaggio è necessario definire il tipo di azione che deve essere eseguita nel caso in cui il vincolo non venga soddisfatto: il vincolo non soddisfatto deve essere classificato come errore, attraverso la keyword ``ERROR'', oppure come warning, utilizzando la keyword ``WARNING''. La differenza risiede nel fatto che nel primo caso viene bloccata l'esecuzione del workflow e quindi la generazione del codice, mentre nel secondo caso viene unicamente mostrato a titolo informativo il messaggio definito nel vincolo. I messaggi vengono riportati in fase di compilazione nella console di Eclipse solo nel caso in cui non venga soddisfatto il vincolo associato, insieme agli eventuali altri errori riscontrati dal Modeling Workflow Engine, che effettua la vera e propria generazione di codice.
+\\\\
+{\bfseries Modeling Workflow Engine} è un framework per l'integrazione e la gestione del workflow di processamento dei modelli ~\cite{documentation:mwe}, che consente di generare un output testuale, nel nostro caso codice nativo Android o iOS, partendo dal modello .xmi dell'applicazione, sfruttando gli strumenti definiti in precedenza. Per eseguire il generatore è necessario definire, all'interno di un file con estensione .mwe scritto con un linguaggio basato su XML, il workflow, ovvero la sequenza di componenti che devono essere processati. Ogni WorkFlowComponent rappresenta una parte del processo di generazione e in genere si tratta di un parser, di un trasformatore del modello o di un generatore di codice.
+All'interno di questo file si definisce solitamente quale modello .xmi e quali template Xpand occorre considerare al momento della traduzione in codice, in quale cartella inserire il codice generato, quali sono i file di Check che contengono i vincoli da verificare, quali operazioni occorre eseguire all'avvio del workflow, etc. Il file .mwe è usato in questo senso come eseguibile per avviare il Workflow Engine e definire tutti i passaggi che portano alla generazione del codice.
+
+\section{Generatore di codice}
+In questa sezione illustreremo la struttura del progetto, e in particolare spiegheremo come abbiamo utilizzato le tecnologie descritte nel paragrafo precedente nel contesto dell'implementazione, che rappresenta il fulcro del lavoro di tesi. I sorgenti del progetto completo sono liberamente scaricabili dal seguente link, dove abbiamo aggiunto a titolo d'esempio anche alcune applicazioni prodotte col generatore di codice:\\
+
+\url{https://github.com/perego-pezzetti/MobileCodeGenerator}.
+\\\\
+Ricordiamo che lo scopo del generatore di codice è permettere allo sviluppatore di definire un'istanza del metamodello implementativo che rappresenti il modello dell'applicazione da sviluppare e, a partire da questa, riuscire a generare automaticamente, lanciando il Workflow Engine, i sorgenti nativi corrispondenti per la piattaforma Android, per la piattaforma iOS o per entrambe. 
+\begin{figure} [h!]
+\centering
+\includegraphics [scale = 0.8]{Figure/Cap4/GeneratoreDiCodice.pdf}
+\caption{{\itshape Generatore di codice}: processo di traduzione}
+\label{fig:generatore_funzionamento}
+\end{figure}
+In Figura \ref{fig:generatore_funzionamento} è mostrato lo schema di funzionamento ad alto livello del processo di traduzione del modello in codice, che prende in input il file .xmi e produce in output i sorgenti nativi.
+\\\\
+In Figura \ref{fig:generatoredicodice1} è mostrata invece la struttura generale del progetto completo, dove le cartelle di maggiore interesse sono due: {\bfseries src} e {\bfseries utils}. La prima contiene tutti i sorgenti intesi come file utili alla definizione del metamodello e alla produzione di un'istanza di esso attraverso il framework EMF, oltre a quelli finalizzati alla generazione del codice definiti attraverso gli strumenti di oAW. 
+\begin{figure}[h!]
+\centering
+\includegraphics [scale=0.7]{Figure/Cap4/strutturaProgetto.pdf}
+\caption{{\itshape Generatore di codice}: struttura generale dei sorgenti}
+\label{fig:generatoredicodice1}
+\end{figure}
+La seconda, come vedremo, contiene tutti i file di supporto per la corretta generazione del codice. Tra i sorgenti ci sono, inoltre, anche tutte le librerie di sistema, i plugin e i file di configurazione necessari (all'interno della cartella {\itshape META-INF}) per garantire il corretto funzionamento del generatore. Vediamo ora nel dettaglio il contenuto delle cartelle src e utils.
+
+\subsection{Cartella {\itshape src}}
+In Figura \ref{fig:src1} è riportata la struttura della cartella src, dove si può notare la presenza di numerose sottocartelle, che a loro volta contengono file diversi con funzioni specifiche nel contesto della modellazione e traduzione del modello in codice. Cercheremo di analizzarle tenendo presente quello che è stato l'obiettivo della fase di implementazione: creare dei template finalizzati alla traduzione di un'istanza del metamodello in codice nativo per le piattaforme Android e iOS. Per quanto riguarda Android, i template sono stati definiti per produrre applicazioni compatibili con qualsiasi smartphone con livello API minimo pari a 8 e scegliendo come target il livello API 17, per iOS invece i template sono stati definiti in modo da produrre applicazioni compatibili con iPhone e iPod Touch, scegliendo come target la versione 6 di iOS.
+\begin{figure}[h!]
+\centering
+\includegraphics [scale=0.7]{Figure/Cap4/strutturaCartellaSRC.pdf}
+\caption{{\itshape Generatore di codice}: cartella src}
+\label{fig:src1}
+\end{figure}
+\\
+Inizieremo, quindi, dall'analisi della cartella {\itshape metamodel}, in cui si trovano il file .ecore e il diagramma che definiscono, in forma testuale il primo e in forma grafica il secondo, il metamodello implementativo delle applicazioni mobili ampiamente descritto in precedenza. Di seguito a metamodel analizzeremo la cartella {\itshape model}, in cui è presente un archivio di tutti i file .xmi, generati dall'utente al momento della definizione del modello dell'applicazione desiderata, e la cartella {\itshape model$\_$checks}, che contiene i file finalizzati alla validazione dei modelli dell'applicazione. L'analisi si conclude con la cartella {\itshape workflow}, che contiene i file MWE per la definizione del workflow del generatore. \\
+Le cartelle rimanenti contengono invece tutti i template Xpand, le estensioni Xtend e le classi Java necessarie per la definizione della traduzione del modello in codice. Non ci addentreremo chiaramente nel dettaglio di tutti questi file, i cui contenuti possono comunque essere visualizzati nel progetto.
+
+\subsubsection{Sottocartella {\itshape metamodel}}
+Abbiamo appena visto che metamodel costituisce la cartella contenente i file definiti attraverso il framework EMF, in cui è delineato il metamodello implementativo con tutti i suoi componenti. Come si può notare in Figura \ref{fig:metamodel}, nonostante vi siano due piattaforme target del processo di generazione del codice, è presente un solo file .ecore per il metamodello (con il relativo diagramma), a conferma che la parte di modellazione astrae dalla specifica piattaforma per cui si intende produrre il codice nativo. I file che verranno presentati di seguito faranno tutti leva sul contenuto di questa cartella e in particolare sul file .ecore, che costituisce il punto di partenza del lavoro di implementazione.
+\begin{figure}[h!]
+\centering
+\includegraphics [scale=0.75]{Figure/Cap4/strutturaCartellaMETAMODEL.pdf}
+\caption{{\itshape Generatore di codice}: cartella metamodel}
+\label{fig:metamodel}
+\end{figure}
+
+\subsubsection{Sottocartella {\itshape model}}
+Questa cartella contiene esclusivamente file con estensione .xmi, proprio perché è finalizzata ad archiviare tutti i modelli delle applicazioni create dall'utente utilizzatore del nostro progetto. Perciò, nel momento in cui il programmatore crea una nuovo modello di applicazione a partire dal metamodello .ecore della cartella {\itshape metamodel}, è preferibile che il file .xmi generato venga salvato all'interno di questa cartella. I modelli di applicazione che abbiamo creato per testare il funzionamento del generatore sono i seguenti:
+\begin{itemize}
+\item {\itshape MethodicalTestApplication.xmi}: modello di un'applicazione priva di utilità pratica, utilizzata esclusivamente per testare la generazione dei pezzi di codice per gli elementi del metamodello implementati. Quello che abbiamo fatto è stato creare un ViewController iniziale composto da una serie di bottoni, ciascuno dei quali conduce ad un nuovo specifico ViewController creato appositamente per testare la generazione del codice per uno certo elemento del metamodello.
+\item {\itshape Multimedia.xmi}: è il primo dei tre esempi di applicazione che abbiamo creato per illustrare il funzionamento del generatore. Si tratta del modello di un'applicazione che mira a sfruttare l'hardware del dispositivo, in particolare la fotocamera, la videocamera e il microfono del dispositivo, per permettere all'utente di scattare delle foto, effettuare dei filmati e delle registrazioni audio che vengono poi salvate in memoria e riproposte all'interno di una gallery. Lo scopo principale di questo modello è stato quello di dimostrare la possibilità di generare un'applicazione in grado di interfacciarsi con le risorse hardware del dispositivo e che possa sfruttare come normali risorse le foto, i video e le registrazioni ricevute.
+\item {\itshape Promemoria.xmi}: è il modello di un'applicazione che consente all'utente di salvare in memoria delle note e cancellarle qualora non fossero più necessarie. Lo scopo di questo modello è mostrare come vengono tradotti in codice gli elementi EditText, Button, ProgressDialog e AlertDialog.
+\item {\itshape Valtellina.xmi}: è il modello di un'applicazione che permette di ricavare informazioni relative alle più rinomate località turistiche della Valtellina. Il modello è stato definito per accertare la corretta traduzione in codice di alcuni elementi dell'interfaccia grafica, tra cui VideoView, ListView, ImageView, TextView e WebView.
+\end{itemize} 
+Come anticipato in precedenza, l'input del processo di generazione dei sorgenti per le piattaforme Android e iOS è costituito proprio dal file .xmi che contiene il modello dell'applicazione.
+\subsubsection{Sottocartella {\itshape model$\_$checks}}
+Si tratta della cartella che contiene tutti i file necessari per validare il modello dell'applicazione che l'utente intende sviluppare. Il file Checks.chk, citato in precedenza come esempio concreto di utilizzo dello strumento Check, è posto all'interno di questa cartella, come è possibile vedere in Figura \ref{fig:model_checks}.
+\begin{figure}[h!]
+\centering
+\includegraphics [scale=0.7]{Figure/Cap4/strutturaCartellaCHECKS.pdf}
+\caption{{\itshape Generatore di codice}: cartella model$\_$checks}
+\label{fig:model_checks}
+\end{figure}
+\\
+All'interno di un unico file abbiamo posto tutti i vincoli che devono essere necessariamente soddisfatti ai fini di garantire allo sviluppatore una generazione corretta dei sorgenti. Nel caso in cui qualcuno dei vincoli definiti non venga soddisfatto il codice non viene generato. Oltre ai vincoli che verificano la sintassi delle stringhe inserite dall'utente e che accertano l'univocità degli identificativi degli elementi del modello, abbiamo definito anche dei vincoli che controllano la coerenza nei riferimenti tra elementi dipendenti l'uno dall'altro. \\
+Per citare un esempio, le risorse provenienti dai componenti hardware del dispositivo (foto, video, registrazioni audio, ...) vengono spesso utilizzate per configurare direttamente un elemento grafico (ImageView, VideoView, AudioPlayer) all'interno di uno specifico ViewController. Ipotizziamo che l'utente intenda associare un AudioPlayer a un AudioRecorder per riascoltare immediatamente l'ultima registrazione effettuata: quello che deve fare nel modello è indicare come audioPlayerId, che è un attributo di AudioRecorder, quello dell'AudioPlayer presente all'interno dello stesso ViewController che intende utilizzare come riproduttore di file registrati col microfono. Un controllo, rappresentato in Figura \ref{code:codeFromChecks}, potrebbe dunque essere quello che verifica che l'id dell'AudioPlayer indicato nell'AudioRecorder corrisponda a uno tra gli id degli elementi AudioPlayer di quel particolare ViewController.
+Oltre a questi controlli all'interno del file Checks.chk sono presenti controlli come quelli che accertano l'indicazione di una destinazione valida sugli elementi Navigation o che controllano le estensioni dei file che l'utente intende utilizzare come risorse per l'applicazione.
+\begin{figure} [h!]
+\centering
+{\alltt{\footnotesize{
+{\textcolor{purple}{context}} AudioRecorder {\textcolor{purple}{if}}(!audioPlayerId.matches({\textcolor{navy}{""}})) {\textcolor{purple}{ERROR}} 
+{\textcolor{navy}{"AudioPlayerId of AudioRecorder must be the id of an existing AudioPlayer}} 
+{\textcolor{navy}{with sourceType = 'hardwareFile' in the same ViewController"}} :
+viewController.audioPlayer!=null && 
+viewController.audioPlayer.id.matches(audioPlayerId) &&
+viewController.audioPlayer.sourceType.toString().matches("hardwareFile");
+}}}
+\caption{{\itshape Checks.chk}: check dell'id dell'elemento AudioRecorder}
+\label{code:codeFromChecks}
+\end{figure}
+\\
+In aggiunta al file Checks.chk, nella cartella model$\_$checks sono presenti anche un file Java, contenente i metodi di supporto invocati dal file Checks, e un file Xtend, che oltre a contenere l'array con tutti gli id dell'applicazione citato in precedenza, funge da mediatore tra il file Checks.chk e il file Java.
+
+\subsubsection{Sottocartelle {\itshape android$\_$templates} e {\itshape android$\_$activities$\_$templates}}
+Queste due cartelle rappresentano il fulcro del progetto per quanto concerne la generazione del codice per la piattaforma Android, perché contengono tutti i template finalizzati alla traduzione degli elementi del metamodello nei sorgenti corrispondenti. Alcuni tra questi template estendono dei file Xtend esterni, collocati nelle cartelle {\itshape android$\_$extensions} e {\itshape app$\_$extensions}, che vedremo nel dettaglio successivamente, in modo da poter invocare determinati metodi all'interno di classi Java. 
+\begin{figure} [h!]
+\centering
+{\alltt{\footnotesize{
+«{\textcolor{purple}{IMPORT}} metamodel»
+«{\textcolor{purple}{DEFINE}} main {\textcolor{purple}{FOR}} Application-»
+
+«{\textcolor{purple}{FILE}} name+"/AndroidManifest.xml"-»
+{\textcolor{navy}{<?xml version="1.0" encoding="utf-8"?>
+<manifest}} ... {\textcolor{navy}{>}}
+    «{\textcolor{purple}{IF}} viewControllers.locationManager.contains({\textcolor{purple}{true}})-»
+    {\textcolor{navy}{<uses-permission android:name=}}
+    \hspace{30mm}{\textcolor{navy}{"android.permission.ACCESS_FINE_LOCATION"/>}}
+    «{\textcolor{purple}{ENDIF}}-»
+    ...
+    {\textcolor{navy}{<application}}
+        «{\textcolor{purple}{FOREACH}} viewControllers {\textcolor{purple}{AS}} vc-»
+        {\textcolor{navy}{<activity
+            android:name="}}«vc.application.companyIdentifier».
+            \hspace{26mm}«{\textcolor{purple}{this}}.name.toLowerCase()».«vc.name»{\textcolor{navy}{Activity}}"
+            {\textcolor{navy}{android:label="}}«{\textcolor{purple}{this}.name}»{\textcolor{navy}{" >
+        </activity>}}
+        ...
+        «{\textcolor{purple}{ENDFOREACH}}-»
+    {\textcolor{navy}{</application>}}
+    ...
+{\textcolor{navy}{</manifest>}}
+«{\textcolor{purple}{ENDFILE}}-»
+«{\textcolor{purple}{ENDDEFINE}}-»
+}}}
+\caption{{\itshape AndroidManifest.xpt}: creazione del file AndroidManifest.xml}
+\label{code:manifest}
+\end{figure}
+\\
+In Figura \ref{code:manifest} sono presentate alcune parti di codice tratte dal template Xpand per la costruzione del Manifest delle applicazioni Android, che verrà descritto dettagliatamente nelle righe successive. Per motivi di spazio non abbiamo rappresentato tutto il file: i puntini di sospensione che si trovano in alcune parti della figura indicano la presenza nel template originale di pezzi di codice che non sono stati volutamente riportati. \\
+Analizzando il codice riportato in figura, partendo dall'alto, si può notare l'importazione del metamodello, la definizione di una variabile {\itshape main} per Application, a significare che siamo proprio nel contesto dell'elemento centrale del metamodello implementativo, e a seguire si trova il codice per la generazione del file AndroidManifest.xml. Attraverso l'uso dei guillemets, le speciali virgolette angolari, è possibile indicare i costrutti Xpand che si intende utilizzare, oltre a estrarre i valori degli attributi degli elementi del modello e invocare delle funzioni esterne. Per esempio, per creare un nuovo file è stato utilizzato il costrutto ``FILE'' seguito dall'attributo ``name'' (nome dell'applicazione) concatenato alla stringa ``/AndroidManifest.xml'', ad indicare che il file che verrà creato si troverà nella cartella dell'applicazione e sarà nominato AndroidManifest.xml. Di seguito vi sono alcune righe di codice che saranno scritte nel file generato così come le leggiamo in figura, mentre ciò che è contenuto all'interno del costrutto ``IF'' successivo verrà scritto nel Manifest solo se l'applicazione conterrà almeno un elemento LocationManager, infatti si tratta del permesso di utilizzo del GPS. Questo non sarà chiaramente l'unico permesso che andremo all'occorrenza ad inserire nel file: le dichiarazioni degli altri permessi sono state omesse dal codice riportato in figura.
+Proseguendo si trova la dichiarazione di un ciclo ``FOREACH'': il codice al suo interno verrà scritto nel Manifest tante volte quante il numero di ViewController presenti nell'applicazione e riporterà l'identificativo di ogni Activity, ricavato grazie alla relazione inversa ``application'' e all'attributo ``name'' dell'elemento ViewController. In fondo al template è indicata la fine del file con il costrutto ``ENDFILE'', e la chiusura della definizione della variabile {\itshape main} con ``ENDDEFINE'', presente in tutti i template Xpand.
+\\\\
+Dopo una breve ma concreta presentazione attraverso un esempio, del funzionamento e dell'utilità dei template Xpand passiamo ora a descrivere il contenuto delle due cartelle android$\_$templates e android$\_$activities$\_$templates. All'interno della prima directory sono presenti i template per la produzione di tutti i sorgenti necessari di una qualsiasi applicazione Android, mentre nella seconda ci sono i template per la definizione dei pezzi di codice da inserire all'interno di ciascuna Activity, i quali vengono espansi e quindi importati quando necessario all'interno del template Activities.xpt, presente nella prima cartella. La ragione del fatto che abbiamo suddiviso su più file il codice che definisce la traduzione dell'elemento ViewController è legata all'elevato numero di righe di codice necessarie. \\
+Riportiamo di seguito l'elenco completo di tutti i file presenti nella cartella android$\_$templates.
+\begin{itemize}
+\item {\itshape Activities.xpt}: è il file creato con lo scopo di generare il codice per ciascuna Activity dell'applicazione Android, una per ogni elemento ViewController del modello dell'applicazione delineato dall'utente. Nel caso in cui l'utente aggiunga un menu all'applicazione, viene creata anche un'altra Activity chiamata MenuActivity. Come anticipato nel capitolo precedente, all'interno di ogni Activity abbiamo scelto di inserire automaticamente i metodi per la gestione del ciclo di vita, ovvero onCreate, onStart, onPause, onResume e onStop.  
+\item {\itshape AndroidManifest.xpt}: è il template utilizzato per definire il Manifest.xml dell'applicazione Android, che include i permessi necessari all'applicazione e la dichiarazione di tutte le Activity presenti. Queste informazioni sono inserite dinamicamente, in base ai ViewController presenti nel modello e alla presenza o meno all'interno di queste di elementi che richiedono determinati permessi per offrire le funzionalità richieste. Abbiamo visto in precedenza il caso della dichiarazione di utilizzo del permesso di utilizzo del GPS, da inserire nel Manifest nel caso in cui all'interno di un certo ViewController venga definito un LocationManager.
+\item {\itshape DefaultFiles.xpt}: si tratta del template utilizzato per copiare all'interno dei sorgenti i file statici, che non dipendono dalla struttura del modello ma che sono necessari per fare in modo che il progetto generato possa essere importato correttamente in Eclipse, l'IDE per il quale è stato rilasciato il plugin ADT, contenente tutti gli strumenti necessari per lo sviluppo di applicazioni Android. Inoltre, il template è utile per copiare tutte le risorse inserite dall'utente nella cartella user$\_$files nella directory adeguata, in base alla loro estensione. Per come è stato progettato il template, il programmatore ha infatti la possibilità di aggiungere in una cartella i file che intende usare come risorse per l'applicazione, senza preoccuparsi di spostarli all'interno del progetto dell'applicazione generato. Infine questo template produce una classe {\itshape Utils}, nella quale il programmatore ha la possibilità di inserire i metodi statici di supporto alla fase di implementazione successiva alla generazione del codice. La classe si presenta con un metodo statico già implementato che può essere utilizzato al momento della lettura dei file dalla memoria interna del dispositivo.
+\item {\itshape ImageDownloadingTask.xpt}: è un template utilizzato per generare una classe Java contenente la logica applicativa di un particolare AsyncTask, utilizzato per scaricare un'immagine da un server esterno attraverso la rete Internet e in modo asincrono rispetto al task principale di esecuzione. La classe viene generata ed istanziata nel codice qualora nel modello venga definita una ImageView il cui attributo sourceType sia settato a remoteFile.
+\item {\itshape XMLFiles.xpt}: è il template che consente la creazione di tutti i file .xml che definiscono il layout delle Activity. Per ogni elemento ViewController del modello viene prodotto, oltre alla Activity, il rispettivo file XML, contenente il codice per definire la sua interfaccia grafica. I contenuti dei file generati dipendono dagli elementi del metamodello che sono stati inseriti all'interno dei ViewController al momento della definizione dell'istanza.\\ 
+Generando una qualsiasi applicazione è possibile notare come gli elementi grafici vengano disposti sullo schermo in modo lineare, uno sotto all'altro. Questa disposizione permette allo sviluppatore di identificare immediatamente, attraverso l'editor grafico reso disponibile dal plugin ADT di Eclipse, tutti gli elementi grafici presenti nel ViewController e quindi riposizionarli senza troppe difficoltà secondo le proprie preferenze. 
+\end{itemize}
+
+\subsubsection{Sottocartelle {\itshape ios$\_$templates} e {\itshape ios$\_$viewcontrollers$\_$templates}}
+Le directory {\itshape ios$\_$templates} e {\itshape ios$\_$viewcontrollers$\_$templates} corrispondono, a livello d'importanza e tipo di contenuti, alle cartelle descritte nel paragrafo precedente, con la differenza che contengono i file utilizzati per la generazione dei sorgenti per la piattaforma iOS. Anche in questo caso la distinzione del codice per la traduzione in più file è legata esclusivamente alla volontà di avere un progetto ordinato e modulare, dove ogni elemento del ViewController dispone di un template dedicato. 
+L'elenco che segue riporta una breve descrizione dei file contenuti nella cartella ios$\_$templates.
+\begin{itemize}
+\item {\itshape ViewControllers.xpt}: corrisponde al file Activities.xpt nella cartella {\itshape android$\_$templates} del progetto, in quanto il concetto di Activity per la piattaforma Android può essere accostato a quello di ViewController in ambiente iOS. Per ciascun elemento ViewController del modello il template produce due file Objective-C distinti, vale a dire il file .h, nel quale avvengono le dichiarazioni delle property pubbliche e dei protocolli usati, ed il file .m, che contiene l'implementazione vera e propria per il dato ViewController.
+Così come per le Activity Android, all'interno del file .m vengono automaticamente generati i metodi del ciclo di vita di un ViewController. I contenuti da inserire all'interno di questi due file sono definiti nei file .xpt presenti nella cartella ios$\_$viewcontrollers$\_$templates, i quali vengono espansi nel template ViewControllers.xpt al momento opportuno. 
+\item {\itshape DefaultFiles.xpt}: è un template che ha la stessa funzione del suo corrispondente per Android, quindi anche in questo caso vengono copiati nella cartella dell'applicazione dei file predefiniti necessari per permettere l'importazione corretta dei sorgenti generati nell'IDE di sviluppo Xcode, in aggiunta ai file inseriti dall'utente che andranno a riempire la cartella {\itshape Supporting Files} del progetto iOS dell'applicazione.
+\item {\itshape MainStoryboard.xpt}: è un template di fondamentale importanza utilizzato per generare la Storyboard, un file con una struttura simile a XML che definisce l'interfaccia grafica di tutti i ViewController dell'applicazione. In Xcode viene aperto con lo strumento Interface Builder, un editor grafico molto comodo per la definizione della GUI dell'applicazione. La Storyboard in iOS corrisponde in Android all'insieme di tutti i file XML utilizzati per definire il layout delle Activity. \\
+Anche in questo caso il contenuto del file generato dipende dagli elementi del metamodello che sono stati inseriti all'interno del ViewController al momento della definizione dell'istanza e gli elementi grafici vengono automaticamente disposti nelle Window uno sotto l'altro, facilitando il lavoro di restyling grafico successivo alla fase di generazione di codice.
+\item {\itshape Xcodeproj.xpt}: è un template creato con lo scopo di generare il file {\itshape project.pbxproj}, un file contenuto nella cartella Xcodeproj presente in tutti i progetti sviluppati in Xcode. Questo file ha lo scopo principale di dichiarare tutti i file .h e .m, i framework e le risorse presenti nel progetto e la loro effettiva posizione all'interno dei sorgenti. Il file inoltre definisce la versione iOS dell'applicazione sviluppata, che nel nostro caso corrisponde alla versione 6, e i dispositivi supportati.
+\item {\itshape InfoPlist.xpt e PrefixPch.xpt}: sono i template che permettono di generare il file Info.plist per l'applicazione, che contiene informazioni come il nome dell'applicazione e l'identificativo dell'azienda sviluppatrice, e il file Prefix.pch, che contiene invece le informazioni relative all'SDK adottato. Questi due file, insieme a project.pbxproj e ai file predefiniti che vengono copiati dalla cartella utils del generatore, sono necessari per fare in modo che i sorgenti generati possano essere aperti in Xcode.
+\item {\itshape Utils.xpt}: template utilizzato per creare una classe Objective-C che definisce una View contenente un testo. Questa classe viene usata per definire il contenuto delle celle delle GridView, che in iOS corrispondono a UICollectionViewController e viene generata ed utilizzata nel codice solo se l'utente inserisce nel modello dell'applicazione almeno un elemento GridView del metamodello.
+\item {\itshape ImageDownloadingTask.xpt}: corrisponde al template ImageDownloadingTask.xpt presente nella cartella android$\_$templates. Allo stesso modo, il codice per il download asincrono delle immagini viene generato solo nel caso in cui siano presenti una o più ImageView nel modello dell'applicazione.
+\end{itemize}
+
+\subsubsection{Sottocartelle {\itshape android$\_$extensions}, {\itshape ios$\_$extensions} e {\itshape app$\_$extensions}}
+Nelle sezioni precedenti abbiamo fatto riferimento a queste cartelle, create con lo scopo di contenere i file Java con i metodi invocabili dai template. Per questa ragione, oltre ai file Java le cartelle contengono anche i file Xtend necessari per gestire l'interfacciamento con i template Xpand. Come si può intuire dal nome, le cartelle {\itshape android$\_$extensions} e {\itshape ios$\_$extensions} sono state definite per contenere i file Java di supporto alla generazione dei sorgenti Android e iOS rispettivamente. La directory {\itshape app$\_$extensions} contiene invece i file Java con i metodi invocati dai template sia al momento della generazione dei sorgenti Android che di quelli iOS.
+
+\subsubsection{Sottocartella {\itshape workflow}}
+All'interno di questa cartella ci sono i file MWE, che definiscono il workflow che il generatore deve seguire per generare correttamente i sorgenti corrispondenti al modello definito dall'utente. Abbiamo preferito creare tre file MWE per dare la possibilità all'utilizzatore di scegliere per quale piattaforma generare i sorgenti:
+eseguendo il file {\itshape AndroidGenerator.mwe} vengono generati i sorgenti per la piattaforma Android, eseguendo il file {\itshape iOSGenerator.mwe} vengono generati i sorgenti per la piattaforma iOS, con il file {\itshape iOSAndAndroidGenerator.mwe} vengono invece generati nello stesso momento i sorgenti per entrambe le piattaforme mobili. In tutti e tre i casi il generatore legge il file .xmi dell'applicazione e, dopo aver validato il modello verificando i vincoli elencati nel file Checks.chk, sfrutta i template Xpand e i file a essi relazionati per generare l'output richiesto. In Figura \ref{fig:disegno_struttura} è riportato uno schema generale del generatore di codice che chiarisce il ruolo di mediazione rivestito dal Workflow Engine, il quale, come anticipato in precedenza, integra e processa i diversi componenti del progetto sulla base del file .mwe mandato in esecuzione.
+\begin{figure}[h!]
+\centering
+\includegraphics [scale=0.8]{Figure/Cap4/StrutturaGeneratore.pdf}
+\caption{{\itshape Generatore di codice}: schema generale dei componenti interni}
+\label{fig:disegno_struttura}
+\end{figure}
+\\
+I sorgenti delle applicazioni generate vengono salvati all'interno di una nuova cartella {\itshape src-gen}, che viene creata in automatico nel caso in cui non sia già presente tra i sorgenti del nostro progetto. All'interno di questa cartella sono presenti due directory {\itshape android} e {\itshape ios}, create appositamente per distinguere i sorgenti generati per la piattaforma Android da quelli per la piattaforma iOS. In Figura \ref{fig:src-gen} è riportato un esempio che chiarisce la struttura della cartella src-gen, dove sono stati salvati i sorgenti Android e iOS generati per l'applicazione Valtellina descritta in precedenza.
+\begin{figure}[h!]
+\centering
+\includegraphics [scale=0.7]{Figure/Cap4/SRC_GEN.pdf}
+\caption{{\itshape Generatore di codice}: cartella src-gen}
+\label{fig:src-gen}
+\end{figure}
+
+\subsection{Cartella {\itshape utils}}
+All'interno di questa cartella si trovano due sottocartelle molto importanti nel processo di generazione del codice, chiamate {\itshape android$\_$default$\_$files} e {\itshape ios$\_$default$\_$files}. Tali cartelle includono i file statici che devono essere necessariamente inseriti nei sorgenti delle applicazioni per fare in modo che il progetto generato possa essere importato, senza produrre errori di compilazione, in Eclipse nel caso di Android e Xcode nel caso di iOS. Tra questi ci sono diversi file di configurazione, le librerie di sistema e l'icona di default dell'applicazione.\\
+Oltre a queste due sottocartelle si trova la directory {\itshape user$\_$files}, la cui utilità è quella di permettere allo sviluppatore di inserire le risorse che devono essere copiate all'interno dell'applicazione, come anticipato in precedenza.
+
+\section{Corretta definizione del modello}
+Nel paragrafo precedente abbiamo descritto la struttura interna del generatore di codice. In questa sezione intendiamo fornire al lettore le notazioni, le convenzioni e i vincoli che dovrebbero essere seguiti durante la definizione del modello dell'applicazione che, come spiegato in precedenza, si concretizza nella creazione di un file .xmi, input del processo di traduzione del modello  in codice.
+
+\subsection{Notazioni e Convenzioni}
+Per evitare di generare sorgenti contenenti errori di sintassi al momento dell'importazione negli ambienti di sviluppo,  consigliamo agli sviluppatori che vorranno usare il generatore di codice di attenersi alle notazioni e convenzioni riportate di seguito. Le notazioni stabilite sono in linea con quelle previste nell'ambito dello sviluppo di applicazioni Android e iOS.
+
+\begin{itemize}
+\item Gli id di tutti gli elementi devono cominciare con la lettera minuscola e terminare con il nome dell'elemento di cui sono istanza. Nel caso in cui il nome fosse composto da più parole si consiglia di adottare una notazione CamelCase, che prevede il concatenamento delle diverse parole, lasciando le loro iniziali maiuscole.
+\item I nomi degli elementi ViewController devono iniziare con la lettera maiuscola. 
+\item L'attributo name dell'elemento AsyncTask deve cominciare con la lettera minuscola. 
+\item Tutti i file locali referenziati da WebView, ImageView, VideoView e AudioPlayer vanno indicati nel modello con la classica notazione nome.estensione ed inseriti nella cartella user$\_$files.
+\item I file CSS che dovranno essere usati nelle WebView o che si vorranno caricare nel progetto della propria applicazione devono essere inseriti nella cartella user$\_$files e vanno linkati dall'interno dei file HTML che li referenziano.
+\item Per quanto riguarda gli elementi ImageView, VideoView e AudioPlayer, nel caso in cui lo sviluppatore non abbia ancora a disposizione il file locale o l'url del file remoto da referenziare, deve lasciare l'attributo fileUri non settato. Lo stesso discorso vale per l'attributo HTMLFileName di WebView.
+\item Gli attributi testuali (contenuti, titoli, etc) degli elementi del metamodello devono presentare testi privi di caratteri speciali, altrimenti il generatore può produrre dei sorgenti contenenti errori di sintassi.
+\end{itemize}
+
+\subsection{Vincoli}
+In questa sezione presentiamo i vincoli che devono necessariamente essere soddisfatti dallo sviluppatore al momento della definizione del modello dell'applicazione. Tali vincoli sono verificati dal generatore di codice secondo quanto riportato nel file Checks.chk analizzato in precedenza in questo capitolo. Ricordiamo che i vincoli che non vengono rispettati determinano l'interruzione della compilazione e l'apparizione di un messaggio di errore sulla console di Eclipse.
+\begin{itemize}
+\item Il nome dell'applicazione può contenere solo lettere minuscole e maiuscole, quindi deve rispettare l'espressione regolare \cap[a-zA-Z]+.
+ \item L'attributo CompanyIdentifier di Application deve rispettare l'espressione regolare \cap[a-z]+(\textbackslash\textbackslash .[a-z]+)*.
+ \item L'attributo Name dell'elemento ViewController deve rispettare l'espressione regolare \cap[a-zA-Z][a-zA-Z0-9\_]*.
+ \item I nomi degli elementi ViewController devono essere univoci.
+ \item Gli id devono rispettare l'espressione regolare \cap[a-zA-Z][a-zA-Z0-9\_]*.
+ \item Gli id devono essere univoci.
+ \item Ci deve essere un unico ViewController il cui attributo Launcher è settato a true, in quanto può esistere un unico ViewController mostrato all'apertura dell'applicazione.
+ \item Tutti gli elementi Navigation devono avere l'attributo Destination settato correttamente, indicando il nome di un ViewController esistente.
+ \item L'attributo ImageViewId dell'elemento PhotocameraController deve essere settato con l'id di un elemento ImageView esistente con attributo SourceType=hardwareFile, altrimenti non deve essere settato.
+ \item L'attributo VideoViewId dell'elemento VideocameraController deve essere settato con l'id di un elemento VideoView esistente con attributo SourceType=hardwareFile, altrimenti non deve essere settato.
+ \item L'attributo AudioPlayerId dell'elemento AudioRecorder deve essere settato con l'id di un elemento AudioPlayer esistente con attributo SourceType=hardwareFile, altrimenti non deve essere settato.
+ \item L'attributo FileUri degli elementi ImageView, VideoView e AudioPlayer non deve essere settato se l'attributo SourceType è impostato ad ``hardwareFile''.
+\item L'attributo FileUri dell'elemento ImageView, se settato, deve corrispondere al nome di un file con estensione png, jpg o gif.
+\item L'attributo FileUri dell'elemento VideoView, se settato, deve corrispondere al nome di un file con estensione mp4 o 3gp.
+\item L'attributo FileUri dell'elemento AudioPlayer, se settato, deve corrispondere al nome di un file con estensione mp3.
+\item L'attributo HTMLFileName dell'elemento WebView, se settato, deve corrispondere al nome di un file con estensione html.
+\item I nomi degli elementi AsyncTask devono avere almeno un carattere ed essere univoci.
+\item Nel caso in cui l'elemento Menu contenga degli elementi MenuItem, il primo MenuItem deve avere come destinazione il ViewController iniziale.
+\item Per ogni elemento MenuItem deve essere settata la relazione con l'elemento Navigation, che a sua volta deve avere impostata una destinazione valida, vale a dire il nome di un ViewController esistente.
+\item La cartella user$\_$files non deve contenere altre cartelle e i nomi dei file contenuti in essa devono rispettare l'espressione regolare [a-z0-9\_] e contenere l'estensione.
+\item Le estensioni ammesse per i file (visibili e nascosti) presenti nella cartella user$\_$files sono html, txt, css, png, jpg, gif, mp4, 3gp e mp3.
+\item I file all'interno della cartella user$\_$files non possono avere nomi uguali, nemmeno se presentano estensioni diverse.
+\end{itemize}
+
+\section{Codice generato}
+Avendo considerato la struttura del generatore e le regole da seguire per il suo funzionamento, rimane da analizzare l'output del processo della generazione di codice. In questo paragrafo presentiamo, in maniera sintetica, il contenuto dei file sorgenti generati a fronte di ciascuno degli elementi del modello dell'applicazione, in modo da rendere chiara la struttura del progetto generato allo sviluppatore e permettergli di rivedere e modificare i sorgenti prodotti per un particolare elemento del modello. Vedremo in particolare gli elementi che compongono l'interfaccia grafica, per poi passare a quelli che interagiscono direttamente con i componenti hardware del dispositivo.
+
+\subsection{Interfaccia grafica}
+Le tabelle seguenti mostrano l'output della fase di traduzione del modello in codice per gli elementi del metamodello implementativo che costituiscono l'interfaccia grafica.
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape Button} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza, dove viene collegato al relativo layout XML attraverso il suo id. Nel caso in cui sia stato indicato il ClickListener viene inserito il metodo onClickListener, nel quale si trova, laddove sia definita una navigazione, l'intent per il passaggio all'Activity destinazione. &
+Il bottone viene creato all'interno della Storyboard. Se è stato definito un ClickListener senza navigazione nel file .m del ViewController di appartenenza viene inserito un metodo per la definizione dell'azione da compiere, al contrario se è prevista una navigazione viene inserito un segue direttamente nella Storyboard.\\
+\hline
+{\itshape TextView} &
+L'elemento è definito e settato nel layout XML dell'Activity di appartenenza. &
+L'elemento è definito e settato nella Storyboard.\\
+\hline
+{\itshape EditText} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza, dove viene collegato al relativo layout XML attraverso il suo id.&
+L'elemento viene settato nella Storyboard e collegato al file .m del ViewController di appartenenza attraverso un outlet.\\
+\hline
+{\itshape WebView} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza. &
+L'elemento viene dichiarato e settato nel metodo viewDidLoad del ViewController di appartenenza.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: output del generatore - parte 1}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape AlertDialog} & 
+La logica applicativa viene gestita tutta nel metodo onCreate dell'Activity di appartenenza, dove viene istanziato l'elemento, vengono settati il titolo e il messaggio, vengono inseriti i metodi per la gestione dell'evento di click dei bottoni che lo compongono e viene inserito il codice per renderlo visibile sullo schermo. &
+Oltre alla dichiarazione dell'elemento tra le property nel file .m del ViewController e alla LazyInstantiation, viene implementato un metodo delegate, dove è richiesta l'implementazione delle azioni da svolgere al momento della pressione di uno dei due bottoni che lo compongono.\\
+\hline
+{\itshape ProgressDialog} &
+L'elemento è gestito nel metodo onCreate dell'Activity di appartenenza, nel quale viene settato titolo, messaggio e tipologia (spinner o progress bar). Per come viene generato il codice, il ProgressDialog viene dismesso immediatamente per evitare il blocco della UI. &
+L'elemento è gestito all'interno del metodo viewDidLoad del ViewController di appartenenza, dove viene settato e immediatamente dismesso, come nel caso Android.\\
+\hline
+{\itshape ImageView} &
+Il settaggio dell'elemento avviene nel file XML o nell'Activity di appartenenza a seconda del valore dell'attributo SourceType. Nel caso in cui l'immagine provenga da un file locale l'elemento viene settato direttamente nel file XML, altrimenti viene settato nell'Activity. Nel caso di provenienza da remoto l'immagine viene prima scaricata attraverso un task asincrono, nel caso di provenienza dalla fotocamera la logica applicativa di settaggio dell'ImageView è definita nel PhotocameraController. &
+L'immagine viene settata nella Storyboard se il file da cui proviene è locale, al contrario viene settata nel metodo viewDidLoad del ViewController di appartenenza. Nel caso di provenienza da remoto l'immagine viene prima scaricata dal server in maniera asincrona, nel caso di provenienza dalla fotocamera la logica applicativa di settaggio dell'ImageView è definita nel PhotocameraController.\\
+\hline
+{\itshape VideoView} &
+L'elemento viene settato nel metodo onCreate dell'Activity di appartenenza se il file referenziato è locale o remoto. Se il video proviene dalla videocamera del dispositivo la logica applicativa di settaggio della VideoView è definita al momento della traduzione in codice dell'elemento VideocameraController. &
+L'elemento viene settato nel metodo viewDidAppear del ViewController di appartenenza se il file referenziato è locale o remoto. In caso contrario la logica applicativa di settaggio della VideoView è definita al momento della traduzione in codice dell'elemento VideocameraController.\\ 
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: output del generatore - parte 2}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape GridView} &
+L'elemento viene dichiarato e settato nel metodo onCreate dell'Activity di appartenenza, dove viene collegato al relativo layout XML attraverso il suo id. Nell'Activity vengono definiti un array e un adapter per memorizzare e mostrare a schermo i contenuti delle celle. Nel caso in cui sia stato indicato il ClickListener viene implementata l'interfaccia OnItemClickListener, facendo l'override del metodo onItemClick, nel quale si trova, laddove sia definita una navigazione, l'intent per il passaggio all'Activity destinazione. &
+L'elemento viene inserito nella Storyboard e nel file .h del ViewController vengono inclusi i protocolli UICollectionViewDelegate e UICollectionViewDataSource, mentre nel file .m viene dichiarato l'array per memorizzare i contenuti, il quale viene istanziato solo se sono state definite delle celle. Nel file .m vengono implementati tutti i metodi necessari per la gestione della CollectionView, tra i quali quello per la gestione dell'azione da compiere al momento della selezione di una cella.\\
+\hline
+{\itshape GridViewCell} &
+Gli elementi GridViewCell collegati ad un particolare elemento GridView contribuiscono, attraverso il loro attributo Title che li contraddistingue, alla definizione dell'array dei contenuti di GridView. &
+Per questo elemento viene creata una classe apposita ``MyCollectionViewCell'' al cui interno si trova la dichiarazione di una stringa, perché in ambiente iOS non è previsto un prototipo di default per le celle delle GridView. Così come per Android, l'attributo testuale della singola cella contribuisce alla definizione dell'array dei contenuti di GridView.\\
+\hline
+{\itshape ListView} &
+Cosi come per l'elemento GridView, vengono definiti nell'Activity di appartenenza un adapter ed un array per memorizzare e mostrare a schermo i contenuti delle celle. Nel caso in cui sia stato indicato il ClickListener viene implementata l'interfaccia OnItemClickListener, facendo l'override del metodo onItemClick, nel quale si trova, laddove sia definita una navigazione, l'intent per il passaggio all'Activity destinazione. &
+L'elemento viene inserito nella Storyboard e nel file .h del ViewController vengono inclusi i protocolli UITableViewDelegate e UITableViewDataSource, mentre nel file .m viene dichiarato l'array per memorizzare i contenuti. Nel file .m vengono implementati tutti i metodi necessari per la gestione della TableView, tra i quali quello per la gestione dell'azione da compiere al momento della selezione di una cella.\\
+\hline
+{\itshape ListViewCell} &
+Così come GridViewCell, gli elementi ListViewCell collegati ad un particolare elemento ListView contribuiscono, attraverso il loro attributo Title che li contraddistingue, alla definizione dell'array dei contenuti di ListView. &
+Così come per Android, l'attributo testuale della singola cella contribuisce alla definizione dell'array dei contenuti della ListView. A differenza di GridViewCell, per ListViewCell non è necessario creare alcuna classe Objective-C, in quanto è già previsto un prototipo di default per le celle delle ListView.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Interfaccia grafica}: output del generatore - parte 3}
+\end{table}
+
+\clearpage
+\subsection{Hardware}
+Le tabelle seguenti mostrano l'output della fase di traduzione del modello in codice per gli elementi del metamodello implementativo che sfruttano l'hardware del dispositivo sulla quale l'applicazione è installata.
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape AudioPlayer} &
+Nel file XML del layout dell'Activity di appartenenza vengono inseriti tre bottoni per avviare, fermare e mettere in pausa la riproduzione del file audio. Nel metodo onResume dell'Activity avviene invece il settaggio del file da riprodurre e la gestione delle azioni da compiere al momento del click dei tre bottoni. &
+Nella Storyboard sono definiti i tre bottoni Play, Stop e Pause, mentre le loro azioni sono definite nei metodi delegate associati ai bottoni all'interno del file .m del ViewController di appartenenza. Il settaggio del file da riprodurre avviene nel metodo viewDidAppear.\\
+\hline
+{\itshape AudioRecorder} &
+Nel file XML del layout dell'Activity di appartenenza viene inserito un bottone per avviare o fermare la registrazione. La logica applicativa di registrazione e salvataggio in memoria del file registrato viene implementata nel metodo onResume dell'Activity. Nel metodo onResume viene anche settato l'AudioPlayer nel caso in cui all'AudioRecorder nel modello sia associato un AudioPlayer con attributo SourceType=hardwareFile. &
+Nella Storyboard viene definito un bottone per avviare o fermare la registrazione, la cui logica applicativa è implementata nel metodo record associato al bottone all'interno del file .m del ViewController di appartenenza. In questo metodo viene gestita in particolare la registrazione e il salvataggio del file registrato nella memoria del dispositivo, oltre al settaggio dell'eventuale AudioPlayer.\\
+\hline
+{\itshape LocationManager} &
+La logica applicativa di recupero della posizione del dispositivo attraverso il GPS viene implementata nel metodo onCreate dell'Activity di appartenenza, dove viene implementata l'interfaccia LocationListener. Vengono aggiunte infatti le dichiarazioni dei metodi onLocationChanged, onProviderDisabled, onProviderEnabled e onStatusChanged, la cui implementazione viene però lasciata allo sviluppatore. &
+Nel file .h viene incluso il protocollo UINavigationControllerDelegate e i suoi metodi sono implementati nel file .m del ViewController di appartenenza, dove risiede tutta la logica applicativa: nel metodo viewDidLoad viene recuperata la posizione dell'utente facendo uso del GPS.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Hardware}: output del generatore - parte 1}
+\end{table}
+
+\clearpage
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth} {lXX}
+\hline
+\hline
+{\bfseries Elemento} & {\bfseries Android} & {\bfseries iOS}\\
+\hline
+{\itshape PhotocameraController} &
+Nel metodo onCreate dell'Activity di appartenenza viene creato un bottone che conduce all'apertura dell'applicazione Android sul dispositivo che consente di scattare una foto. Nell'Activity viene implementato il metodo onActivityResult, dove viene ricevuta l'immagine proveniente dalla fotocamera. In questo metodo viene settata l'eventuale ImageView associata al PhotocameraController e salvata l'immagine nella memoria interna del dispositivo. &
+Nella Storyboard viene creato un bottone che conduce all'apertura dell'applicazione iOS che consente di scattare una foto. Il file .h del ViewController di appartenenza include il protocollo UIImagePickerControllerDelegate, mentre nel file .m viene inserita l'implementazione dei suoi metodi che consentono di gestire la foto ricevuta, come salvarla in memoria o usarla per settare l'eventuale ImageView associata al PhotocameraController.\\
+\hline
+{\itshape VideocameraController} &
+Come per l'elemento PhotocameraController, viene creato un bottone nel layout dell'Activity di appartenenza che permette l'apertura dell'applicazione Android che consente la registrazione di un filmato. Nell'Activity viene implementato il metodo onActivityResult, per il salvataggio in memoria del video ricevuto e il settaggio dell'eventuale VideoView associata. &
+Nella Storyboard viene creato un bottone che conduce all'apertura dell'applicazione iOS che consente di registrare un filmato. Nel file .h viene incluso il protocollo UIImagePickerControllerDelegate, mentre nel file .m viene inserita l'implementazione dei suoi metodi che consentono di gestire il video ricevuto, come salvarlo in memoria o usarlo per settare l'eventuale VideoView associata al VideocameraController.\\
+\hline
+\hline
+\end{tabularx}
+\caption{{\itshape Hardware}: output del generatore - parte 2}
+\end{table}
+
+\subsection{Altri elementi}
+Per quanto riguarda gli elementi non appartenenti all'interfaccia grafica o all'hardware, vediamo qual è l'output della fase di traduzione del modello in codice per AsyncTask e Menu.
+\\\\
+L'elemento {\itshape AsyncTask} comporta, in entrambi i casi Android e iOS, l'aggiunta nel ViewController di appartenenza dell'intestazione di un metodo con il nome indicato dallo sviluppatore nel modello. L'implementazione della logica applicativa interna al metodo viene lasciata allo sviluppatore.
+\\\\
+L'elemento {\itshape Menu} prevede, nei sorgenti Android, la creazione di una classe MenuActivity, che verrà poi estesa dalle altre Activity dell'applicazione. A seconda dei vari elementi MenuItem collegati a Menu la classe creata comprende la definizione degli intent necessari per avviare la navigazione verso le Activity di destinazione. Per quanto concerne iOS invece la presenza dell'elemento Menu comporta l'inserimento di una UITabBarController nella Storyboard e di tante UINavigationController quanti sono i MenuItem relazionati al Menu: in questo caso la logica applicativa di gestione del Menu è quindi interamente definita nella Storyboard.
+
+\subsection{Problemi riscontrati}
+Durante le fasi di implementazione e testing del generatore di codice abbiamo utilizzato di frequente i tool di sviluppo Eclipse, per le applicazioni Android, e Xcode, per le applicazioni iOS. In particolare abbiamo riscontrato in Eclipse due problemi abbastanza rilevanti che preferiamo riportare nel caso si manifestassero dopo l'importazione dei sorgenti dell'applicazione generata nell'ambiente di sviluppo.\\
+Il primo problema si verifica nel caso in cui per una certa Activity vengano definiti un numero eccessivo di widget: secondo la nostra logica di posizionare gli elementi in maniera lineare nel layout può succedere che alcuni elementi non siano visibili sullo schermo. Lanciare l'applicazione senza aver prima riposizionato gli elementi nel file XML può determinare il verificarsi di un arresto inatteso.\\
+Il secondo problema, invece, può accadere nel momento in cui all'interno di una stessa Activity siano presenti sia un elemento ImageView che un elemento VideoView. Questa situazione può condurre ad una ``fatal exception'' al momento dell'importazione dei sorgenti in Eclipse. Il problema, già noto all'interno della community Eclipse, può essere risolto cancellando il file R ed effettuando una {\itshape clean} del progetto Android dell'applicazione.
+
+\section{Conclusioni}
+In questo capitolo abbiamo presentato gli strumenti principali che sono stati considerati in fase di implementazione e, dopo essere entrati nel merito della loro utilità e del loro funzionamento, abbiamo fornito una descrizione generale della struttura del progetto del generatore di codice, così da fornire una visione ad alto livello di quanto è stato prodotto. Utilizzando la distribuzione Epsilon dell'IDE Eclipse e installando dei plugin siamo riusciti ad avere un ambiente di lavoro compatto e completo in termini di strumenti necessari per soddisfare tutte le esigenze implementative volte alla definizione del metamodello, alla generazione di una sua istanza e alla traduzione del modello generato in codice. Oltre alla descrizione della struttura, abbiamo fornito le regole e le notazioni da seguire per il corretto utilizzo del generatore di codice da parte degli sviluppatori e ne abbiamo presentato l'output, analizzando il codice prodotto per ogni elemento che è possibile inserire nel modello delle applicazioni.
+\\\\
+Nel prossimo capitolo presenteremo alcuni esempi che dimostrano la possibilità di utilizzare il generatore di codice ai fini di produrre la stessa applicazione per le piattaforme Android e iOS, a partire da un modello comune. Inoltre, verrà effettuata una valutazione quantitativa e qualitativa del risparmio, in termini di effort e tempistiche richieste allo sviluppatore, per completare un'applicazione prodotta attraverso il generatore di codice.
+

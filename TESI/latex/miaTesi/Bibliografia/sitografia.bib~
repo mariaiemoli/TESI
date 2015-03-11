@@ -1,0 +1,203 @@
+
+@article{article:ref1,
+author="Rahul Raj, C.P and Seshu Babu Tolety", 
+journal="India Conference (INDICON), 2012 Annual IEEE", 
+title="A study on approaches to build cross-platform mobile applications and criteria to select appropriate approach", 
+year="Dec.", 
+pages="625-629",  
+doi="10.1109/INDCON.2012.6420693",}
+
+@article{article:ref2,
+title = "Mobile Application Development: Web vs. Native",
+journal = "Communication of the ACM",
+volume = "54",
+number = "5",
+pages = "49 - 53",
+year = "May 2011",
+doi = "10.1145/1941487.1941504",
+author = "Andre Charland and Briand Leroux",
+}
+
+@article{article:ref3, 
+author="Tilson, D. and Sorensen, C. and Lyytinen, K.", 
+journal="System Science (HICSS), 2012 45th Hawaii International Conference on", 
+title="Change and Control Paradoxes in Mobile Infrastructure Innovation: The Android and iOS Mobile Operating Systems Cases", 
+year="Jan.", 
+pages="1324-1333",  
+doi="10.1109/HICSS.2012.149", 
+ISSN="1530-1605",}
+
+@article{article:ref4, 
+author="Bup-Ki Min and Minhyuk Ko and Yongjin Seo and Seunghak Kuk and Hyeon-Soo Kim", 
+journal="TENCON 2011 - 2011 IEEE Region 10 Conference", 
+title="A UML metamodel for smart device application modeling based on Windows Phone 7 platform", 
+year="Nov.", 
+pages="201-205", 
+doi="10.1109/TENCON.2011.6129092", 
+ISSN="2159-3442",}
+
+@article{article:ref5, 
+author="Minhyuk Ko and Yong-Jin Seo and Bup-Ki Min and Seunghak Kuk and Hyeon Soo Kim", 
+journal="Computer and Information Science (ICIS), 2012 IEEE/ACIS 11th International Conference on", 
+title="Extending UML Meta-model for Android Application", 
+year="30 2012-June 1", 
+pages="669-674", 
+doi="10.1109/ICIS.2012.48",}
+
+
+@article{article:ref6, 
+author="Palmieri, M. and Singh, I. and Cicchetti, A.", 
+journal="Intelligence in Next Generation Networks (ICIN), 2012 16th International Conference on", 
+title="Comparison of cross-platform mobile development tools", 
+year="Oct.", 
+pages="179-186",  
+doi="10.1109/ICIN.2012.6376023",}
+
+@article{article:ref7, 
+author="Ohrt, J. and Turau, V.", 
+journal="Computer",
+title="Cross-Platform Development Tools for Smartphone Applications", 
+year="2012", 
+volume="45", 
+number="9", 
+pages="72-79", 
+doi="10.1109/MC.2012.121", 
+ISSN="0018-9162",}
+
+
+@MISC{online:rhodes,
+title = "Motorola Solution Website",
+author = "Motorola Solution Inc.",
+year = "citato in Aprile 2013",
+howpublished = {\url {http://docs.rhomobile.com/rhodes/introduction}}
+}
+
+@MISC{online:phonegap,
+title = "PhoneGap Website",
+author = "Adobe Systems Inc",
+year = "citato in Aprile 2013",
+howpublished = {\url {http://phonegap.com/2012/05/02/phonegap-explained-visually/}}
+}
+
+@MISC{online:dragonrad,
+title = "DragonRad Website",
+author = "Seregon Solution Inc.",
+year = "citato in Aprile 2013",
+howpublished = {\url {http://dragonrad.com/overview}}
+}
+
+@MISC{online:mosync,
+title = "MoSync Website",
+author = "MoSync AB",
+year = "citato in Aprile 2013",
+howpublished = {\url {http://www.mosync.com/documentation/manualpages/mosync-reload}}
+}
+
+@MISC{online:xamarin,
+title = "Xamarin Website",
+author = "Xamarin Inc.",
+year = "citato in Aprile 2013",
+howpublished = {\url {http://xamarin.com/how-it-works}}
+}
+
+@MISC{online:corona,
+title = "Corona Website",
+author = "Corona Labs Inc",
+year = "citato in Agosto 2013",
+howpublished = {\url {http://www.coronalabs.com}}
+}
+
+@MISC{online:appsbuilder,
+title = "Apps Builder Website",
+author = "Apps Builder Srl",
+year = "citato in Maggio 2013",
+howpublished = {\url {http://ibuildapp.com}}
+}
+
+@MISC{online:ibuildapp,
+title = "iBuildApp Website",
+author = "iBuildApp, Inc.",
+year = "citato in Maggio 2013",
+howpublished = {\url {http://ibuildapp.com}}
+}
+
+@MISC{online:uml,
+title = "Omg - Uml Website",
+author = "Object Management Group, Inc.",
+year = "citato in Maggio 2013",
+howpublished = {\url {http://www.omg.org}}
+}
+
+@MISC{online:umldiagrams,
+title = "Uml Diagrams Website - Core Elements",
+author = "Uml-Diagrams.org",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://www.uml-diagrams.org/uml-core.html}}
+}
+
+@MISC{online:androidactivity,
+title = "Activities",
+author = "Google Inc.",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://developer.android.com/guide/components/activities.html}}
+}
+
+@MISC{online:androidservice,
+title = "Service",
+author = "Google Inc.",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://developer.android.com/reference/android/app/Service.html}}
+}
+
+@MISC{online:androidcontentprovider,
+title = "Content Provider",
+author = "Google Inc.",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://developer.android.com/reference/android/content/ContentProvider.html}}
+}
+
+@MISC{online:windowsphonestorage,
+title = "Microsoft Developer Network",
+author = "Microsoft",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://msdn.microsoft.com}}
+}
+
+@MISC{online:windowsphonesecurity,
+title = "Windows Phone 7 Security Implications",
+author = "TechGenix Ltd.",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://www.windowsecurity.com/articles-tutorials/misc_network_security/Windows-Phone-7-Security-Implications.html}}
+}
+
+@MISC{online:emf,
+title = "Eclipse Modeling Framework Project (EMF)",
+author = "The Eclipse Foundation",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://www.eclipse.org/modeling/emf/?project=emf#emf}}
+}
+
+@MISC{online:oaw,
+title = "openArchitectureWare",
+author = "openArchitectureWare.org",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://www.openarchitectureware.org/index.php}}
+}
+
+@article{documentation:xpand, 
+author="Sven Efftinge and Peter Friese and Arno Hase and Dennis Hubner and Clemens Kadura and Bernd Kolb and Jan Kohnlein and Dieter Moroff and Karsten Thoms and Markus Volter and Patrick Schonbach and Moritz Eysholdt and Steven Reinisch and Darius Jockel and Andre Arnold and contributors", 
+journal="Xpand", 
+year = "2010",
+title="Xpand Reference",}
+
+@article{documentation:mwe, 
+author="Swen Efftinge and Markus Voelter", 
+journal="OpenArchitectureWare", 
+title="OpenArchitectureWare 4.1 Workflow Engine Reference",}
+
+@MISC{online:epsilon,
+title = "Epsilon",
+author = "The Eclipse Foundation",
+year = "citato in Luglio 2013",
+howpublished = {\url {http://www.eclipse.org/epsilon/}}
+}

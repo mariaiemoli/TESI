@@ -118,7 +118,14 @@ void SaturationFractured::solve()
 	{
 		scalar_type h = M_fractures->getFracture ( i )-> getH();
 
-		landa [ i ] = M_dt/(h);//*M_fractures->getFracture ( i )->getData().getThickness () );
+	//	if ( ( M_fractures->getFracture ( i ) -> getData().getFluxHandler( 0 ) )->getU() == "v")
+		{
+			landa [ i ] = M_dt/(h);
+		}/*
+		else
+		{
+			landa [ i ] = M_dt/(h*M_fractures->getFracture ( i )->getData().getThickness () );
+		}*/
 	}
 
 	// numero complessivo dei gradi di libertà

@@ -1,0 +1,56 @@
+\chapter{Utilizzo corretto del generatore di codice}\label{cap:RegoleEConvenzioni}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Appendice \thechapter}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot[]{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+Attraverso questa appendice intendiamo fornire al lettore le notazioni, le convenzioni e le regole che dovrebbero essere seguite durante la definizione del modello dell'applicazione.
+
+\section{Notazioni e Convenzioni}
+Consigliamo al lettore di attenersi alle notazioni e convenzioni qui sotto riportate, onde evitare di generare sorgenti contenenti errori di sintassi al momento dell'importazione negli ambienti di sviluppo. Le notazioni stabilite sono in linea con quelle previste nell'ambito dello sviluppo di applicazioni Android e iOS.
+\begin{itemize}
+\item Gli id di tutti gli elementi devono cominciare con la lettera minuscola e terminare con il nome dell'elemento di cui sono istanza. Nel caso in cui il nome fosse composto da più parole si consiglia di adottare una notazione CamelCase, che prevede il concatenamento delle diverse parole, lasciando le loro iniziali maiuscole.
+\item I nomi degli elementi ViewController devono iniziare con la lettera maiuscola. 
+\item L'attributo name dell'elemento AsyncTask deve cominciare con la lettera minuscola. 
+\item Tutti i file locali referenziati da WebView, ImageView, VideoView e AudioPlayer vanno indicati nel modello con la classica notazione nome.estensione ed inseriti nella cartella user$\_$files.
+\item I file CSS che dovranno essere usati nelle WebView o che si vorranno caricare nel progetto della propria applicazione devono essere inseriti nella cartella user$\_$files e vanno linkati dall'interno dei file HTML che li referenziano.
+\item Per quanto riguarda gli elementi ImageView, VideoView e AudioPlayer, nel caso in cui lo sviluppatore non abbia ancora a disposizione il file locale o l'url del file remoto da referenziare, deve lasciare l'attributo fileUri non settato. Lo stesso discorso vale per l'attributo HTMLFileName di WebView.
+\item Gli attributi testuali (contenuti, titoli, etc) degli elementi del metamodello devono presentare testi privi di caratteri speciali, altrimenti il generatore può produrre dei sorgenti contenenti errori di sintassi.
+\end{itemize}
+
+\section{Regole}
+In questa sezione presenteremo i controlli effettuati dal generatore di codice secondo quanto riportato nel file Checks.chk. I vincoli che non vengono rispettati determinano l'interruzione della compilazione e l'apparizione di un messaggio di errore sulla console di Eclipse.
+\begin{itemize}
+\item Il nome dell'applicazione può contenere solo lettere minuscole e maiuscole, quindi deve rispettare l'espressione regolare \cap[a-zA-Z]+.
+ \item L'attributo CompanyIdentifier di Application deve rispettare l'espressione regolare \cap[a-z]+(\textbackslash\textbackslash .[a-z]+)*.
+ \item L'attributo Name dell'elemento ViewController deve rispettare l'espressione regolare \cap[a-zA-Z][a-zA-Z0-9\_]*.
+ \item I nomi degli elementi ViewController devono essere univoci.
+ \item Gli id devono rispettare l'espressione regolare \cap[a-zA-Z][a-zA-Z0-9\_]*.
+ \item Gli id devono essere univoci.
+ \item Ci deve essere un unico ViewController il cui attributo Launcher è settato a true, in quanto può esistere un unico ViewController mostrato all'apertura dell'applicazione.
+ \item Tutti gli elementi Navigation devono avere l'attributo Destination settato correttamente, indicando il nome di un ViewController esistente.
+ \item L'attributo ImageViewId dell'elemento PhotocameraController deve essere settato con l'id di un elemento ImageView esistente con attributo SourceType=hardwareFile, altrimenti non deve essere settato.
+ \item L'attributo VideoViewId dell'elemento VideocameraController deve essere settato con l'id di un elemento VideoView esistente con attributo SourceType=hardwareFile, altrimenti non deve essere settato.
+ \item L'attributo AudioPlayerId dell'elemento AudioRecorder deve essere settato con l'id di un elemento AudioPlayer esistente con attributo SourceType=hardwareFile, altrimenti non deve essere settato.
+ \item L'attributo FileUri degli elementi ImageView, VideoView e AudioPlayer non deve essere settato se l'attributo SourceType è impostato ad ``hardwareFile''.
+\item L'attributo FileUri dell'elemento ImageView, se settato, deve corrispondere al nome di un file con estensione png, jpg o gif.
+\item L'attributo FileUri dell'elemento VideoView, se settato, deve corrispondere al nome di un file con estensione mp4 o 3gp.
+\item L'attributo FileUri dell'elemento AudioPlayer, se settato, deve corrispondere al nome di un file con estensione mp3.
+\item L'attributo HTMLFileName dell'elemento WebView, se settato, deve corrispondere al nome di un file con estensione html.
+\item I nomi degli elementi AsyncTask devono avere almeno un carattere ed essere univoci.
+\item Nel caso in cui l'elemento Menu contenga degli elementi MenuItem, il primo MenuItem deve avere come destinazione il ViewController iniziale.
+\item Per ogni elemento MenuItem deve essere settata la relazione con l'elemento Navigation, che a sua volta deve avere impostata una destinazione valida, vale a dire il nome di un ViewController esistente.
+\item La cartella user$\_$files non deve contenere altre cartelle e i nomi dei file contenuti in essa devono rispettare l'espressione regolare [a-z0-9\_] e contenere l'estensione.
+\item Le estensioni ammesse per i file (visibili e nascosti) presenti nella cartella user$\_$files sono html, txt, css, png, jpg, gif, mp4, 3gp e mp3.
+\item I file all'interno della cartella user$\_$files non possono avere nomi uguali, nemmeno se presentano estensioni diverse.
+\end{itemize}
+
+\section{Altre osservazioni}
+Durante le fasi di implementazione e testing del generatore di codice abbiamo utilizzato di frequente i tool di sviluppo Eclipse, per le applicazioni Android, e Xcode, per le applicazioni iOS. In particolare abbiamo riscontrato in Eclipse due problemi abbastanza rilevanti che preferiamo riportare nel caso si manifestassero dopo l'importazione dei sorgenti dell'applicazione generata nell'ambiente di sviluppo.\\
+Il primo problema si verifica nel caso in cui per una certa Activity vengano definiti un numero eccessivo di widget: secondo la nostra logica di posizionare gli elementi in maniera lineare nel layout può succedere che alcuni elementi non siano visibili sullo schermo. Lanciare l'applicazione senza aver prima riposizionato gli elementi nel file XML può determinare il verificarsi di un arresto inatteso.\\
+Il secondo problema, invece, può accadere nel momento in cui all'interno di una stessa Activity siano presenti sia un elemento ImageView che un elemento VideoView. Questa situazione può condurre ad una ``fatal exception'' al momento dell'importazione dei sorgenti in Eclipse. Il problema, già noto all'interno della community Eclipse, può essere risolto cancellando il file R ed effettuando una clean del progetto Android dell'applicazione.

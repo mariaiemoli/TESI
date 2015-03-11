@@ -1,0 +1,44 @@
+%---------------------------------------------------------------------------------------------%
+%Definizione del layout di pagina
+%---------------------------------------------------------------------------------------------%
+%
+%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancyplain}%
+%%%%%%%%%%%%%%%%%%%%%%%
+%
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+
+\setlength{\textheight}{211mm}
+\setlength{\textwidth}{138mm}
+
+\setlength{\evensidemargin}{32mm}
+\setlength{\oddsidemargin}{41mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\marginparsep}{0mm}
+
+%\setlength{\topmargin}{12mm}
+%\setlength{\headheight}{5mm}
+%\setlength{\headsep}{26mm}
+\setlength{\topmargin}{14mm}
+\setlength{\headheight}{5mm}
+\setlength{\headsep}{24mm}
+
+%\setlength{\footskip}{32mm}
+\setlength{\footskip}{30mm}
+
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione e del piè di pagina 
+%---------------------------------------------------------------------------------------------%
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}} %modifica il comando \chaptermark in modo che
+%visualizzi solo il nome del capitolo, e non in stampatello
+\addtolength{\headwidth}{1.3cm} %allunga l'intestazione
+
+\lhead[\fancyplain{}{\footnotesize{\leftmark}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{}
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+
+

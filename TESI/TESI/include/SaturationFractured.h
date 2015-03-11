@@ -71,6 +71,12 @@ public:
 		return M_t;
 	}
 
+	inline scalarVector_Type getSaturation ( const size_type& f ) const
+	{
+		return *( M_fractureSaturation [ f ] );
+	}
+
+
 private:
 
 	std::string M_section;

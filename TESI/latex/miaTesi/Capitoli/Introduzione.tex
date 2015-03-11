@@ -1,0 +1,27 @@
+\chapter*{Introduzione} \label{cap:Introduzione}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Introduzione}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+
+Lo studio del flusso e di fluidi bifase nel sottosuolo trova applicazioni di enorme importanza in vari campi.\\
+Nel processo di estrazione del petrolio, ad esempio, viene spesso applicata una tecnica detta \textit{secondary recovery} (recupero secondario), in cui viene integrata l'energia del giacimento in fase di esaurimento immettendo un fluido (gas o liquido). La pressione naturale presente nel deposito, infatti, permette al petrolio di raggiungere il pozzo di estrazione in maniera spontanea. Questa prima fase consente di estrarre solo il 30-35\% dell'olio presente nel giacimento, mentre nella seconda fase di recupero, con il pompaggio di acqua, è possibile ottenerne un ulteriore 20\%.
+Il processo è governato da una legge di conservazione, l'\textit{equazione di Buckley-Leverett}, che risolve il problema per la saturazione dell'acqua, grandezza che indica la frazione del volume vuoto del mezzo poroso occupata dall'acqua. \\
+\par \noindent Un'altra possibile applicazione è lo studio del flusso di sostanze tossiche e inquinanti nel sottosuolo. In molti paesi la popolazione dipende dall'uso di acque provenienti dal sottosuolo. La presenza di impianti industriali o discariche, la possibilità che si verifichino incidenti che provochino perdite da serbatoi o in generale di sostanze usate nelle industrie, possono causare problemi alla qualità dell'acqua nelle falde acquifere. Queste sostanze sono spesso immiscibili in acqua, e si studia quindi il fenomeno come il flusso di due fasi diverse in un mezzo poroso. Essere in grado di prevedere, almeno in parte, l'andamento delle sostanze inquinanti in prossimità dei pozzi permette di prendere misure atte a ridurre, per quanto possibile, la contaminazione dell'acqua.\\
+
+\par \noindent Il presente lavoro di tesi si inserisce nel contesto generico dello studio del flusso in mezzi porosi. In particolare si propone di studiare il problema di un flusso bifase, problema di saturazione, in un network di fratture. L'obiettivo principale del lavoro è quello di ricavare le condizioni da imporre nel caso di tre fratture che si intersecano in un unico punto formando una biforcazione. Le fratture considerate hanno uno spessore molto piccolo rispetto alla loro lunghezza e alle dimensioni caratteristiche del dominio del mezzo, così da poterle  modellizzare come dei segmenti del tipo $I_i=[a_i, b_i] \subset \mathbb{R}$.\\
+
+Di seguito è riportata una breve descrizione del contenuto di ciascun capitolo della tesi:
+\begin{itemize}
+\item Il \textit{primo capitolo} presenta una breve storia degli approcci esistenti al problema, con una particolare attenzione ai risultati già esistenti in letteratura sullo studio del flusso automobilistico su strade con incroci.
+\item Il \textit{secondo capitolo} introduce brevemente le principali proprietà delle leggi di conservazione, delle loro soluzioni e dei metodi numerici per la soluzione, illustrando in particolare il metodo di Godunov, metodo ai volumi finiti implementato per risolvere il problema di saturazione.
+\item Il \textit{terzo capitolo} presenta la descrizione dei mezzi porosi, delle loro proprietà e dell'equazione di \textit{Buckley-Leverett}. Illustrato il problema di saturazione per una singola frattura e la sua soluzione, viene introdotto il caso particolare in cui vi sia una discontinuità nelle proprietà del mezzo. A fine capitolo sono presentati i risultati della soluzione del flusso bifase in una frattura con due diverse funzioni flusso. 
+\item Il \textit{quarto capitolo} descrive la situazione della biforcazione, ossia tre fratture che si intersecano in un punto, e la derivazione delle condizioni da imporre nel punto di intersezione. In particolare viene fatto un confronto con il caso dello studio del flusso del traffico.
+\item Il \textit{quinto capitolo} riporta le considerazioni finali sul lavoro svolto e illustra i possibili sviluppi futuri.
+\end{itemize}
+

@@ -1,0 +1,292 @@
+\chapter{Metamodello implementativo} \label{cap:MetamodelloImplementativo}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione dei capitoli
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Capitolo \thechapter}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{\leftmark}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot[]{} %per lasciare vuoto il piè di pagina centrale
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+Il metamodello astratto, descritto nel capitolo precedente, è stato progettato in modo da permettere una prima definizione, ad alto livello, del modello dell'applicazione. In questo capitolo presentiamo il metamodello implementativo, risultato di una rivisitazione del metamodello astratto. Quest'ultimo è stato manipolato e rivisto per produrre una versione del metamodello idonea a guidare lo sviluppatore nella fase di definizione del modello dell'applicazione desiderata, a rendere più dettagliate le istanze generabili e ad avere un concreto punto di partenza per il processo di traduzione di un'istanza del metamodello, ovvero del modello dell'applicazione, in codice. In particolare nel metamodello implementativo abbiamo riportato gli elementi concreti presenti nel metamodello astratto e ne abbiamo introdotti dei nuovi. A ciascun elemento abbiamo aggiunto gli attributi necessari per il processo di traduzione.\\
+Così come per il metamodello astratto, la versione implementativa è stata realizzata analizzando nello specifico la struttura delle applicazioni Android e iOS, ma, anche in questo caso, l'essersi basati su due piattaforme non preclude la possibilità di considerare valido il metamodello per qualsiasi altra piattaforma. Entrambi i metamodelli sono stati definiti in modo da permettere allo sviluppatore di produrre una sola istanza per ogni applicazione indipendentemente dalle piattaforme per cui essa viene sviluppata.  
+
+\section{Elementi modellati}
+In questa sezione saranno analizzati nel dettaglio tutti gli elementi del metamodello astratto che sono stati riportati nel metamodello implementativo, ovvero quelli finalizzati ad essere mappati direttamente in codice nei sorgenti dell'applicazione da generare. Partendo dall'elemento radice del metamodello, ovvero l'elemento Application, arriveremo a spiegare tutti i concetti introdotti. In Figura \ref{fig:metamodelloImplementativo} è rappresentato l'intero metamodello implementativo nel quale sono riportati anche gli attributi specifici di ogni elemento. Osservando le associazioni si nota che sono state utilizzate solo composizioni, il motivo di questa scelta non è concettuale, ma strettamente connesso agli strumenti che abbiamo sfruttato nell'implementazione del generatore di codice, che saranno presentati nel capitolo successivo.  
+\begin{figure}[h!]
+\centering
+\includegraphics [width=\textwidth] {Figure/Cap3/Metamodel-LowLevel.pdf}
+\caption{{\itshape Metamodello Implementativo}}
+\label{fig:metamodelloImplementativo}
+\end{figure}
+
+\subsubsection{Application}
+Ogni applicazione per dispositivi mobili possiede un nome, corrispondente a quello mostrato insieme all'icona nel menu delle applicazioni di un qualsiasi sistema operativo. Inoltre, tutte le applicazioni sono caratterizzate da una stringa che le identifica univocamente sul web, quindi di fatto un codice identificativo dell'applicazione, in quanto ogni App Store al momento della pubblicazione di una nuova applicazione verifica che il suo id non sia uguale a uno tra quelli associati alle applicazioni pubblicate in precedenza.\\
+Nell'Apple Store tale codice identificativo è chiamato iOS Identifier Name e corrisponde al Bundle Identifier indicato nel tool di sviluppo Xcode, mentre nel Play Store è chiamato Android Package Name e corrisponde al Package Name indicato nel file Manifest.xml. In entrambi i casi esso è stabilito dallo sviluppatore seguendo le convenzioni dei package Java e dovrebbe essere il nome dell'applicazione concatenato al dominio dell'organizzazione riportato in ordine inverso. Per questo motivo è stato aggiunto, oltre al nome dell'applicazione, l'identificativo dell'azienda sviluppatrice tra gli attributi di Application e, in fase di generazione del codice, abbiamo definito l'identificativo dell'applicazione concatenando il nome dell'applicazione a questo id.\\
+Gli attributi di Application sono:
+\begin{itemize}
+\item {\bfseries Name}: è il nome dell'applicazione. 
+\item {\bfseries Company identifier}: é l'identificativo dell'organizzazione sviluppatrice e, insieme a Name, contribuisce alla definizione dell'identificativo dell'applicazione.
+\end{itemize}
+Oltre agli attributi appena descritti, Application ha due relazioni:
+\begin{itemize} 
+\item {\bfseries ViewControllers}: è una relazione da zero a molti, essenziale per l'inserimento di un numero indefinito di ViewController nell'applicazione.
+\item {\bfseries Menu}: è la relazione utilizzata dall'utente per indicare la volontà di aggiungere un Menu nell'applicazione. Coerentemente con quanto affermato nella versione astratta del metamodello, la cardinalità della seconda relazione prevede di avere al massimo un menu per ogni applicazione.
+\end{itemize} 
+
+\subsubsection{ViewController}
+Nel metamodello implementativo ViewController è collegato direttamente ad Application attraverso una relazione, la quale indica che Application può contenere diversi ViewController.\\
+L'elemento ViewController corrisponde a una classe pertanto ha un nome univoco che lo identifica nei sorgenti. Il nome viene utilizzato all'interno dell'applicazione per determinare i punti di arrivo delle navigazioni che hanno come origine un componente dell'interfaccia grafica o una voce del menu. Inoltre, in ogni applicazione è necessario indicare il ViewController iniziale tra quelli presenti, ovvero quello che viene mostrato all'avvio dell'applicazione, perciò è stato aggiunto un attributo booleano tra quelli di ViewController.
+\\
+Un ViewController può mostrare un'interfaccia utente composta da diversi componenti grafici e può avere accesso alle risorse hardware grazie ai rispettivi controller. Per questo motivo sono state definite diverse relazioni su ViewController che rendono immediata e intuitiva l'aggiunta di tutti questi componenti nell'istanza del metamodello. Le cardinalità delle relazioni sono state definite sulla base del numero di istanze di un particolare elemento generabili all'interno di uno stesso ViewController. Per gli elementi che possono presentare più istanze all'interno dello stesso ViewController sono state definite relazioni con cardinalità da zero a molti, mentre per quelli che presentano al più un'istanza sono state definite relazioni con cardinalità da zero a uno.
+\\
+Gli attributi di ViewController sono:
+\begin{itemize}
+\item {\bfseries Name}: è il nome del ViewController.
+\item {\bfseries Launcher}: è l'attributo booleano che indica se il ViewController è il primo ad apparire all'avvio dell'applicazione.
+\end{itemize}
+Le relazioni di ViewController sono:
+\begin{itemize}
+\item {\bfseries Application}: è la relazione inversa di ViewControllers su Application. 
+\item {\bfseries Buttons}: permette l'aggiunta dei Button. La sua cardinalità va da zero a molti. 
+\item {\bfseries TextViews}: permette l'aggiunta delle TextView. La sua cardinalità va da zero a molti. 
+\item {\bfseries WebViews}: permette l'aggiunta delle WebView. La sua cardinalità va da zero a molti. 
+\item {\bfseries ImageViews}: permette l'aggiunta delle ImageView. La sua cardinalità va da zero a molti. 
+\item {\bfseries ListViews}: permette l'aggiunta delle ListView. La sua cardinalità va da zero a molti, anche se raramente si trovano più ListView all'interno di uno stesso ViewController. 
+\item {\bfseries GridViews}: permette l'aggiunta delle GridView. La sua cardinalità va da zero a molti ma, come per le ListView, difficilmente se ne trovano più di una in uno stesso ViewController. 
+\item {\bfseries EditTexts}: permette l'aggiunta delle EditText. La sua cardinalità va da zero a molti. 
+\item {\bfseries AsyncTasks}: permette l'aggiunta di AsyncTask. La sua cardinalità va da zero a molti.
+\item {\bfseries ProgressDialogs}: permette l'aggiunta di ProgressDialog. La sua cardinalità va da zero a molti.
+\item {\bfseries AlertDialogs}: permette l'aggiunta di AlertDialog. La sua cardinalità va da zero a molti.
+\item {\bfseries LocationManager}: permette l'inserimento di un LocationManager, ovvero di una serie di metodi di gestione della posizione geografica dell'utente. La sua cardinalità va da zero a uno, in quanto ogni ViewController può o meno necessitare delle coordinate geografiche dell'utente.
+\item {\bfseries VideoView}: permette l'aggiunta di una VideoView. La sua cardinalità va da zero a uno, in quanto abbiamo ritenuto estremamente raro e complicato da un punto di vista implementativo l'inserimento di più video all'interno di uno stesso ViewController.
+\item {\bfseries PhotocameraController}: permette l'inserimento di un gestore delle risorse provenienti dalla fotocamera del dispositivo, ovvero delle fotografie. La cardinalità è quindi da zero ad uno. 
+\item {\bfseries VideocameraController}: permette l'inserimento di un gestore delle risorse provenienti dalla videocamera del dispositivo, quindi delle registrazioni video. Come nel caso del controller della fotocamera, la cardinalità va da zero a uno. 
+\item {\bfseries AudioPlayer}: permette l'inserimento di un riproduttore di file audio. La sua cardinalità va da zero a uno, in quanto abbiamo ritenuto raro l'inserimento di più AudioPlayer all'interno di uno stesso ViewController.
+\item {\bfseries AudioRecorder}: permette l'inserimento di un registratore di file audio, vale a dire del controller del microfono del dispositivo. La cardinalità della relazione va da zero a uno in quanto abbiamo ritenuto improbabile e complicato da un punto di vista implementativo l'inserimento di più registratori audio all'interno di un ViewController.
+\end{itemize}
+
+\subsubsection{Menu}
+Il menu di un'applicazione è un componente la cui veste grafica varia in base alla piattaforma per cui l'applicazione è stata sviluppata. In Android il menu standard prende il nome di Option Menu ed è accessibile premendo l'apposito tasto sul dispositivo, mentre in iOS il menu prende il nome di Tab Bar e corrisponde a una barra in basso allo schermo composta da un titolo ed eventualmente un'icona per ciascuna voce del menu.
+\\
+L'elemento Menu è al più uno all'interno di una stessa applicazione e non richiede particolari attributi. Dobbiamo però aggiungere una relazione con l'elemento MenuItem, che rappresenta una singola voce del menu. Tale elemento è stato introdotto nel metamodello implementativo e verrà presentato tra poco.
+\\
+L'elemento Menu ha due relazioni:
+\begin{itemize}
+\item {\bfseries MenuItems}: consente di inserire un numero indefinito di voci nel menu, per cui la sua cardinalità va da zero a molti. Un menu vuoto è privo di utilità pratica, ma la cardinalità inferiore è stata pensata in modo da permettere all'utente di avere già implementati nel codice generato tutti gli strumenti per la predisposizione del menu e poter ultimare rapidamente l'implementazione con l'aggiunta delle voci necessarie.
+\item {\bfseries Application}: è la relazione opposta di Menu su Application.
+\end{itemize}
+
+\subsubsection{MenuItem}
+L'elemento MenuItem rappresenta una voce del menu dell'applicazione ed è composto da un titolo e da un'icona opzionale. Per permettere all'utente di individuare immediatamente la voce del menu nel codice generato aggiungiamo tra gli attributi di MenuItem il titolo e un id.
+\\
+In quanto figlio del concetto astratto NavigationStarter, MenuItem corrisponde a uno tra gli elementi che azionano le navigazioni all'interno dell'applicazione, per questo nel metamodello implementativo introduciamo una relazione diretta con l'elemento Navigation che, come vedremo, consente di definire il ViewController di destinazione. \\
+L'elemento MenuItem presenta, quindi, due attributi e due relazioni. Gli attributi sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo della voce del menu.
+\item {\bfseries Title}: è il titolo della voce del menu, che dovrebbe essere indicativo della sezione dell'applicazione mostrata al momento del click da parte dell'utente dello specifico MenuItem.
+\end{itemize}
+Le relazioni di MenuItem sono: 
+\begin{itemize}
+\item {\bfseries Navigation}: collega il MenuItem al ViewController destinazione della navigazione.
+\item {\bfseries Menu}: è la relazione inversa di MenuItem su Menu. 
+\end{itemize}
+
+\subsubsection{ClickListener}
+L'elemento ClickListener è un particolare Listener, definito nel metamodello astratto, che rappresenta il metodo invocato al momento del click dell'elemento che sta monitorando. In particolare, nel nostro metamodello implementativo, che cerca di modellare nel modo più concreto possibile la struttura delle applicazioni mobili, gli elementi che presentano una relazione con questo tipo di oggetto sono Button, ListView e GridView, i quali sono stati progettati per scatenare un'azione al momento del click da parte dell'utente.
+\\
+Abbiamo scelto di modellare il ClickListener poiché corrisponde al Listener maggiormente utilizzato nello sviluppo delle applicazioni mobili. Tra gli altri più utilizzati e che abbiamo scelto di non modellare ricordiamo quello in grado di riconoscere un click prolungato e quello utilizzato per rilevare doppi click.
+\\
+L'elemento ClickListener non ha attributi, ma ha un'unica relazione opzionale con l'elemento {\bfseries Navigation}, che indica se il Listener deve avviare o meno una navigazione verso un nuovo ViewController. Un'istanza di ClickListener priva della relazione con un elemento Navigation implica la necessità per lo sviluppatore di definire via codice l'azione che intende scatenare al momento del click da parte dell'utente finale.
+
+\subsubsection{Navigation}
+L'elemento Navigation modella una specifica navigazione verso un nuovo ViewController. Può essere definito attraverso la composizione che parte dall'elemento ClickListener appena analizzato, oppure attraverso quella che parte dall'elemento MenuItem. Navigation possiede un unico attributo chiamato {\bfseries Destination}, utilizzato per identificare il ViewController destinazione della navigazione.
+
+\subsubsection{AsyncTask}
+L'elemento AsyncTask permette, all'interno dell'applicazione, l'esecuzione asincrona di pezzi di codice, effettuando in background operazioni che potrebbero risultare molto pesanti ed evitando così di bloccare l'interfaccia grafica mostrata all'utente. L'unico attributo richiesto per questo elemento è il nome, perché non è possibile definire attraverso un modello la logica applicativa dell'elemento. 
+\\
+AsyncTask presenta quindi un attributo e una relazione:
+\begin{itemize}
+\item {\bfseries Name}: è il nome del task asincrono e deve essere univoco all'interno di uno stesso ViewController.
+\item {\bfseries ViewController}: è la relazione inversa di AsyncTasks su ViewController.
+\end{itemize}
+
+\subsubsection{SourceType}
+L'elemento SourceType non corrisponde a nessun componente dell'applicazione ma è un oggetto di tipo enumerativo introdotto esclusivamente nel metamodello implementativo, per essere usato come attributo di ImageView, VideoView e AudioPlayer ai fini di definire la sorgente dei file di cui fanno uso. \\ 
+I valori possibili sono tre:
+\begin{itemize}
+\item {\bfseries HardwareFile}: indica che il file a cui si deve accedere proviene direttamente dal componente hardware del dispositivo che lo genera.
+\item {\bfseries LocalFile}: indica che il file a cui si deve accedere proviene da un file locale presente in memoria. 
+\item {\bfseries RemoteFile}: indica che il file a cui si deve accedere risiede su un server remoto.
+\end{itemize}
+
+\subsection{Interfaccia Grafica} \label{InterfacciaGrafica}
+In questa sezione riportiamo l'analisi dettagliata di tutti gli elementi del metamodello implementativo che compongono l'interfaccia grafica, definibili grazie alle relazioni sull'oggetto ViewController che sono state presentate in precedenza.
+
+\subsubsection{Button}
+Tra i diversi widget che l'utente può utilizzare in fase di sviluppo di un'applicazione i bottoni sono i più basilari e funzionali. Essi determinano lo scatenarsi di determinati eventi e il conseguente verificarsi di certe azioni, come la navigazione verso un nuovo ViewController, attivata in genere dall'elemento ClickListener, che rileva il click del bottone da parte dell'utente. Quest'ultimo può infatti essere usato per definire una Navigation che conduce a un nuovo ViewController. Ogni Button presenta un codice identificativo univoco, così come la maggior parte dei componenti grafici, e un titolo, che sono stati quindi introdotti tra gli attributi di Button.\\
+Per poter modellare correttamente il Listener che rileva il click sul bottone aggiungiamo una relazione che lega Button all'elemento ClickListener.\\
+Gli attributi di Button sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo del bottone.
+\item {\bfseries Title}: è il titolo che compare sopra il bottone. 
+\end{itemize}
+Le relazioni di Button sono:
+\begin{itemize}
+\item {\bfseries ClickListener}: rende il bottone selezionabile e quindi in grado di scatenare un'azione al momento del click da parte dell'utente. La sua cardinalità va da zero a uno poichè è concessa la definizione di bottoni non cliccabili.
+\item {\bfseries ViewController}: è la relazione inversa di Buttons su ViewController.
+\end{itemize}
+
+\subsubsection{ImageView e VideoView}
+L'elemento ImageView permette di inserire foto o immagini all'interno dei ViewController, mentre VideoView consente di caricare un video. Le immagini e i video possono corrispondere a file salvati all'interno dell'applicazione, file remoti scaricati da Internet, oppure file che provengono direttamente dal gestore della fotocamera o videocamera del dispositivo sul quale l'applicazione è installata. Si rende quindi necessario aggiungere un attributo per indicare la fonte del file che si intende mostrare e un altro per indicarne la provenienza, utilizzato solo nel caso in cui il file non abbia come fonte la fotocamera o videocamera del dispositivo.
+\\
+Gli attributi di ImageView e VideoView sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo dell'ImageView o della VideoView.
+\item {\bfseries FileUri}: è l'attributo che permette al programmatore di inserire il nome del file da utilizzare nel caso in cui SourceType fosse impostato a {\itshape localFile}, oppure l'URL a cui accedere per scaricare la foto o il video nel caso in cui il valore di SourceType fosse {\itshape remoteFile}. Per i file che provengono dalla fotocamera o videocamera del dispositivo questo attributo deve essere ignorato.
+\end{itemize}
+Le relazioni di ImageView e VideoView sono:
+\begin{itemize}
+\item {\bfseries SourceType}: è la relazione con l'attributo enumerativo SourceType, che permette di stabilire la provenienza dell'immagine o del video da mostrare a schermo.
+\item {\bfseries ViewController}: è la relazione inversa di ImageViews o VideoView su ViewController. 
+\end{itemize}
+
+\subsubsection{TextView}
+Una TextView rappresenta un'area di testo il cui contenuto non può essere modificato da parte dell'utente finale.\\
+Gli attributi di TextView sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo dell'oggetto TextView.
+\item {\bfseries Content}: é il contenuto della TextView. Il contenuto corrisponde a una stringa e può essere molto lungo.
+\end{itemize}
+L'unica relazione di TextView è:
+\begin{itemize}
+\item {\bfseries ViewController}: è la relazione inversa di TextViews su ViewController.
+\end{itemize}
+
+\subsubsection{EditText}
+L'elemento EditText rappresenta un'area di testo il cui contenuto può essere modificato dall'utente finale e corrisponde in genere ad un campo di una form. Le sue proprietà sono molto simili a quelle definite per la TextView.\\
+Gli attributi di EditText sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo della EditText.
+\item {\bfseries InitialContent}: è il contenuto iniziale mostrato in modo predefinito all'apertura del ViewController, poiché è opzionale può essere lasciato vuoto.
+\end{itemize}
+L'unica relazione di EditText è:
+\begin{itemize}
+\item {\bfseries ViewController}: è la relazione inversa di EditTexts su ViewController.
+\end{itemize}
+
+\subsubsection{ListView e GridView}
+ListView e GridView sono concetti simili, utilizzati per mostrare un elenco di elementi all'interno di uno stesso ViewController. La differenza risiede nel fatto che le ListView sono delle liste scorrevoli, mentre le GridView sono tabelle con scorrimento bidimensionale. Entrambe sono costituite al loro interno da celle, ciascuna delle quali può avere contenuti di vario tipo, anche se in genere si tratta di testi e/o immagini. Solitamente la selezione di una determinata cella conduce all'apertura di un nuovo ViewController con lo scopo di mostrare all'utente maggiori dettagli riguardo all'elemento cliccato. Ciò è possibile grazie ad un ClickListener, che corrisponde al metodo invocato al momento del click di una cella. In base alla logica implementativa definita all'interno del metodo viene scatenata una determinata azione, come l'apertura del nuovo ViewController configurato sulla base dell'elemento selezionato.\\
+L'unico attributo di ListView e GridView è:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo della ListView o GridView.
+\end{itemize}
+Le relazioni di ListView e GridView sono:
+\begin{itemize}
+\item {\bfseries ListViewCells} o {\bfseries GridViewCells}: consentono al programmatore di inserire un numero qualsiasi di celle nella ListView o GridView. La cardinalità di queste relazioni varia da zero a molti, in quanto l'utente può decidere di inserire manualmente le celle successivamente. Nel caso in cui l'utente intendesse rendere i contenuti della lista o della tabella dinamici, per esempio sulla base di dati salvati in un database locale, l'utente deve lasciare la View priva di celle e gestire successivamente via codice la logica applicativa necessaria per inserire i contenuti nelle varie celle.
+\item {\bfseries ClickListener}: consente alla lista o alla tabella di rendere le proprie celle selezionabili e quindi in grado di scatenare un'azione al momento del click da parte dell'utente. La sua cardinalità va da zero a uno poiché la lista o la tabella può presentare celle non selezionabili.
+\item {\bfseries ViewController}: è la relazione inversa di ListViews o GridViews su ViewController.
+\end{itemize}
+
+\subsubsection{ListViewCell e GridViewCell}
+ListViewCell e GridViewCell sono le celle che possono essere aggiunte a ListView e GridView rispettivamente. Questi elementi non sono presenti nel metamodello astratto proprio per la natura di tale metamodello di modellare ad alto livello la struttura delle applicazioni. Abbiamo anticipato che il contenuto delle celle delle GridView e delle ListView può essere personalizzato e, nel caso più semplice, il contenuto è rappresentato da una stringa. Per questo abbiamo scelto di dare all'utente la possibilità di definire nel modello dell'applicazione esclusivamente un titolo per ciascuna cella: modificando poche righe di codice può sempre decidere di personalizzarla successivamente. In base a quanto detto l'unico attributo necessario per l'elemento ListViewCell o GridViewCell è pertanto {\bfseries Title}, che permette di definire il titolo da inserire nella specifica cella. Non si tratta di un attributo il cui valore deve essere inserito obbligatoriamente dallo sviluppatore, il quale può decidere di settare il titolo in un secondo momento via codice.
+
+\subsubsection{WebView}
+Una WebView è una View usata per mostrare una pagina Web, il cui contenuto e il layout sono definiti attraverso file HTML e CSS, che appartengono alle risorse dell'applicazione. L'elemento WebView è particolarmente indicato nello sviluppo di applicazioni mobili per chi intendesse definire in maniera semplice i contenuti e lo stile di una View, sfruttando gli strumenti della programmazione web. \\
+Gli attributi di WebView sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo della WebView.
+\item {\bfseries HTMLFileName}: è l'attributo che rappresenta il nome del file HTML che si intende utilizzare per definire il contenuto della WebView. Questo campo può essere lasciato vuoto ed in tal caso il sistema genera il codice per il corretto settaggio della WebView, senza specificare alcun riferimento al file HTML, che dovrà essere inserito manualmente dal programmatore. Nel caso in cui si intendesse definire il layout della pagina attraverso un file CSS, è necessario definire il riferimento al file nell'header del file HTML.
+\end{itemize}
+L'unica relazione di WebView è:
+\begin{itemize}
+\item {\bfseries ViewController}: è la relazione inversa di WebViews su ViewController. 
+\end{itemize}
+
+\subsubsection{AlertDialog}
+L'elemento AlertDialog consente di visualizzare un messaggio con titolo e contenuto in sovrimpressione sullo schermo del dispositivo. Quindi, si rende necessario avere all'interno dell'elemento due attributi per inserire titolo e contenuto del messaggio. In quanto la comparsa di un messaggio di questo tipo blocca l'interfaccia grafica, vengono automaticamente mostrati anche due bottoni di conferma e annullamento.\\
+Gli attributi di AlertDialog sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo dell'AlertDialog. 
+\item {\bfseries Title}: è il titolo dell'AlertDialog.
+\end{itemize}
+Le relazioni di AlertDialog sono:
+\begin{itemize}
+\item {\bfseries Message}: rappresenta il contenuto del messaggio. 
+\item {\bfseries ViewController}: è la relazione inversa di AlertDialogs su ViewController.
+\end{itemize}
+
+\subsubsection{ProgressDialog}
+L'elemento ProgressDialog è, come l'AlertDialog, un messaggio che può avere un titolo e un contenuto, ma con due differenze sostanziali: non ha bottoni di conferma o annullamento e presenta uno spinner oppure una barra orizzontale, che indica lo stato di avanzamento dell'operazione in corso. \\
+Gli attributi di ProgressDialog sono:
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo del ProgressDialog.
+\item {\bfseries Title}: è il titolo del ProgressDialog.
+\item {\bfseries Message}: rappresenta il contenuto del messaggio.
+\item {\bfseries Spinner}: è un attributo booleano utilizzato per scegliere se l'avanzare dell'operazione deve essere mostrato attraverso uno spinner oppure attraverso una semplice barra orizzontale.
+\end{itemize}
+L'unica relazione di ProgressDialog è:
+\begin{itemize}
+\item {\bfseries ViewController}: è la relazione inversa di ProgressDialogs su ViewController. 
+\end{itemize}
+
+\subsection{Hardware} \label{Hardware}
+Di seguito riportiamo una descrizione dei principali elementi di una generica applicazione che gestiscono l'interfacciamento con l'hardware del dispositivo. Ricordiamo che lo scopo del metamodello implementativo è quello di consentire la definizione di un modello dell'applicazione sufficientemente espressivo da permettere la generazione dei sorgenti nativi corrispondenti. Per i Controller dei componenti hardware questa fase si concretizzerà nella produzione dei pezzi di codice che implementano la logica applicativa di interfacciamento con il componente modellato. \\
+Ogni ViewController può presentare al suo interno diversi metodi per l'interazione con l'hardware, tuttavia di tutti i metodi implementabili abbiamo deciso di modellarne solo alcuni, quelli utilizzati più di frequente nelle applicazioni. Tali elementi sono stati modellati come figli del concetto {\bfseries HWResourceController}, presentato nel metamodello astratto, e sono presentati di seguito. E' bene tenere presente che quando, all'interno di un ViewController, è necessario interfacciarsi con un qualsiasi componente hardware, i concetti del metamodello astratto coinvolti sono sempre due: quello di HWResource e quello di HWResourceController.
+
+\subsubsection{LocationManager}
+L'elemento LocationManager è un HWResourceController che sfrutta il sensore GPS del dispositivo per determinare la posizione geografica dell'utente. Questo elemento non necessita di particolari attributi nel modello implementativo, perché quando l'utente decide di fare in modo che un certo ViewController possa recuperare la posizione dell'utente non deve settare alcun parametro, quanto piuttosto decidere come implementare la logica dell'utilizzo della posizione ottenuta, che purtroppo non può essere modellata. Perciò, quando il programmatore definisce nel modello un oggetto di tipo LocationManager, nel codice generato automaticamente verranno inseriti i metodi di interfacciamento con il sensore GPS, la cui implementazione deve essere ultimata dallo sviluppatore.\\
+L'unica relazione che presenta l'elemento è {\bfseries ViewController}, ossia la relazione inversa di LocationManager su ViewController.
+
+\subsubsection{AudioPlayer}
+AudioPlayer è un HWResourceController che sfrutta la risorsa hardware Speaker per la riproduzione di file musicali provenienti da file locali, da remoto o per la riproduzione di registrazioni effettuate col microfono del dispositivo. Quando lo sviluppatore decide di inserire nel modello questo elemento, al momento della generazione dei sorgenti vengono automaticamente inseriti i pezzi di codice che definiscono la logica applicativa di gestione della riproduzione musicale (play, pause, stop). Le funzionalità offerte dall'AudioPlayer riguardano in particolare il recupero di uno specifico file audio e la sua riproduzione, oltre alla messa in pausa e all'arresto della riproduzione stessa.\\
+Gli attributi di AudioPlayer sono: 
+\begin{itemize}
+\item {\bfseries Id}: è l'identificativo dell'AudioPlayer.
+\item {\bfseries FileUri}: è l'attributo che permette al programmatore di inserire il nome del file locale da utilizzare come sorgente, oppure l'url da cui scaricare il file musicale per i file remoti. Nel caso in cui il file audio da riprodurre corrisponda a una registrazione attraverso il microfono del dispositivo l'attributo FileUri deve essere ignorato.
+\end{itemize}
+Le relazioni di AudioPlayer sono:
+\begin{itemize}
+\item {\bfseries SourceType}: è la relazione con l'attributo enumerativo SourceType, che permette di stabilire la provenienza del file musicale che si intende riprodurre.
+\item {\bfseries ViewController}: è la relazione inversa di AudioPlayer su ViewController.
+\end{itemize}
+
+\subsubsection{PhotocameraController, VideocameraController e AudioRecorder}
+PhotocameraController, VideocameraController e AudioRecorder vengono utilizzati rispettivamente per scattare una foto con la fotocamera, registrare un video con la videocamera ed effettuare una registrazione audio attraverso il microfono del dispositivo.\\
+PhotocameraController e VideocameraController, una volta implementati, si presentano graficamente con un bottone all'interno della Window del ViewController in cui vengono inseriti. Tale bottone, una volta cliccato, permette all'utilizzatore di aprire sul dispositivo l'applicazione predefinita per la cattura di foto o di video. I file generati vengono automaticamente salvati in memoria e ritornati all'applicazione chiamante, dove lo sviluppatore dovrà ultimare l'implementazione definendo via codice la logica di gestione dei file ricevuti. 
+L'unico attributo di PhotocameraController è ImageViewId, che permette di associare al PhotocameraController una ImageView con HWResource come SourceType. Tale attributo dovrà essere settato dal programmatore nel caso in cui decidesse di visualizzare direttamente nella Window del ViewController l'ultima foto scattata. 
+Considerazioni analoghe valgono per VideoCameraController, che presenta l'attributo VideoViewId, da utilizzare per indicare l'id della VideoView dove riprodurre l'ultimo video registrato.\\
+AudioRecorder si presenta anch'esso con un bottone con titolo ``Rec'' nella Window del ViewController in cui viene inserito. Una volta cliccato il bottone non viene mostrata nessuna schermata particolare, al contrario l'utente continuerà a visualizzare la stessa View con il titolo del bottone mutato in ``Stop'', ad indicare che la registrazione dal microfono è in corso e può essere interrotta cliccando nuovamente sul bottone. E' possibile riprodurre direttamente l'ultimo file audio registrato attraverso un elemento AudioPlayer con HWResource come SourceType: come per PhotocameraController e VideocameraController, l'elemento AudioRecorder presenta un apposito attributo, chiamato AudioPlayerId, che lo sviluppatore può utilizzare per indicare l'id dell'AudioPlayer dove intende riprodurre l'ultimo file audio registrato.\\ 
+Gli elementi PhotocameraController, VideocameraController e AudioRecorder presentano un attributo e una relazione:
+\begin{itemize}
+\item {\bfseries ImageViewId}, {\bfseries VideoViewId} oppure {\bfseries AudioPlayerId}: è l'attributo che permette di indicare l'id dell'oggetto oggetto dove mostrare o riprodurre il file generato utilizzando l'hardware del dispositivo. Nel caso in cui lo sviluppatore preferisca o necessiti di definire via codice la logica applicativa di gestione del file ricevuto deve ignorare il settaggio dell'attributo al momento della modellazione dell'applicazione.
+\item {\bfseries ViewController}: è la relazione inversa di PhotocameraController, VideocameraController o AudioRecorder su ViewController.
+\end{itemize} 
+
+\section{Elementi esclusi dalla modellazione}
+Alcuni elementi tra quelli presenti nel metamodello astratto non sono stati volutamente riportati nel diagramma del metamodello implementativo. \\
+Tra questi ci sono quelli che rappresentano concetti puramente astratti. E' il caso dell'elemento {\bfseries Window}, che può essere inteso come il contenitore delle View mostrate sullo schermo, o dei concetti {\bfseries View}, {\bfseries HWResource} e {\bfseries HWResourceController}, i cui figli rappresentano i concetti concreti, ovvero quelli istanziabili. Persino l'elemento {\bfseries NavigationStarter} è da considerarsi astratto, in quanto rappresenta un generico elemento da cui può avere origine una navigazione verso un nuovo ViewController. Oltre a questi elementi, per cui risulta ovvia la mancata introduzione in un metamodello contenente unicamente concetti concreti, ci sono quelli che lo sviluppatore non è tenuto a specificare direttamente al momento della definizione del modello per l'applicazione desiderata, in quanto scontati e implementati in automatico dal generatore di codice sulla base della definizione degli altri elementi. Infine ci sono gli elementi non astratti che abbiamo dovuto escludere dall'implementazione per una serie di ragioni che vedremo nelle righe che seguono. Tuttavia prima di considerare quest'ultimi elementi entriamo nel merito di quelli appartenenti al metamodello astratto implementati implicitamente nel metamodello implementativo.
+
+\subsection{Implementati implicitamente}
+Tra gli elementi appartenenti a questa categoria troviamo {\bfseries LifeCycleOperation} e i suoi figli, non riportati nel metamodello implementativo perché è considerata implicita la presenza nei ViewController dei metodi per la gestione del loro ciclo di vita. Quindi nei sorgenti provenienti dalla traduzione degli elementi ViewController sono presenti le intestazioni dei metodi del ciclo di vita, nonostante essi non siano esplicitati nel metamodello implementativo.\\
+Lo stesso vale per l'elemento {\bfseries Manifest}, che costituisce una parte fondamentale per il funzionamento corretto delle applicazioni e che viene automaticamente generato al momento della produzione dei sorgenti dell'applicazione, ricavando le informazioni necessarie dagli altri elementi appartenenti al modello dell'applicazione.\\
+Non abbiamo previsto la modellazione nemmeno delle {\bfseries Content Resource}, in quanto, come vedremo nel capitolo successivo, al fine di raccogliere tutte le risorse necessarie all'applicazione abbiamo predisposto nel progetto realizzato un'apposita cartella chiamata ``user$\_$files'', che l'utente deve riempire prima di lanciare il workflow del generatore di codice, il quale si occupa di copiare i file contenuti in user$\_$files nelle giuste directory del progetto Android o iOS dell'applicazione, in base alla loro estensione.\\
+Per quanto riguarda, invece, l'elemento {\bfseries ExternalLibrary}, non è stato indicato nel metamodello implementativo per via del fatto che il generatore incorpora automaticamente nei sorgenti Android o iOS le principali librerie esterne.
+
+\subsection{Attualmente non implementati}
+A partire dal metamodello implementativo abbiamo fornito una prima mappatura in codice della maggior parte degli elementi concreti del metamodello astratto, mentre alcuni elementi sono stati esclusi dalla mappatura e quindi omessi dal metamodello implementativo. Le ragioni di questa incompletezza riguardano principalmente la forte dipendenza dell'implementazione di alcuni elementi dalla piattaforma per cui l'applicazione deve essere sviluppata e il fatto che sono caratterizzati da una logica applicativa non definibile con un approccio model-driven. Questi elementi, presentati di seguito, sono SQLite, MapView e alcuni controller delle risorse hardware.
+\\\\
+{\bfseries SQLite} è una libreria esterna che può essere usata per la creazione e gestione di un database relazionale ed esiste sia la versione per Android che quella per iOS. Si è pensato che l'implementazione dell'elemento SQLite non costituisse una priorità per una serie di ragioni. In primo luogo risulta difficile definire la struttura completa delle tabelle del database e le query richieste attraverso un modello, in aggiunta al fatto che non tutte le applicazioni necessitano di un database relazionale e per le due piattaforme si tende ad adottare soluzioni diverse. Sebbene in Android l'utilizzo di SQLite sia abbastanza frequente, gli sviluppatori iOS tendono a sfruttare la libreria Core Data, che offre la possibilità di creare in maniera estremamente semplice dei database ad oggetti. Ciò non esclude comunque il fatto che l'impiego della libreria SQLite permetterebbe sicuramente di uniformare la scelta del database su un'applicazione pensata per essere sviluppata per più piattaforme.
+\\\\
+{\bfseries MapView} concettualizza nel metamodello astratto una View contenente una mappa geografica. In iOS attraverso l'oggetto MKMapView è possibile definire in maniera molto semplice via codice il contenuto della mappa geografica. Invece risulta essere più complicata la definizione della mappa attraverso l'oggetto MapView di Android, al punto che si tende spesso a usare piuttosto una WebView, sfruttando le API offerte da Google Maps. Nel momento in cui abbiamo iniziato la definizione del metamodello implementativo, era inoltre in corso l'aggiornamento della libreria esterna utilizzata da MapView, che dalla prima versione passava alla seconda, dove certi aspetti riguardo a come personalizzare la mappa non appaiono tuttora chiari. Per queste ragioni, in aggiunta al fatto che risulta difficile definire la mappa da mostrare a schermo con un approccio model-driven, abbiamo preferito accantonare l'idea di implementare MapView e di concentrarci maggiormente sugli altri elementi del metamodello, elencando tra gli eventuali sviluppi futuri del nostro lavoro l'implementazione di MapView.
+\\\\
+Abbiamo escluso dall'implementazione anche i controller delle risorse hardware raramente sfruttate dalle applicazioni mobili, escludendo il caso dei videogiochi dove i sensori hardware frequentemente utilizzati sono differenti. Tra questi citiamo l'accelerometro, il giroscopio, il sensore di prossimità, il sensore di luce e il Bluetooth: il loro impiego è talmente raro che abbiamo preferito concentrarci sull'implementazione degli HWResourceController delle risorse comunemente usate, come lo speaker, il microfono, la fotocamera e la videocamera.
+
+\section{Conclusioni}
+Nella prima parte di questo capitolo abbiamo descritto gli elementi introdotti nel metamodello implementativo, molti dei quali derivano naturalmente da quello astratto. 
+La definizione degli elementi del metamodello implementativo è stata effettuata cercando di mantenere bassa la sua complessità, considerando gli attributi e le relazioni strettamente indispensabili per la traduzione dei concetti in codice. Per citare un esempio consideriamo gli elementi ListViewCell e GridViewCell, dove ci siamo limitati a definire un unico attributo testuale per il settaggio del titolo: aggiungendo altri attributi avremmo potuto definire un prototipo di cella personalizzato, magari contenente un sottotitolo e un'immagine, che avrebbe però richiesto un effort non indifferente nella fase di traduzione del modello in codice, senza aggiungere alcun valore al lavoro di tesi.\\
+Nella seconda parte del capitolo abbiamo invece analizzato gli elementi del metamodello astratto che non sono stati riportati in quello implementativo, in quanto esclusi dalla fase di implementazione per la serie di ragioni presentate oppure tradotti direttamente in codice sulla base degli altri elementi del modello e inseriti quindi implicitamente nei sorgenti generati.
+\\\\
+Da un punto di vista strutturale i metamodelli astratto e implementativo presentano delle evidenti differenze sostanziali. Innanzitutto non è stato possibile mantenere le stesse relazioni presentate nella versione astratta per via della presenza nel nuovo metamodello di un sottoinsieme dei concetti della prima versione, in particolare quelli concreti, che si prestano ad esse tradotti in codice. Inoltre, il metamodello implementativo è stato definito con lo scopo di essere istanziato seguendo un procedimento standard volto a guidare lo sviluppatore nella fase di modellazione, ovvero partendo dall'elemento Application e seguendo le composizioni indicate nel diagramma di Figura \ref{fig:metamodelloImplementativo}, presentato a inizio capitolo. Il metamodello implementativo così definito permette infatti allo sviluppatore di definire in maniera molto semplice il modello di una qualsiasi applicazione.
+\\\\
+Nel capitolo successivo presenteremo gli strumenti usati nella fase di implementazione del lavoro di tesi e descriveremo la struttura del generatore di codice prodotto, dimostrando come sia possibile tradurre in codice gli elementi definiti nel modello dell'applicazione. Attraverso il generatore di codice il programmatore avrà così la possibilità di sviluppare buona parte dell'applicazione desiderata per le piattaforme Android e iOS seguendo un approccio puramente model-driven, ovvero definendo, attraverso un editor grafico, un'istanza del metamodello implementativo.

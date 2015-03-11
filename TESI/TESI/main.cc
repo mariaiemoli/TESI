@@ -135,7 +135,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
-
+	/*
 
 	std::cout << " 			---  PROBLEMA DI DARCY  ---			" << std::endl;
 	std::cout << std::endl;
@@ -178,7 +178,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
-	/*
+	*/
 
 	std::cout << " 			---  PROBLEMA DI SATURAZIONE  ---			" << std::endl;
 	std::cout << std::endl;
@@ -195,7 +195,7 @@ int main ( int argc, char* argv [ ] )
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
-	*/
+
 
 	return 0;
 

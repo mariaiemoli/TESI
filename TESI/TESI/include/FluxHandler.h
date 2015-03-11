@@ -40,6 +40,11 @@ public:
 	void H ( const size_type& hyp );
 
 
+	inline std::string getU() const
+	{
+		return M_U;
+	}
+
 	inline std::string getFlux() const
 	{
 		return M_flux;
@@ -89,6 +94,8 @@ public:
 private:
 
 	std::string M_sectionFlux;
+
+	std::string M_U;
 
 	std::string M_flux;
 	std::string M_flux1;

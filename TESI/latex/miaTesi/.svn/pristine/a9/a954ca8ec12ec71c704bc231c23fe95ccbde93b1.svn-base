@@ -1,0 +1,61 @@
+
+\cleardoublepage %per cominciare sulla pagina destra
+
+%---------------------------------------------------------------------------------------------%
+%Layout dei ringraziamenti
+%---------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}%
+%%%%%%%%%%%%%%%%%%%%%%%
+%
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+
+\setlength{\textheight}{211mm}
+\setlength{\textwidth}{138mm}
+
+\setlength{\evensidemargin}{32mm}
+\setlength{\oddsidemargin}{41mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\marginparsep}{0mm}
+
+\setlength{\topmargin}{10mm}
+\setlength{\headheight}{5mm}
+\setlength{\headsep}{26mm}
+
+\setlength{\footskip}{32mm}
+%---------------------------------------------------------------------------------------------%
+\begin{flushright}
+{\itshape A te nonna {\bfseries Anita}, \\
+il tuo sorriso è il mio ricordo più caro.}
+
+\vspace {5mm}
+{\itshape Alla mia  {\bfseries famiglia}, \\
+per l'immensa bellezza della sua semplicità.}
+
+\end{flushright}
+
+\vspace{6mm}
+
+\noindent
+\\\\
+\\\\
+{\itshape 
+Un grazie davvero di cuore ai miei genitori per avermi dato la possibilità di frequentare un corso di studi universitario.\\\\
+Un ringraziamento speciale ad Augusto per non avermi mai negato il suo aiuto, per avermi sempre consigliata, supportata e sopportata in qualsiasi momento.\\\\
+Grazie a mia nonna Rosa per avermi sempre appoggiato e a mio fratello Marco, che ha rallegrato questi anni, anche nei giorni di studio profondo.\\\\
+Ancora un ringraziamento per i miei amici Maria, Guido e Fabrizio, con cui ho trascorso due anni stupendi, e grazie a tutti coloro che ho incontrato durante il periodo universitario, con i quali è sorta un'amicizia vera e con i quali ho condiviso momenti di gioia, ma anche di impegno e di studio.\\\\
+Infine un doveroso e sentito ringraziamento al professor Luciano Baresi che ci ha seguito nello svolgimento della tesi lasciandoci liberi nelle nostre scelte, pur indicandoci il percorso da intraprendere, al professor Sam Guinea per il sostegno nella comprensione del mondo iOS e alla signora Alessandra Viale per la sua gentilezza e la sua infinita disponibilità.
+} 
+\begin{flushright}
+{\itshape \bfseries Stefania}
+\end{flushright}
+
+
+\newpage %per aprire una nuova pagina e non metterne il numero di pagina
+\thispagestyle{empty} %per non mettere intestazione e piè di pagina
+\cleardoublepage %per cominciare sulla pagina destra
+
+
+
+

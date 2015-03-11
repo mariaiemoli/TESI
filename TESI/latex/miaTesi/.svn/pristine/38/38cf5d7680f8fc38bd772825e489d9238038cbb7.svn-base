@@ -1,0 +1,30 @@
+\chapter*{Sommario}
+\vspace{-5mm}
+%---------------------------------------------------------------------------------------------%
+%Definizione dell'intestazione del sommario
+%---------------------------------------------------------------------------------------------%
+\lhead[\fancyplain{}{\footnotesize{Sommario}}]{}
+\rhead[]{\fancyplain{}{\footnotesize{Sommario}}}
+\lfoot[\fancyplain{}{\bf \thepage}]{}
+\cfoot{}
+\rfoot[]{\fancyplain{}{\bf \thepage}}
+%---------------------------------------------------------------------------------------------%
+La sempre più ampia diffusione di smartphone e tablet apre grandi opportunità nell'ambito dello sviluppo di applicazioni per questi dispositivi. Questo lavoro di tesi presenta un approccio model-driven allo sviluppo di applicazioni mobili native, alternativo a quello cross-platform, che, per quanto interessante e diffuso, presenta delle limitazioni non trascurabili.\\
+Con l'obiettivo di consentire agli sviluppatori di sfruttare un approccio model-driven per l'implementazione di applicazioni mobili abbiamo seguito un percorso composto da varie fasi. Innanzitutto, basandoci sul linguaggio di modellazione UML, abbiamo definito un metamodello astratto, in grado di concettualizzare ad alto livello gli elementi che strutturano le applicazioni mobili, indipendentemente dalla piattaforma per cui sono sviluppate. Successivamente abbiamo prodotto la versione implementativa del primo metamodello, le cui istanze permettono di delineare in maniera dettagliata i modelli delle applicazioni che si intende realizzare. Infine abbiamo definito le regole di traduzione in codice degli elementi che compongono il modello dell'applicazione, creando uno strumento software per la generazione dei sorgenti nativi, utilizzando diversi strumenti e un insieme di tecnologie esistenti. Il generatore di codice permette di generare i sorgenti Android e iOS corrispondenti al modello dell'applicazione definita dallo sviluppatore. La scelta di limitarsi a queste due piattaforme è legata principalmente al fatto che esse costituiscono i due sistemi operativi per dispositivi mobili attualmente più diffusi al mondo.\\
+Oltre alle varie fasi che hanno condotto alla definizione dei due metamodelli e all'implementazione del generatore di codice, abbiamo svolto una valutazione qualitativa e quantitativa dell'utilizzo di quest'ultimo, da cui è emersa la possibilità concreta di usarlo come strumento di supporto alle fasi di design e di implementazione, in quanto efficace nel ridurre lo sforzo richiesto agli sviluppatori di applicazioni mobili.
+\\\\
+{\bfseries Parole chiave:} applicazioni mobili native, metamodello UML, sviluppo model-driven, generazione di codice, Android, iOS.
+
+
+\newpage
+\vspace{15mm}
+\noindent
+{\LARGE {\bfseries Abstract}} \\
+\vspace{5mm} \\
+The increasingly widespread production of smartphones and tablets opens up great opportunities in the development of applications for these devices. The aim of this thesis work is to provide a model-driven approach to the development of native mobile applications as alternative to the cross-platform one, which, despite its popularity, has considerable limitations. \\
+The present work has been divided in four steps. First of all, relying on the UML modeling language, we defined a new abstract metamodel able to conceptualize, at a high-level, elements that structure mobile applications, regardless of the platform for which they are developed. Later we defined the implementative version of the first metamodel, whose instances allow to define in detail the models of applications intended to be accomplished. Finally we defined some rules in order to translate the elements that compose the application model into code, creating a software tool for the generation of the native sources, using different tools and a set of existing technologies. The mobile code generator allows to produce the Android and iOS source code corresponding to the application model defined by the developer. The choice of focusing the attention only to these two platforms is mainly related to the fact that they currently constitute the most widespread operating systems for mobile devices worldwide.\\
+In addition to the various steps, which led to the definition of the two metamodels and the implementation of the code generator, we carried out a qualitative and quantitative evaluation of the code generator use. This step highlighted the possibility of adopting the code generator as a supporting tool to the design and the implementation phases, showing a significant reduction of the effort required to mobile application developers.
+\\\\
+{\bfseries Keywords:} native mobile applications, UML metamodel, model-driven development, code generation, Android, iOS.
+
+\cleardoublepage

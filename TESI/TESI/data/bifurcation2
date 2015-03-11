@@ -1,0 +1,235 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program laplacian    PARAMETRIZZATO                      %
+% configurazione geometrica di Anna, funzioni monotone			 		  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meshFile = meshes/mesh
+folderVTK = ./vtk/
+
+numberFractures = 3
+
+[dataTime]
+
+        endTime = 0.1 # 1.
+        dt = 0.002 # 0.02
+                
+[../]
+
+[mediumData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/
+
+                spatialDiscretization = 21
+                spatialInclination = 0.
+                lengthAbscissa = 300.
+                lengthOrdinate = 300.
+                lengthQuota = 300.
+                meshType = GT_PK(2,1)
+                spaceDimension = 2.
+
+        [../]
+
+[../]
+
+
+
+[fractureData0]
+
+spaceDimension = 1.
+
+        [./levelSet]
+			
+			levelSet = y-0.0
+			ylevelSet = y-0.0
+			xlevelSet = x+1.0-1.0*t          
+			levelSetCut = -1
+			yMap = 0.0
+			xMap = -1.0+1.0*t
+		
+	        integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+	        thickness = 0.1 # 0.013
+	
+	        spacing = x-1.
+	
+			a = -1.
+			b = 0.			
+	        spatialDiscretization = 11
+	        translateAbscissa = -1.
+	        lengthAbscissa = 1. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+	        meshType = GT_PK(1,1)
+	        
+	        integrationTypeVelocity = IM_GAUSS1D(3)
+	        integrationTypePressure = IM_GAUSS1D(2)
+	
+	        FEMTypeVelocity = FEM_PK(1,1)
+	        FEMTypePressure = FEM_PK(1,0)
+	        FEMTypeLinear = FEM_PK(1,1)
+        
+	
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+			x0 = 0.
+            u0 = 0. #1.*(x<0.31)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = 10*x
+				f1 = 1.  
+				bc1 = 1.
+				bc2 = 0.
+				
+			[../]
+			
+			
+        [../]
+
+
+[../]
+
+
+[fractureData1]
+
+spaceDimension = 1.
+
+        [./levelSet]
+			
+			levelSet = y-x
+		    ylevelSet = y-1+t
+			xlevelSet = x-1+t            
+			levelSetCut = -1
+			yMap = 1-t
+			xMap = 1-t
+		
+	        integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+
+                thickness = 0.2 # 0.011
+
+                spacing = x
+                
+                a = 1.
+                b = 0.
+
+                spatialDiscretization = 16
+                translateAbscissa = 0.
+                lengthAbscissa = 1. #0.5
+                lengthOrdinate = 0.
+                lengthQuota = 0.
+
+                meshType = GT_PK(1,1)
+
+		        integrationTypeVelocity = IM_GAUSS1D(3)
+		        integrationTypePressure = IM_GAUSS1D(2)
+		
+		        FEMTypeVelocity = FEM_PK(1,1)
+		        FEMTypePressure = FEM_PK(1,0)
+		        FEMTypeLinear = FEM_PK(1,1)
+                
+
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+			x0 = 0.
+            u0 = 0. # 1.*(x>0.15)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = -4.5*x		# 0.9
+				f1 = -4.5
+				bc1 = 1.
+				bc2 = 0.
+				
+			[../]
+
+        [../]
+
+[../]
+
+[fractureData2]
+
+spaceDimension = 1.
+
+        [./levelSet]
+
+		levelSet = y+x
+                ylevelSet = y+1-t
+		xlevelSet = x-1+t
+                levelSetCut = -1
+                yMap = -1+t
+		xMap = 1-t
+
+                integrationTypeSimplex = IM_STRUCTURED_COMPOSITE(IM_TRIANGLE(3),1)
+
+        [../]
+
+        [./domain]
+
+
+                thickness = 0.3 # 0.012
+
+                spacing = x  %here the fracture starts at x=0.1 
+                
+                a = 1.
+                b = 0.
+                spatialDiscretization = 13
+                translateAbscissa = 0.
+                lengthAbscissa = 1. #1.
+                lengthOrdinate = 0.
+                lengthQuota = 0.
+
+                meshType = GT_PK(1,1)
+                
+		        integrationTypeVelocity = IM_GAUSS1D(3)
+		        integrationTypePressure = IM_GAUSS1D(2)
+		
+		        FEMTypeVelocity = FEM_PK(1,1)
+		        FEMTypePressure = FEM_PK(1,0)
+		        FEMTypeLinear = FEM_PK(1,1)
+
+
+        [../]
+
+        [./saturation]
+
+			numberFlux = 1
+			x0 = 0.
+            u0 = 0. #1.  # 1.*(x<0.3)  # 0.25-0.25*(x<0.)  # 1.-1.*(x<0.)  #1.*(x>0.)  
+            U = neg
+			invPorosity = 1.
+
+			[./fluxData0]	# sinistra
+			
+				f = -0.333*x   # 0.1
+				f1 = -0.333 
+				bc1 = 0.
+				bc2 = 0.
+				
+			[../]
+
+			
+        [../]
+
+[../]
