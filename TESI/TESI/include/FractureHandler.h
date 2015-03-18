@@ -78,7 +78,7 @@ public:
      * Funzione che, data un'altra frattura con cui si interseca, imposta i  valori legati all'intersezione: costruisce sulla mesh
      * la regione " tagliata ", aggiunge i gradi di libertà estesi,  e imposta che tali gradi di libertà siano gli stessi sulle due fratture.
      */
-    void setMeshLevelSetFracture ( FractureHandler& otherFracture );//, size_type& globalIndex, const std::string& type );
+    void setMeshLevelSetFracture ( FractureHandler& otherFracture );
 
     void updateEtaTangentialInterpolated ( const scalarVector_Type& s );
 

@@ -15,6 +15,7 @@
 #include "include/MediumData.h"
 #include "include/DarcyFractured.h"
 #include "include/MeshHandler.h"
+//#include "include/TwoPhaseFlow.h"
 
 
 
@@ -38,9 +39,11 @@ int main ( int argc, char* argv [ ] )
 
 	const std::string vtkFolder = "vtk/";
 
-	// Creo la cartella dove salvare i risultati se già non esiste
-	//	std::string s = "mkdir "+vtkFolder;
-	//	system (s.c_str());
+	/*
+	//Creo la cartella dove salvare i risultati se già non esiste
+	std::string s = "mkdir "+vtkFolder;
+	system (s.c_str());
+	*/
 
 	std::cout << std::endl;
 	std::cout << std::endl;
@@ -137,64 +140,67 @@ int main ( int argc, char* argv [ ] )
 
 	/*
 
-	std::cout << " 			---  PROBLEMA DI DARCY  ---			" << std::endl;
+	std::cout << " 			---  PROBLEMA DI FLUSSO BIFASE  ---			" << std::endl;
 	std::cout << std::endl;
 
+	TwoPhaseFlow_Ptr_Type twophaseflow( new TwoPhaseFlow_Type( dataFile, mediumDataDarcy, mesh,
+										bcHandler, fractures, exporter ));
 
-	// Darcy problem
-	std::cout << "Create Darcy problem..." << std::flush;
-	DarcyFracturedPtr_Type darcy(new DarcyFractured_Type(mediumDataDarcy, mesh,
-			bcHandler, fractures, exporter));
-	std::cout << " completed!" << std::endl;
+	twophaseflow->solve();
+
 	std::cout << std::endl;
-	std::cout << std::endl;
-
-
-	// Initialize the solver
-	std::cout << "Initialize the Darcy problem..." << std::flush;
-	darcy->init();
-	std::cout << " completed!" << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-
-
-	// Assembly the matrices and vectors
-	std::cout << "Assembly the Darcy problem..." << std::flush;
-	darcy->assembly( dataFile);
-	std::cout << " completed!" << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-
-	// Solve and save the solutions
-	std::cout << "Solve the Darcy problem..." << std::flush;
-	darcy->solve();
-	std::cout << " completed!" << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
 
 	*/
 
-	std::cout << " 			---  PROBLEMA DI SATURAZIONE  ---			" << std::endl;
-	std::cout << std::endl;
+	std::string sectionTime = "dataTime/";
 
+	scalar_type M_t ( dataFile ( ( sectionTime + "endTime" ).data (), 1. ) );
+    scalar_type M_dt ( dataFile ( ( sectionTime + "dt" ).data (), 0.001 ) );
+
+	scalar_type nt = M_t/M_dt;
+
+	/*
+	// Darcy problem
+	DarcyFracturedPtr_Type darcy(new DarcyFractured_Type(mediumDataDarcy, mesh,
+			bcHandler, fractures, exporter));
+	*/
 	// Risolvo il problema in saturazione
 	SaturationFracturedPtr_Type saturation(new SaturationFractured_Type( dataFile, fractures, exporter ) );
 
-	saturation->init();
+	// accoppiamo i problemi
+	for ( size_type i = 0; i < 1; i++ )
+	{
+		/*
+		// Initialize the solver
+		darcy->init();
 
-	saturation-> solve();
+		// Assembly the matrices and vectors
+		darcy->assembly( dataFile);
+
+		// Solve and save the solutions
+		darcy->solve();
+		*/
+
+		saturation->init();
+
+		saturation-> solve();
+
+		/*
+		// aggiorno il valore della mobilità totale per risolvere darcy
+		for ( size_type f = 0; f < numberFractures; f++ )
+		{
+			// nel caso lineare k_{rw} = S_w
+			fractures->getFracture( f )->updateEtaTangentialInterpolated( saturation-> getSaturation ( f ) );
+		}
+		*/
+	}
 
 
 	std::cout << std::endl;
 	std::cout << "*******************   " << std::endl;
 	std::cout << std::endl;
-
 
 
 	return 0;

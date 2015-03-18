@@ -294,31 +294,6 @@ void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
 
         }
 
-        /*
-        M_meshLevelSetIntersect[ otherFractureId ]->add_level_set ( *M_levelSetIntersect [ otherFractureId ] );
-
-        M_meshLevelSetIntersect[ otherFractureId ]->adapt ();
-
-
-        size_type i_cv = 0;
-        dal::bit_vector bc_cv = M_meshLevelSetIntersect[ otherFractureId ]->linked_mesh().convex_index();
-
-        for ( i_cv << bc_cv; i_cv != size_type(-1); i_cv << bc_cv )
-        {
-            if ( M_meshLevelSetIntersect[ otherFractureId ]->is_convex_cut ( i_cv ) )
-            {
-            	std::cout << " frattura " << M_ID << "  otherfracture  " << otherFractureId << std::endl;
-				M_meshFlat.region ( FractureHandler::FRACTURE_UNCUT * ( M_ID + 1 ) ).sup ( i_cv );
-
-				M_meshFlat.region ( FractureHandler::FRACTURE_INTERSECT * ( M_ID + 1 ) + otherFractureId + 1 ).add( i_cv );
-
- 				M_fractureIntersectElements [ otherFractureId ].push_back ( i_cv );
-            }
-        }
-		*/
-
-        //size_type i_cv = intersezione ( otherFracture );
-
     }
 
     return;
@@ -328,12 +303,27 @@ void FractureHandler::setMeshLevelSetFracture ( FractureHandler& otherFracture )
 
 void FractureHandler::updateEtaTangentialInterpolated ( const scalarVector_Type& s )
 {
+	size_type dof = M_data.getSpatialDiscretization()-1;
+
+	/*
     // Alloco il vettore per M_etaNormalInterpolated
     gmm::resize ( M_etaNormalInterpolated, M_meshFEM.nb_dof() );
     gmm::clear ( M_etaNormalInterpolated );
 
+    std::cout << "   9  " << std::endl;
     // Alloco il vettore per M_etaTangentialInterpolated
     gmm::resize ( M_etaTangentialInterpolated, M_meshFEM.nb_dof() );
+    gmm::clear ( M_etaTangentialInterpolated );
+
+	*/
+
+    // Alloco il vettore per M_etaNormalInterpolated
+    gmm::resize ( M_etaNormalInterpolated, dof);
+    gmm::clear ( M_etaNormalInterpolated );
+
+
+    // Alloco il vettore per M_etaTangentialInterpolated
+    gmm::resize ( M_etaTangentialInterpolated, dof );
     gmm::clear ( M_etaTangentialInterpolated );
 
     /*
@@ -348,11 +338,25 @@ void FractureHandler::updateEtaTangentialInterpolated ( const scalarVector_Type&
 
     scalar_type lambda;
 
+
+
+    /*
     // Riempio i vettori M_etaNormalInterpolated, M_etaTangentialInterpolated, M_muNormalInterpolated e M_muTangentialInterpolated della frattura
     for ( size_type i = 0; i < M_meshFEM.nb_dof(); ++i )
     {
     	lambda = M_data.lambdaW( ( M_meshFEM.point_of_dof(i) ) ) + M_data.lambdaNW( ( M_meshFEM.point_of_dof(i) ) );
         M_etaNormalInterpolated [ i ] = M_data.etaNormalDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaNormal()/lambda;
+
+        M_etaTangentialInterpolated [ i ] = M_data.etaTangentialDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaTangential() /lambda;
+    }
+	*/
+
+    // Riempio i vettori M_etaNormalInterpolated, M_etaTangentialInterpolated, M_muNormalInterpolated e M_muTangentialInterpolated della frattura
+    for ( size_type i = 0; i < dof; ++i )
+    {
+     	lambda = M_data.lambdaW( ( M_meshFEM.point_of_dof(i) ) ) + M_data.lambdaNW( ( M_meshFEM.point_of_dof(i) ) );
+
+    	M_etaNormalInterpolated [ i ] = M_data.etaNormalDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaNormal()/lambda;
 
         M_etaTangentialInterpolated [ i ] = M_data.etaTangentialDistribution( M_meshFEM.point_of_dof(i) ) * M_data.getEtaTangential() /lambda;
     }

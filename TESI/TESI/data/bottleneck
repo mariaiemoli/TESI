@@ -2,6 +2,9 @@
 % Parametri per il problema di saturazione                                %
 % caso con funzione flusso discontinua									  %
 % risultati BOTTLENECK													  %
+%			dt <= h/2												      %
+% dt=0.02 per h=0.1, h=0.05, h=0.025									  %
+% altrimenti dt = 0.002													  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 meshFile = meshes/mesh
@@ -12,9 +15,9 @@ numberFractures = 1
 [dataTime]
 
         endTime = 0.5
-		dt = 0.02        
 [../]
 
+		dt = 0.002        
 [mediumData]
 
         [./domain]
@@ -61,7 +64,7 @@ spaceDimension = 1.
 			
 	        a = 0.
 	        b = 2.
-			spatialDiscretization = 160  # 20 #160
+			spatialDiscretization = 80  # 40 # 20  # 20 #160
 	        translateAbscissa = 0.
 	        lengthAbscissa = 2 #0.5
 	        lengthOrdinate = 0.
@@ -142,7 +145,7 @@ spaceDimension = 1.
 			
 	        a = 0.
 	        b = 2.
-			spatialDiscretization = 80  # 80 #20 #160
+			spatialDiscretization = 160 # 640 # 320 # 160 #40 #20 # 80  #  #160
 	        translateAbscissa = 0.
 	        lengthAbscissa = 2 #0.5
 	        lengthOrdinate = 0.

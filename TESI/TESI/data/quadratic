@@ -13,7 +13,7 @@ numberFractures = 1
 
 [dataTime]
 
-        endTime = 100 
+        endTime = 150 
         dt = 0.3
         
 [../]
@@ -48,7 +48,7 @@ numberFractures = 1
 [../]
 
 
-[fractureData0]
+[fractureData1]
 
 spaceDimension = 1.
 	
@@ -76,7 +76,7 @@ spaceDimension = 1.
 			
 	        a = 0.
 	        b = 300.
-			spatialDiscretization = 501
+			spatialDiscretization = 500
 	        translateAbscissa = 0.
 	        lengthAbscissa = 300. #0.5
 	        lengthOrdinate = 0.
@@ -111,56 +111,6 @@ spaceDimension = 1.
 
 [../]
 
-
-
-[fractureData1]
-
-spaceDimension = 1.
-	
-		[./levelSet]
-			
-			levelSet = y-1
-			ylevelSet = y-1
-			xlevelSet = x-300*t
-			levelSetCut = -1
-			yMap = 1
-			xMap = 300*t
-			normalMap = [1.,1.]
-			
-		[../]
-
-        [./domain]
-
-	        thickness = 0.013
-	
-			spacing = x
-			
-	        a = 0.
-	        b = 300.
-			spatialDiscretization = 500
-	        translateAbscissa = 0.
-	        lengthAbscissa = 300. #0.5
-	        lengthOrdinate = 0.
-	        lengthQuota = 0.
-		
-	        meshType = GT_PK(1,1)        
-
-        [../]
-
-        [./saturation]
-
-            bc = f
-			u0 = 1.-1.*(x>1.)
-			f = (x*x)*1./(x*x+(1-x)*(1-x))
-			f1 = 2*x*(1-x)/((x*x+(1-x)*(1-x)).^2)
-			cfl = 1.8
-			U = 1.
-			invPorosity = 1.
-
-        [../]
-
-
-[../]
 
 
 [fractureData2]
@@ -199,13 +149,81 @@ spaceDimension = 1.
 
         [./saturation]
 
-            bc = f
-            u0 = 1.-1.*(x>1.)
+		numberFlux = 1
+		x0 = 0.
+		u0 = 1.-1.*(x>1.)
+
+		invPorosity = 1.
+
+		[./fluxData0]	# sinistra
+	
+			f = (x*x)*1./(x*x+0.5(1-x)*(1-x))
+			f1 = x*(-0.5*x^4+1.25*x^3-1.5*x^2+x-0.25)/(x^2-x+0.5)^2  
+			bc1 = 1.
+			bc2 = 0.
+		
+		[../]
+
+        [../]
+
+
+[../]
+
+
+[fractureData0]
+
+spaceDimension = 1.
+	
+		[./levelSet]
+			
+			levelSet = y-1
+			ylevelSet = y-1
+			xlevelSet = x-300*t
+			levelSetCut = -1
+			yMap = 1
+			xMap = 300*t
+			normalMap = [1.,1.]
+			
+		[../]
+
+        [./domain]
+
+	        thickness = 0.013
+	
+			spacing = x
+			
+	        a = 0.
+	        b = 300.
+			spatialDiscretization = 500
+	        translateAbscissa = 0.
+	        lengthAbscissa = 300. #0.5
+	        lengthOrdinate = 0.
+	        lengthQuota = 0.
+		
+	        meshType = GT_PK(1,1)        
+
+        [../]
+
+        [./saturation]
+
+		numberFlux = 1
+		x0 = 0.
+ 	        u0 = 1.-1.*(x>1.)
+
+		invPorosity = 1.
+
+		[./fluxData0]	# sinistra
+		
 			f = (x*x)*1./(x*x+2*(1-x)*(1-x))
 			f1 = 4*x*(1-x)/((x*x+2*(1-x)*(1-x)).^2)
-			cfl = 1.8
-			U = 1.
-			invPorosity = 1.
+			us = 0.5 
+			us_meno = -0.7712
+			us_piu = 1.7712
+			bc1 = 1.
+			bc2 = 0.
+			
+		[../]
+
 
         [../]
 

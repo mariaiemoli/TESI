@@ -276,7 +276,7 @@ void Intersection::setQuadrilaterIntersection( FracturePtrContainer_Type& M_Frac
 }// setQuadrilaterIntersection
 
 
-// posso modificarla
+
 void Intersection::setTriangleIntersection(	FracturePtrContainer_Type& M_FracturesSet ) 
 {
 	base_node node0(2);

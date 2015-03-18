@@ -13,14 +13,14 @@ DarcyFractured::DarcyFractured ( const MediumDataPtr_Type& medium,
                                  const BCHandlerPtr_Type& bcHandler,
                                  const FracturesSetPtr_Type& fractures,
                                  const ExporterPtr_Type& exporter ) :
-            M_mediumData ( medium ), 
-            M_mesh ( mesh ), 
-            M_bcHandler ( bcHandler ), 
-            M_fractures ( fractures ),
-            M_exporter ( exporter ),
-            M_fractureEtaNormalOnMedium ( M_fractures->getNumberFractures () ), 
-            M_fractureVelocity ( M_fractures->getNumberFractures () ),
-            M_fracturePressure ( M_fractures->getNumberFractures () )
+								M_mediumData ( medium ),
+								M_mesh ( mesh ),
+								M_bcHandler ( bcHandler ),
+								M_fractures ( fractures ),
+								M_exporter ( exporter ),
+								M_fractureEtaNormalOnMedium ( M_fractures->getNumberFractures () ),
+								M_fractureVelocity ( M_fractures->getNumberFractures () ),
+								M_fracturePressure ( M_fractures->getNumberFractures () )
 {} // costruttore
 
 
@@ -673,34 +673,16 @@ void DarcyFractured::solve ( )
     //--------export solution in the fracture-------------------
     // 		********************************************		//
 
-    std::cout <<"**** " << std::endl;
+
     for ( size_type f = 0; f < numberFractures; ++f )
     {
         const FractureHandlerPtr_Type& fracture = M_fractures->getFracture(f);
         std::ostringstream osFileName;
 
-        /*
-        getfem::mesh_level_set meshFLevelSetCutFlat ( fracture->getMeshFlat() );
-        for ( size_type otherF = 0; otherF < numberFractures; ++otherF )
-        {
-            GFLevelSetPtr_Type levelSetPtr = fracture->getLevelSetIntersect ( otherF );
-
-            if ( levelSetPtr.get() != NULL )
-            {
-                meshFLevelSetCutFlat.add_level_set ( *levelSetPtr );
-            }
-        }
-
-
-
-        meshFLevelSetCutFlat.adapt();
-		*/
-        std::cout<<"**** " << std::endl;
-
 
         getfem::mesh meshFcutFlat = M_fractures->getFracture( f )-> getMeshFlat ();
         getfem::mesh meshFcutMapped;
-        //meshFLevelSetCutFlat.global_cut_mesh ( meshFcutFlat );
+
 
         getfem::mesh_fem meshFEMcutFlat ( meshFcutFlat, fracture->getMeshFEM().get_qdim());
         meshFEMcutFlat.set_finite_element ( fracture->getMeshFEM2().fem_of_element(0) );
@@ -814,14 +796,11 @@ void DarcyFractured::solve ( )
         getfem::mesh_fem mfprojUncut_v ( fracture->getMesh(), fracture->getMeshFEM2().get_qdim());
         mfprojUncut_v.set_finite_element ( fractureFETypeVelocity );
 
-        std::cout << " mfprojUncut " << mfprojUncut.nb_dof() << std::endl;
-        std::cout << " mfproj " << mfproj.nb_dof() << std::endl;
-
         getfem::interpolation ( mfprojUncut, mfproj, fracturePressureMeanUNCUT, fracturePressureMeanUNCUTInterpolated );
 
-        //	************************	//
+
         getfem::interpolation ( mfprojUncut, mfproj, fracturePressureIntersection, fracturePressureMeanIntersectionInterpolated );
-        //	************************	//
+
 
         getfem::interpolation ( mfprojUncut_v, mfproj_v, fractureVelocityMeanUNCUT, fractureVelocityMeanUNCUTInterpolated );
 

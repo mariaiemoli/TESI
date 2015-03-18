@@ -17,8 +17,7 @@ SaturationFractured::SaturationFractured( const GetPot& dataFile,
 		 	 	 	 	 	 	 	 	  M_t ( dataFile ( ( M_section + "endTime" ).data (), 1. ) ),
 		 	 	 	 	 	 	 	 	  M_dt ( dataFile ( ( M_section + "dt" ).data (), 0.001 ) ),
 		 	 	 	 	 	 	 	 	  M_fractureSaturation ( M_fractures->getNumberFractures() )
-{
-}
+{}
 
 void SaturationFractured::init()
 {
@@ -110,22 +109,22 @@ void SaturationFractured::solve()
 
 	IntersectDataContainer_Type Intersection = M_fractures->getIntersections()-> getIntersections ();
 
-	scalar_type nt = M_t/M_dt;
-
 	scalarVector_Type landa ( numberFracture );
+
+	scalar_type nt = M_t/M_dt;
 
 	for ( size_type i = 0; i < numberFracture; i++ )
 	{
 		scalar_type h = M_fractures->getFracture ( i )-> getH();
 
-	//	if ( ( M_fractures->getFracture ( i ) -> getData().getFluxHandler( 0 ) )->getU() == "v")
+		if ( ( M_fractures->getFracture ( i ) -> getData().getFluxHandler( 0 ) )->getU() == "v")
 		{
 			landa [ i ] = M_dt/(h);
-		}/*
+		}
 		else
 		{
 			landa [ i ] = M_dt/(h*M_fractures->getFracture ( i )->getData().getThickness () );
-		}*/
+		}
 	}
 
 	// numero complessivo dei gradi di libertà
@@ -154,47 +153,50 @@ void SaturationFractured::solve()
 
 	for( size_type k = 0; k < nt; k++ )
 	{
-		fractureShift = 0;
 
-		for ( size_type f = 0; f < numberFracture; f++ )
-		{
-			solve_riemann ( f, u0 [ f ], flux [ f ] );
+	fractureShift = 0;
 
-			std::ostringstream ss;
-			ss << "./matlab/risultati/saturation_flusso.txt";
+	for ( size_type f = 0; f < numberFracture; f++ )
+	{
+		solve_riemann ( f, u0 [ f ], flux [ f ] );
 
-			std::string name = ss.str();
+		std::ostringstream ss;
+		ss << "./matlab/risultati/saturation_flusso.txt";
 
-			std::ofstream exp( name );
+		std::string name = ss.str();
 
-			exp << flux[ f ];
+		std::ofstream exp( name );
 
-		}
+		exp << flux[ f ];
 
-		assembly ( landa, u0, flux );
+	}
 
-		// Solve the Saturation problem
-		scalar_type roundConditionNumber;
+	assembly ( landa, u0, flux );
 
-		SuperLU_solve(*M_globalMatrix, *M_saturation,
-					  *M_globalRightHandSide, roundConditionNumber);
+	// Solve the Saturation problem
+	scalar_type roundConditionNumber;
 
-		// aggiorno u0
-		for (size_type f = 0; f < numberFracture; f++ )
-		{
-			gmm::copy( gmm::sub_vector( *M_saturation, gmm::sub_interval( fractureShift, fractureNumberDOF [ f ] )), u0 [ f ] );
+	SuperLU_solve(*M_globalMatrix, *M_saturation,
+				  *M_globalRightHandSide, roundConditionNumber);
 
-			fractureShift += fractureNumberDOF [ f ];
-		}
 
-	    // risolvo per ogni intersezione
-		for ( size_type i = 0; i < NumIntersection; i++ )
-		{
-			/*
-			 * Per ogni intersezione calcolo u_I, così facendo aggiorno anche i di  Uin e valori per ogni frattura
-			 */
-			Intersection [ i ].update_Ui( M_dt );
-		}
+	// aggiorno u0
+	for (size_type f = 0; f < numberFracture; f++ )
+	{
+		gmm::copy( gmm::sub_vector( *M_saturation, gmm::sub_interval( fractureShift, fractureNumberDOF [ f ] )), u0 [ f ] );
+
+		fractureShift += fractureNumberDOF [ f ];
+	}
+
+	// risolvo per ogni intersezione
+	for ( size_type i = 0; i < NumIntersection; i++ )
+	{
+		/*
+		 * Per ogni intersezione calcolo u_I, così facendo aggiorno anche i di  Uin e valori per ogni frattura
+		 */
+		Intersection [ i ].update_Ui( M_dt );
+	}
+
 	}
 
     M_exporter->spy( M_globalMatrix, "./matlab/matrice.mm" );
@@ -224,6 +226,13 @@ void SaturationFractured::solve()
 	std::cout << " completed!" << std::endl;
 	std::cout << std::endl;
 
+
+	// aggiorno il valore della mobilità totale per risolvere darcy
+	for ( size_type f = 0; f < numberFracture; f++ )
+	{
+		// nel caso lineare k_{rw} = S_w
+		M_fractures->getFracture( f )->updateEtaTangentialInterpolated( *( M_fractureSaturation [ f ] ) );
+	}
 
 	return;
 
